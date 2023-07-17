@@ -9,8 +9,8 @@ app.use(cors()); // 使用cors中间件
 var config = {
   user: 'sa',
   password: '12345',
-  server: 'LAPTOP-Q69P3FAE\\MSSQLSERVER01',   // 这边要注意一下!!
-  database: 'med_DB',
+  server: 'LAPTOP-B6OG51F6',   // 这边要注意一下!!
+  database: 'Chinese_medicine_DB_test2_forSA',
   options: {
     encrypt: false
   }
