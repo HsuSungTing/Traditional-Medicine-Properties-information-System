@@ -8,7 +8,7 @@ SelectDoubleAPI = 'http://localhost:8002/select_double' ;
 SelectMedAPI = 'http://localhost:8002/select_med' ;
 
 select(SelectAllAPI);
-function select(url){ axios(url).then((res)=>{
+function select(url){ axios(url).then((res)=>{//依照filter吐出藥材card
 
     console.log(res.data);
 
@@ -48,7 +48,7 @@ function select(url){ axios(url).then((res)=>{
 });
 }
 
-
+///////////////單選表單處理
 const form = document.getElementById('search-filter');
 var radioButtons = form.querySelectorAll('#search-filter input[type="radio"]');
   
@@ -75,4 +75,79 @@ var radioButtons = form.querySelectorAll('#search-filter input[type="radio"]');
       }
     });
   });
+//////////////////////////////////////////////////////搜尋框處理
+var search = document.getElementById("searchInput");//搜尋框
+var selectedId = document.getElementById("selectedId");//推薦列表
+var arr=[] = getAllHerbName();//放所有的藥草名稱
+function getAllHerbName(){
+  var herb_list=[];
+  axios(SelectAllAPI).then((res)=>{
+    res.data.forEach(element => {
+      herb_list.push(`${element.藥材名}`);
+    });
+  });
+  return herb_list;
+}
+
+
+function showList(){//創造出推薦列表
+	var res = searchByIndexOf(search.value,arr);
+	for(var i=0;i<res.length;i++){
+		var li = document.createElement("li");
+		li.innerHTML = res[i];
+		document.getElementById("drop").appendChild(li);
+	}
+}
+
+
+//模糊查询:利用字符串的indexOf方法(另也可用正則表達查詢)
+function searchByIndexOf(keyWord, list){
+  if(!(list instanceof Array)){
+      return ;
+  }
+  if(keyWord == ""){
+    return [];
+  }else{
+    var len = list.length;
+    var arr = [];
+    for(var i=0;i<len;i++){
+        //如果字符串中不包含目标字符会返回-1
+        if(list[i].indexOf(keyWord)>=0){
+            arr.push(list[i]);
+        }
+    }
+    return arr;//包含target的words的list
+  }
+}
+
+search.oninput = function getMoreContents() {//在有輸入時，實時更新推薦列表
+	//删除ul
+	var drop = document.getElementById("drop");
+	selectedId.removeChild(drop);
+	//把ul添加回来
+	var originalUl = document.createElement("ul");
+    originalUl.id = "drop";
+    selectedId.appendChild(originalUl);
+	
+	showList();
+}
+
+// 添加获取焦点事件
+search.onfocus = function(){//焦點在搜索框上時 列表必須存在
+    	// 初始下拉列表
+        var originalUl = document.createElement("ul");
+        originalUl.id = "drop";
+        selectedId.appendChild(originalUl);
+	showList();
+}
+
+//添加失去焦点事件
+search.onblur = function(){//焦點離開搜索框實 列表必須消失
+//	console.log("soutsout")
+	var drop = document.getElementById("drop");
+	selectedId.removeChild(drop);
+}
+
+
+
 

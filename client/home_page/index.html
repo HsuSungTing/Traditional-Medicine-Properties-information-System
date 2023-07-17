@@ -21,11 +21,17 @@
       <label><input type="radio" value="2" name="filter"> 複方</label><br>
       <label><input type="radio" value="3" name="filter"> 藥材</label><br>
       <label><input type="radio" value="4" name="filter" checked> 全部</label><br>
-
-  </form>
-    <div class="search" id="search-box">
-      <input type="text" id="searchInput" placeholder="輸入藥材名稱">
-      <button onclick="search()"><img src="https://img.onl/IPKcuK" alt="搜索" id=search-btn-img></button>
+    </form>
+    <div class="search" id="search-box"><!--最上1/3部分布局用-->
+      
+      <div class="sea-container"><!--搜索框、按鈕、推薦條目布局用-->
+				<form action="">
+					<input type="text" id="searchInput" placeholder="輸入藥材名稱">
+          <button onclick="search()"><img src="https://img.onl/IPKcuK" alt="搜索" id=search-btn-img></button>
+				</form>
+				<p id="selectedId"></p>
+                
+			</div>
     </div>
   </div>
   <div id="title">

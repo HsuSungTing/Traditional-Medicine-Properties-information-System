@@ -4,7 +4,7 @@ html {
   background-color: white;
   
 }
-.search{
+.search{/*最上1/3部分布局用*/
   padding: 20px;
   background-color: #ffffff;
   text-align: left;
@@ -17,6 +17,27 @@ html {
   position: sticky;/*最上方固定不動*/
   top:0;
 }
+.sea-container {
+  height: 30px;
+  /*margin: 100px auto;*/
+  border: 1px solid #c9ced6;
+}
+/* 搜索下拉框*/
+ul#drop {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+ul#drop li {
+  margin: 0;
+  padding: 10px;
+  background-color: white;
+}
+
+ul#drop li:hover {
+  background-color: darkgrey;
+width:200px;
+}
 
 #title{
   background-color: #44546a;
@@ -28,9 +49,16 @@ html {
   text-align: center;
   /*margin:10px;*/
 }
+#searchInput{
+  padding:5px;
+  float: left;
+  height: 30px;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
 #search-btn-img{
-  width: 20px; /* 调整图像的宽度 */
-  height: 20px; /* 调整图像的高度 */
+  width: 30px; /* 调整图像的宽度 */
+  height: 24px; /* 调整图像的高度 */
   vertical-align: middle; /* 可选：将图像垂直居中 */
 }
 
