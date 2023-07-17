@@ -35,6 +35,33 @@ router.get('/ref_link',function(req, res, next){
     });
 })
 
+router.get('/search_result',function(req, res, next){
+    const keyword = req.query.keyword; // 获取前端传递的关键字参数
+    db.selectAll('所有藥材資料表', function (err, result) {//查询所有
+        console.log("Hamster owo");
+        arr=[];
+        if(keyword === ""){
+            res.send("");
+            console.log("send nothing!");
+        }else{
+            var len = result.recordset.length;
+            console.log("length is");
+            console.log(len);
+            var arr = [];
+            for(var i=0;i<len;i++){
+                //如果字符串中不包含目标字符会返回-1
+                if(result.recordset[i].藥材名.indexOf(keyword)>=0){
+                    arr.push(result.recordset[i]);
+                }
+            }
+            console.log("arr is");
+            console.log(arr);
+            res.send(arr);//包含target的words的list
+        }
+        
+    });
+});
+
 
 
 

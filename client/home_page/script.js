@@ -1,4 +1,3 @@
-const APILINK = 'http://localhost:8002/info';
 const main = document.getElementById("title");
 
 
@@ -6,6 +5,7 @@ SelectAllAPI = 'http://localhost:8002/select_all';
 SelectMonoAPI = 'http://localhost:8002/select_mono' ;
 SelectDoubleAPI = 'http://localhost:8002/select_double' ;
 SelectMedAPI = 'http://localhost:8002/select_med' ;
+SearchKeywordAPI = 'http://localhost:8002/search_result' ;
 
 select(SelectAllAPI);
 function select(url){ axios(url).then((res)=>{//依照filter吐出藥材card
@@ -146,6 +146,22 @@ search.onblur = function(){//焦點離開搜索框實 列表必須消失
 //	console.log("soutsout")
 	var drop = document.getElementById("drop");
 	selectedId.removeChild(drop);
+}
+
+const search_btn = document.getElementById("search-btn-img");
+search_btn.onclick = searchKeyword;
+function searchKeyword() {
+  event.preventDefault();
+  console.log("OWO I AM HERE");
+  // 获取搜索框中的关键字
+  const keyword = document.getElementById('searchInput').value;
+  var Link = SearchKeywordAPI + "?keyword=" + encodeURIComponent(keyword);
+  
+  const A = document.getElementById('result');
+  if (A != null) main.removeChild(A);
+  select(Link);
+  console.log(keyword);
+  
 }
 
 
