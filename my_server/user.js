@@ -28,6 +28,14 @@ router.get('/select_med', function(req, res, next){
         res.send(result.recordset)
     });
 });
+
+router.get('/ref_link',function(req, res, next){
+    db.selectAll('藥材資料來源', function (err, result) {//查询所有
+        res.send(result.recordset)
+    });
+})
+
+
 // router.post('/delete', function (req, res, next) {//删除一条id对应的userInfo表的数据
 //     console.log(req.body, 77);
 //     const { UserId } = req.body

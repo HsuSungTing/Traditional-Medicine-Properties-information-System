@@ -47,6 +47,9 @@
     color: rgb(1, 1, 1);
     
 }
+#med_name{ color:black;}
+#med_info{ color:black;}
+#med_ref{ color:black;}
 .data-content-wrapper{
   display:flex;
   flex-direction: row;

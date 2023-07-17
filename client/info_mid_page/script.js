@@ -48,3 +48,13 @@ fetch('http://localhost:5000')
         
     })
     .catch(error => console.error(error));
+
+// const urlParams = new URLSearchParams(window.location.search);
+// const number = urlParams.get('number');
+// if(number==='2'){
+//         const test = document.getElementById("test");
+//         const test_img = document.createElement('img');
+//         test_img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQb8H0nJQ8kxeWF3negeG66SklTM6ppx4QW9g&usqp=CAU";
+//         test.appendChild(test_img);
+// }
+// console.log(number);
