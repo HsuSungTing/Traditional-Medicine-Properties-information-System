@@ -22,6 +22,7 @@ html {
   /*margin: 100px auto;*/
   border: 1px solid #c9ced6;
 }
+
 /* 搜索下拉框*/
 ul#drop {
   list-style: none;
@@ -32,12 +33,13 @@ ul#drop li {
   margin: 0;
   padding: 10px;
   background-color: white;
+  font-family: DFKai-sb;
 }
 
 ul#drop li:hover {
   background-color: darkgrey;
-width:200px;
 }
+
 
 #title{
   background-color: #44546a;

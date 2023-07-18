@@ -95,9 +95,15 @@ function showList(){//創造出推薦列表
 	for(var i=0;i<res.length;i++){
 		var li = document.createElement("li");
 		li.innerHTML = res[i];
+    li.onclick = function(){
+      search.value = li.innerHTML;
+      console.log(li.innerHTML);
+    }
 		document.getElementById("drop").appendChild(li);
+    
 	}
 }
+
 
 
 //模糊查询:利用字符串的indexOf方法(另也可用正則表達查詢)
@@ -144,15 +150,23 @@ search.onfocus = function(){//焦點在搜索框上時 列表必須存在
 //添加失去焦点事件
 search.onblur = function(){//焦點離開搜索框實 列表必須消失
 //	console.log("soutsout")
-	var drop = document.getElementById("drop");
-	selectedId.removeChild(drop);
+  var drop = document.getElementById("drop");
+  document.addEventListener("click", function(event) {
+    // 获取点击的目标元素
+    var clickedElement = event.target;
+    if(clickedElement.tagName!=='LI')selectedId.removeChild(drop);
+    
+  });
+	
 }
 
+
+
+
 const search_btn = document.getElementById("search-btn-img");
-search_btn.onclick = searchKeyword;
-function searchKeyword() {
+search_btn.onclick = function(event){
   event.preventDefault();
-  console.log("OWO I AM HERE");
+  
   // 获取搜索框中的关键字
   const keyword = document.getElementById('searchInput').value;
   var Link = SearchKeywordAPI + "?keyword=" + encodeURIComponent(keyword);
@@ -167,3 +181,33 @@ function searchKeyword() {
 
 
 
+
+
+
+
+
+
+
+
+// var x = ''; // 初始化变量 x
+// document.getElementById('selectedId').addEventListener('click', function(event) {
+//   const clickedItem = event.target;
+//   console.log("OAO");
+//   // 检查点击的元素是否是 li 列表项，并且位于 ul#drop 元素内
+//   const UL_list = document.getElementById('drop')
+//   if (UL_list ) {
+//     dropList.addEventListener('click', function(event1) {
+//       console.log("OWO");
+
+      
+//       const clickedItem = event1.target;
+      
+//       // 确保点击的是 li 列表项
+//       if (clickedItem.tagName === 'li') {
+//         x = clickedItem.textContent; // 获取被点击列表项的文本内容，并赋给变量 x
+//         console.log(x); // 输出 x 的值，您可以根据需要在这里进行其他操作
+//       }
+//     });
+//   }
+// });
+  
