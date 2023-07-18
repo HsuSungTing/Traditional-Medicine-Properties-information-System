@@ -1,0 +1,70 @@
+html {
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  
+}
+.search{
+  padding: 20px;
+  background-color: #ffffff;
+  text-align: left;
+  display:flex;
+  /*margin:10px;*/
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  
+  position: sticky;/*最上方固定不動*/
+  top:0;
+}
+
+#title{
+  background-color: #44546a;
+  width: 100%;
+  font-size: 40px;
+  font-family: DFKai-sb;
+  color: white;
+  font-weight:bold;
+  text-align: center;
+  /*margin:10px;*/
+}
+#search-btn-img{
+  width: 20px; /* 调整图像的宽度 */
+  height: 20px; /* 调整图像的高度 */
+  vertical-align: middle; /* 可选：将图像垂直居中 */
+}
+
+.result{
+  background-color: #f2ece4;
+  /*margin:10px;*/
+  /* border:#fb0404;border-style:solid;border-width:12px;padding:5px; */
+  display: flex;
+  flex-flow: row wrap;
+  align-content:space-around;
+  padding:20px;
+  
+}
+.herb{
+  display:flex;
+  flex-direction: column;
+  flex-basis:1;
+  height:300px;
+  /*border:#fb0404;border-style:solid;border-width:12px;padding:5px;*/
+  font-size: 20px;
+  font-family: DFKai-sb;
+  color: black;
+  text-align: center;
+  margin:30px;
+}
+.herb-img{
+  width:300px;
+  height:300px
+}
+
+/*owo以下是為了測試try1.js*/
+
+.column {
+  float: center;
+  width: 50%;
+  padding: 10px 10px;
+}

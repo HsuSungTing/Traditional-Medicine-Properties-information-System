@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>首頁-中藥材或中藥指紋圖譜資料探勘計畫</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+  <div class="search">
+    <!-- 標題圖片+篩選勾勾+搜尋框 -->
+    <img src="https://www.nycu.edu.tw/wp-content/uploads/NYCU-Logo-1024x209.png" width=30% heigh="400" alt="國立陽明交通大學" title="國立陽明交通大學">
+
+    <form class="search" id=search-filter>
+      <label><input type="radio" value="1" name="filter"> 單方</label><br>
+      <label><input type="radio" value="2" name="filter"> 複方</label><br>
+      <label><input type="radio" value="3" name="filter"> 藥材</label><br>
+      <label><input type="radio" value="4" name="filter" checked> 全部</label><br>
+
+  </form>
+    <div class="search" id="search-box">
+      <input type="text" id="searchInput" placeholder="輸入藥材名稱">
+      <button onclick="search()"><img src="https://img.onl/IPKcuK" alt="搜索" id=search-btn-img></button>
+    </div>
+  </div>
+  <div id="title">
+    <!-- 計畫名稱 -->
+    中藥材或中藥指紋圖譜資料探勘計畫
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <script src="script.js" ></script>
+</body>
+
+</html>
