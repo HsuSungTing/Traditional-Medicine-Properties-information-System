@@ -1,14 +1,16 @@
 /* 側邊欄的樣式 */
 .sidebar {/*level 1*/
     height: 100%;
-    width: 450px;
+    width: 900px;
     position: fixed;
     top: 75px; 
-    right: -450px; /* 初始位置為合起來(距右邊-450) */
+    right: -900px; /* 初始位置為合起來(距右邊-450) */
     background-color: #333;
     /* padding-top: 60px; */
     transition: right 0.3s; /* 使用 right 屬性的過渡效果 */
     z-index: 1;
+    overflow-y: auto;
+    padding-bottom: 20px;
   }
 
   /* 頁面內容的樣式 */
@@ -136,24 +138,26 @@
 
 
   /*側邊選項*/
-  .ChoiceItems{/*level 7*/
-    display:flex;
-    flex-direction: column;
+  .ChoiceItem{/*level 7*/
     flex-basis:1;
-    height:50px;
+    
     /*border:#fb0404;border-style:solid;border-width:12px;padding:5px;*/
     font-size: 12px;
     font-family: DFKai-sb;
     color: black;
     text-align: center;
+
+    background-color: rgb(228, 239, 239);
+    border-radius: 5px;
+    padding:10px;
     margin:5px;
+
+    
+
   }
-  .choice-img{/*level 7*/
-    width:50px;
-    height:50px
-  }
+  
   .ValueItem{/*level 7*/
-    background-color: gold;
+    background-color: rgb(0, 255, 81);
     height:30px;
   }
   .numberInput{
@@ -166,6 +170,7 @@
     display: flex;
     flex-flow: row wrap;
     align-content:space-around;
+    background-color: chocolate;
   }
   .subCard{/*level 5*/
     background-color: blue;
@@ -173,8 +178,12 @@
   .subCardWrapper{/*level 4*/
     background-color: greenyellow;
     width:100%;
-    height:100px;
+    
     display: none; /* 初始状态隐藏内容 */
+
+    padding: 10px;
+    flex-flow: row wrap;
+    align-content:space-around;
   }
   .cardName{/*level 3*/
     background-color: rgb(228, 239, 239);
