@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>側邊拉出的頁面</title>
+  <link href="search.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <!-- 最上方標題 -->
+    <div class="position-fix-wrapper">
+        <div class="title_class">
+            <img src="NYCU-Logo-1024x209.png" id="logo">
+            <div id="sub_title">
+                <p>國立陽明交通大學</p>
+                <p>|<p>
+                <p>聯絡我們</p>
+                <p>|<p>
+                <p>English</p>
+            </div>
+            <!-- 開啟側邊欄的按鈕 -->
+            <button class="openbtn" onclick="opneORclose()">☰</button>
+        </div>
+        <hr class="line">
+        <div class="choice_class">
+          <!-- 資料分類副標 -->
+          <a id="med_name" >首頁</a>
+          <a id="med_info" >藥材簡介</a>
+          <a id="med_ref" #med_ref>參考條件</a>
+        </div>
+    </div>
+    <!-- 最上方標題 -->
+    
+    
+      <!-- 側邊欄 level 1 -->
+      <div id="mySidebar" class="sidebar">
+          <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a> -->
+          <div id="Ex_Conditons" class="Conditions"><!--萃取條件 level 2-->
+            <div id="Ex_cardName" class="cardName" onclick="DownExpand(0)"><!--萃取條件條件名 levle 3-->
+              萃取條件
+            </div>
+            <div id="Ex_subCardWrapper" class="subCardWrapper"><!--萃取條件子項目卡片容器 levle 4-->>
+
+            </div>       
+          </div>
+          
+          <div id="Cl_Conditions" class="Conditions"><!--管柱條件 level 2-->
+            <div id="Cl_cardName" class="cardName" onclick="DownExpand(1)"><!--管柱條件條件名 levle 3-->
+              管柱條件
+            </div>
+            <div id="Cl_subCardWrapper" class="subCardWrapper"><!--管柱條件子項目卡片容器 levle 4-->>
+
+            </div>
+          </div>
+          
+          <div id="Ch_Conditions" class="Conditions"><!--層析條件 level 2-->
+            <div id="Ch_cardName" class="cardName" onclick="DownExpand(2)"><!--層析條件條件名 levle 3-->
+              層析條件
+            </div>
+            <div id="Ch_subCardWrapper" class="subCardWrapper"><!--層析條件子項目卡片容器 levle 4-->>
+
+            </div>
+          </div>
+      </div>
+      <!-- 側邊欄 -->
+
+      <!-- 頁面內容 -->
+      <div id="page-content" class="page-content" >
+          <div class="herb">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQjeKZzzp3Qe81ROQ953Rgh__DSyDQQVoe3g&usqp=CAU" alt="當歸" class="herb-img">
+            內容放置測試方塊
+          </div>
+          <div class="herb">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQjeKZzzp3Qe81ROQ953Rgh__DSyDQQVoe3g&usqp=CAU" alt="當歸" class="herb-img">
+            內容放置測試方塊
+          </div>
+          <div class="herb">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQjeKZzzp3Qe81ROQ953Rgh__DSyDQQVoe3g&usqp=CAU" alt="當歸" class="herb-img">
+            內容放置測試方塊
+          </div>
+          <div class="herb">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQjeKZzzp3Qe81ROQ953Rgh__DSyDQQVoe3g&usqp=CAU" alt="當歸" class="herb-img">
+            內容放置測試方塊
+          </div>
+          <div class="herb">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQjeKZzzp3Qe81ROQ953Rgh__DSyDQQVoe3g&usqp=CAU" alt="當歸" class="herb-img">
+            內容放置測試方塊
+          </div>
+          <div class="herb">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQjeKZzzp3Qe81ROQ953Rgh__DSyDQQVoe3g&usqp=CAU" alt="當歸" class="herb-img">
+            內容放置測試方塊
+          </div>
+          
+      </div>
+      <!-- 頁面內容 -->
+  
+    <script src="search.js" ></script>
+</body>
+</html>
+
+
+<!--
+
+  <div class="ChoiceItems">
+    <img src="https://img.onl/g1IVkU" alt="倉鼠" class="choice-img">
+    選項方塊
+  </div>
+  <div class="ChoiceItems">
+    <img src="https://img.onl/wsMN7I" alt="倉鼠2" class="choice-img">
+    選項方塊
+  </div>
+
+-->

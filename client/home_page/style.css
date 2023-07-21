@@ -88,6 +88,34 @@ ul#drop li:hover {
 }
 .herb-img{
   width:300px;
-  height:300px
+  height:300px;
+  border-radius: 10px;
 }
 
+
+.rounded-button {
+  display: inline-block;
+  height:15px;
+  width:90px;
+  padding: 15px 20px;
+  border: 3px solid rgb(205, 205, 231); /*黑色邊框*/
+  border-radius: 20px; /* 圓弧形的四個角 */
+  background-color: rgba(68, 84, 106, 0.22); /* 背景填色透明度為22% */; /* 背景填色 */
+  color: black; /* 文字顏色 */
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* 滑鼠懸停時變換按鈕顏色 */
+.rounded-button:hover {
+  background-color: #9b9ea3;
+  color: white; /* 文字顏色變換為白色 */
+  border: 3px solid rgb(205, 205, 231); /* 灰色邊框 */
+}
+
+/* 按鈕被點擊時變換按鈕顏色 */
+.rounded-button:active {
+  background-color: #23334A;
+}

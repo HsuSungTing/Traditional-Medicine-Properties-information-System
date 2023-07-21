@@ -1,0 +1,188 @@
+/* 側邊欄的樣式 */
+.sidebar {/*level 1*/
+    height: 100%;
+    width: 450px;
+    position: fixed;
+    top: 75px; 
+    right: -450px; /* 初始位置為合起來(距右邊-450) */
+    background-color: #333;
+    /* padding-top: 60px; */
+    transition: right 0.3s; /* 使用 right 屬性的過渡效果 */
+    z-index: 1;
+  }
+
+  /* 頁面內容的樣式 */
+  .page-content {
+    /* 留出側邊欄的寬度 */
+    
+    padding: 10px;
+    margin:10px;
+    border-radius: 10px;
+
+    background-color: #f2ece4;
+    display: flex;
+    flex-flow: row wrap;
+    align-content:space-around;
+    
+    /* height:1000px; */
+    /* border:#fb0404;border-style:solid;border-width:12px;padding:5px; */
+    
+  }
+
+  /* 開啟側邊欄的按鈕樣式 */
+  .openbtn {
+    font-size: 30px;
+    cursor: pointer;
+    background-color: #333;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    width:60px;
+    height:60px;
+    position: absolute;
+    right: 0;
+    border-radius: 5px; /* 圓弧形的四個角 */
+  }
+  
+
+
+/*上方橫條的樣式們*/
+  .position-fix-wrapper{
+    position: sticky;
+    top:0;
+    background-color: white;
+  }
+  .title_class{
+      padding: 0px;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      height: 50px;
+      margin: 5px;
+      position: sticky;/*頂部固定*/
+      top:0;
+  }
+  #logo{
+      width: 330px;
+      height: auto;
+  }
+  #sub_title{
+      font-weight: bold;
+      font-size: 17px;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      height: 40px;
+      width: 320px;
+      position: relative;
+      left: 80px;
+      color: rgb(0, 0, 0);
+  }
+  .line{
+      position: relative;
+      top: 10px;
+    
+  }
+  .choice_class{
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      padding: 2px;
+      margin: 5px 0px 0px 0px;
+      height: 20px;
+      width: 270px;
+      font-weight: bold;
+      color: rgb(1, 1, 1);
+      
+  }
+  #med_name{ color:black;}
+  #med_info{ color:black;}
+  #med_ref{ color:black;}
+  /*側邊欄位選項內容*/
+  .Conditions{/*level 2*/
+    
+    background-color: white;
+    margin:5px;
+    border-radius: 10px;
+
+    padding: 10px;
+    display: flex;
+    flex-flow: row wrap;
+    align-content:space-around;
+  }
+
+
+
+
+  /*內容放置測試*/
+  
+  .herb{
+    display:flex;
+    flex-direction: column;
+    flex-basis:1;
+    height:300px;
+    /*border:#fb0404;border-style:solid;border-width:12px;padding:5px;*/
+    font-size: 20px;
+    font-family: DFKai-sb;
+    color: black;
+    text-align: center;
+    margin:20px;
+  }
+  .herb-img{
+    width:300px;
+    height:300px;
+    border-radius: 10px; /* 圓弧形的四個角 */
+  }
+
+
+  /*側邊選項*/
+  .ChoiceItems{/*level 7*/
+    display:flex;
+    flex-direction: column;
+    flex-basis:1;
+    height:50px;
+    /*border:#fb0404;border-style:solid;border-width:12px;padding:5px;*/
+    font-size: 12px;
+    font-family: DFKai-sb;
+    color: black;
+    text-align: center;
+    margin:5px;
+  }
+  .choice-img{/*level 7*/
+    width:50px;
+    height:50px
+  }
+  .ValueItem{/*level 7*/
+    background-color: gold;
+    height:30px;
+  }
+  .numberInput{
+    width:30px;
+    height:15px;
+  }
+  .ChoiceItemsWrapper{/*level 6*/
+    margin:5px;    
+    padding: 10px;
+    display: flex;
+    flex-flow: row wrap;
+    align-content:space-around;
+  }
+  .subCard{/*level 5*/
+    background-color: blue;
+  }
+  .subCardWrapper{/*level 4*/
+    background-color: greenyellow;
+    width:100%;
+    height:100px;
+    display: none; /* 初始状态隐藏内容 */
+  }
+  .cardName{/*level 3*/
+    background-color: rgb(228, 239, 239);
+    border-radius: 5px;
+    padding:10px;
+    margin:5px;
+  }
+  
+
+  
+  
