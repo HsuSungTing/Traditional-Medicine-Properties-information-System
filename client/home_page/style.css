@@ -4,6 +4,10 @@ html {
   background-color: white;
   
 }
+#logo-img{
+  width:auto;
+  height:70px;
+}
 .search{/*最上1/3部分布局用*/
   padding: 20px;
   background-color: #ffffff;
@@ -94,7 +98,9 @@ ul#drop li:hover {
 
 
 .rounded-button {
-  display: inline-block;
+  display: flex;
+  justify-content: center; /* 將內容水平置中 */
+  align-items: center; /* 將內容垂直置中 */
   height:15px;
   width:90px;
   padding: 15px 20px;

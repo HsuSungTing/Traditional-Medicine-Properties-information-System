@@ -30,6 +30,15 @@
     /* border:#fb0404;border-style:solid;border-width:12px;padding:5px; */
     
   }
+  .rounded-button {
+  display: flex;
+  justify-content: center; /* 將內容水平置中 */
+  align-items: center; /* 將內容垂直置中 */
+  border-radius: 5px;
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px 20px;
+}
 
   /* 開啟側邊欄的按鈕樣式 */
   .openbtn {
@@ -100,6 +109,30 @@
   #med_name{ color:black;}
   #med_info{ color:black;}
   #med_ref{ color:black;}
+  #med_info:hover{
+    width: fit-content;
+    height: 25px;
+    background-color: rgb(11, 11, 90);
+    padding: 2px;
+    border-radius: 2px;
+    color: aliceblue;
+}
+#med_ref:hover{
+    width: fit-content;
+    height: 25px;
+    padding: 2px;
+    background-color: rgb(11, 11, 90);
+    border-radius: 2px;
+    color: aliceblue;
+}
+#med_name:hover{
+    width: fit-content;
+    height: 25px;
+    padding: 2px;
+    background-color: rgb(11, 11, 90);
+    border-radius: 2px;
+    color: aliceblue;
+}
   /*側邊欄位選項內容*/
   .Conditions{/*level 2*/
     

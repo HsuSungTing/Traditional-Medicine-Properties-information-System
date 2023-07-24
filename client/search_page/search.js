@@ -25,9 +25,9 @@ function opneORclose(){
     }
 }
 
-// document.getElementById("med_name").setAttribute("href","../home_page/index.html");
-// document.getElementById("med_info").setAttribute("href",`../info_mid_page/index2.html?number=${nameid}`);
-// document.getElementById("med_ref").setAttribute("href", `../info_mid_page/index2.html?number=${nameid}`);
+document.getElementById("med_name").setAttribute("href","../home_page/index.html");
+document.getElementById("med_info").setAttribute("href",`../info_mid_page/index2.html?number=${1}`);
+document.getElementById("med_ref").setAttribute("href", `../info_mid_page/index2.html?number=${1}`);
 
 ////////三個條件的按鈕事件處理///////
 const Ex_cardName = document.getElementById('Ex_cardName');

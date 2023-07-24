@@ -76,24 +76,24 @@ function select_source(url){ axios(url).then((res)=>{
         div_cardBox.setAttribute('id' , "med_info_box");
 
         data.forEach(element => {
-                const exit = document.getElementById(`Card_${element.藥名}_${element.資料來源ID}_${element.實驗條件ID}_${element.樣品編號ID}`)
+                const exit = document.getElementById(`Card_${element.藥名}_${element.資料來源ID}_${element.樣品編號ID}`)
                 if(exit) return;
 
                 const div_card = document.createElement('div');
                 div_card.setAttribute('class', 'med_info');
-                div_card.setAttribute('id',`Card_${element.藥名}_${element.資料來源ID}_${element.實驗條件ID}_${element.樣品編號ID}`)
+                div_card.setAttribute('id',`Card_${element.藥名}_${element.資料來源ID}_${element.樣品編號ID}`)
         
                 const image = document.createElement('img');
                 image.setAttribute('class', 'med_info_img');
-                image.setAttribute('alt',`${element.藥名}_${element.資料來源ID}_${element.實驗條件ID}_${element.樣品編號ID}`);
-                image.setAttribute('title',`${element.藥名}_${element.資料來源ID}_${element.實驗條件ID}_${element.樣品編號ID}`);
+                image.setAttribute('alt',`${element.藥名}_${element.資料來源ID}_${element.樣品編號ID}`);
+                image.setAttribute('title',`${element.藥名}_${element.資料來源ID}_${element.樣品編號ID}`);
                 image.src = `甘草1_1_1.png`;
 
                 const title = document.createElement('p');
-                title.innerHTML = `<font>${element.藥名}-${element.資料來源ID}-${element.實驗條件ID}-${element.樣品編號ID}</font>`;
+                title.innerHTML = `<font>${element.藥名}-${element.資料來源ID}-${element.樣品編號ID}</font>`;
         
                 const link = document.createElement('a');
-                link.href = `../leaf_page/leaf.html?herb_name=${element.藥名}&nameid=${element.藥材ID}&x=${element.資料來源ID}&y=${element.實驗條件ID}&z=${element.樣品編號ID}`
+                link.href = `../leaf_page/leaf.html?herb_name=${element.藥名}&nameid=${element.藥材ID}&x=${element.資料來源ID}&y=${element.樣品編號ID}`
         
                 link.appendChild(image);
                 div_card.appendChild(link);

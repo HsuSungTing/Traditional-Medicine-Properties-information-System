@@ -13,7 +13,7 @@ router.get('/getMedicineData', function (req, res, next) {
 
 //let selectAll = async function (tableName, callBack) {
 router.get('/getMedicineSource', function (req, res, next) {
-    db.selectAll('藥材數據表', function (err, result) {//查询所有
+    db.selectAll('樣品數據表', function (err, result) {//查询所有
         res.send(result.recordset)
     });
 });

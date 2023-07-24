@@ -33,7 +33,7 @@ router.get('/ref_link',function(req, res, next){
     db.selectAll('藥材資料來源', function (err, result) {//查询所有
         res.send(result.recordset)
     });
-})
+});
 
 router.get('/search_result',function(req, res, next){
     const keyword = req.query.keyword; // 获取前端传递的关键字参数
@@ -62,27 +62,16 @@ router.get('/search_result',function(req, res, next){
     });
 });
 
-
-
-
-// router.post('/delete', function (req, res, next) {//删除一条id对应的userInfo表的数据
-//     console.log(req.body, 77);
-//     const { UserId } = req.body
-//     const id = UserId
-//     db.del("where id = @id", { id: id }, "userInfo", function (err, result) {
-//         console.log(result, 66);
-//         res.send('ok')
-//     });
-// });
-// router.post('/update/:id', function (req, res, next) {//更新一条对应id的userInfo表的数据
-//     var id = req.params.id;
-//     var content = req.body.content;
-//     db.update({ content: content }, { id: id }, "userInfo", function (err, result) {
-//         res.redirect('back');
-//     });
-// });
-
-
- 
+//let select2Table = async function (table1, commonID, table2, whereSql, params, callBack) {
+router.get("/standar",function(req, res, next){
+    const nameid = req.query.nameid; // 获取前端传递的关键字参数
+    const x = req.query.x; // 获取前端传递的关键字参数
+    const y = req.query.y; // 获取前端传递的关键字参数
+    db.select2Table('標準品數據表','標準品編號ID', '樣品數據表', 
+    "where 藥材ID = @param0 AND 資料來源ID = @param1 AND 樣品編號ID = @param2",  { param0:nameid, param1:x, param2:y},function(err,result){
+        res.send(result.recordset);
+       
+    });
+}); 
 module.exports = router;
 
