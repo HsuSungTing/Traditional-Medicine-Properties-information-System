@@ -294,6 +294,33 @@ let querySql = async function(sql, params, callBack){
          console.log(e)
      }
  };
+
+ let optionGenerator = async function (tableName, Attribute, topNumber, callBack) {
+    try {
+        let ps = new mssql.PreparedStatement(await poolConnect);
+        let sql = "select " + Attribute + " , COUNT(*) as count";
+        if (topNumber != "") {
+            sql = "select top(" + topNumber + ") " + Attribute + " , COUNT(*) as count";
+        }
+        sql += " from " + tableName + " group by " + Attribute;
+        sql += " HAVING COUNT(*) > 1 ORDER BY COUNT(*) DESC"
+        
+        console.log(sql);
+        ps.prepare(sql, function (err) {
+           if (err) console.log(err);
+
+           ps.execute("", function (err, recordset) {
+                callBack(err, recordset);
+                ps.unprepare(function (err) {
+                    if (err)
+                        console.log(err);
+                });
+            });
+        });
+    } catch (e) {
+        console.log(e)
+    }
+};
   
  exports.config = conf;
  exports.del = del;
@@ -303,3 +330,4 @@ let querySql = async function(sql, params, callBack){
  exports.selectAll = selectAll;
  exports.select2Table = select2Table;
  exports.add = add;
+ exports.optionGenerator = optionGenerator;

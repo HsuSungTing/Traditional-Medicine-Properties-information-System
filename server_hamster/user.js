@@ -73,5 +73,20 @@ router.get("/standar",function(req, res, next){
        
     });
 }); 
+
+router.get("/option",function(req, res, next){
+    const Attribute = req.query.Attribute;
+    try {
+        const max = req.query.max;
+        console.log("max 值為:", max);
+        if(max===undefined) max="";
+    }catch (ReferenceError) {
+        console.log("max 未指定");
+        max=""
+    }
+    db.optionGenerator('樣品數據表',Attribute,max,function(err,result){
+        res.send(result.recordset);
+    });
+});
 module.exports = router;
 
