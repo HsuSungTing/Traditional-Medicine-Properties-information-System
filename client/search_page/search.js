@@ -34,8 +34,9 @@ document.getElementById("med_ref").setAttribute("href", `../home_page/index.html
 const Ex_cardName = document.getElementById('Ex_cardName');
 const Cl_cardName = document.getElementById('Cl_cardName');
 const Ch_cardName = document.getElementById('Ch_cardName');
-let downPage = [false, false, false];
-cardNames = [Ex_cardName, Cl_cardName, Ch_cardName]
+const Math_cardName = document.getElementById('Math_cardName');
+let downPage = [false, false, false, false];
+cardNames = [Ex_cardName, Cl_cardName, Ch_cardName, Math_cardName]
 
 for (let i = 0; i < cardNames.length; i++) {
     const cardName = cardNames[i];
@@ -66,7 +67,10 @@ function DownExpand(expandId) {
     } else if(expandId===2){
         content = document.getElementById("Ch_subCardWrapper");
         btn = Ch_cardName
-    } 
+    } else if(expandId===3){
+        content = document.getElementById("Math_subCardWrapper");
+        btn = Math_cardName
+    }
 
     if (downPage[expandId]) {
         content.style.display = 'none';// 隐藏内容
@@ -95,22 +99,23 @@ function adjustInputWidth(input) {
     input.style.width = newWidth + "px";
 }
 
-// function createValueItem(containerID) {
-//     const container = document.getElementById(containerID);
-//     // 创建<div class="ValueItem">元素
-//     const valueItem = document.createElement("div");
-//     valueItem.classList.add("ValueItem");
-//     valueItem.innerHTML = '：<input type="number" class="numberInput" oninput="adjustInputWidth(this)"> &le; x &le; <input type="number" class="numberInput" oninput="adjustInputWidth(this)">';
-//     container.appendChild(valueItem);
-// }//直接寫進createSubCard了
+function createValueItem(containerID) {
+    const container = document.getElementById(containerID);
+    // 创建<div class="ValueItem">元素
+    const valueItem = document.createElement("div");
+    valueItem.classList.add("ValueItem");
+    valueItem.innerHTML = '：<input type="number" class="numberInput" oninput="adjustInputWidth(this)"> &le; x &le; <input type="number" class="numberInput" oninput="adjustInputWidth(this)">';
+    container.appendChild(valueItem);
+}
+createValueItem("Math_subCardWrapper");
 
 /////////處理條件屬於數值輸入的狀況///////
 
 //////Option Generator///////////
 
-Ex_subCardName = [['溶劑',['乙醇','甲醇']],['條件2',['選項1','選項2']]];
-Cl_subCardName = [['廠牌',['Kanto Mightysil']], ['型號',['RP-18GP']], ['長度',[1]], ['寬度',[1]], ['粒徑',[1]], ['溫度',[1]]];
-Ch_subCardName = [['層析條件_Mobile_phase_A',[]], ['層析條件_Mobile_phase_B',[]], ['層析條件_Detection_wavelength_nm',[1]], ['層析條件_Flow_rate_mLDIVmin',[1]],['層析條件_Injection_miuL',[1]]];
+Ex_subCardName = [['萃取溶劑',['乙醇','甲醇']],['條件2',['選項1','選項2']]];
+Cl_subCardName = [['廠牌',['Kanto Mightysil']], ['型號',['RP-18GP']]];
+Ch_subCardName = [['層析條件_Mobile_phase_A',[]], ['層析條件_Mobile_phase_B',[]]];
 
 /**
  * 對subCardName做forEach condition[0]取出該屬性數量>1的選項(至多?個選項)
@@ -129,10 +134,7 @@ function optionGenerator(subCardName, max){
             axios(url).then((res)=>{
                 res.data.forEach(element => {
                     //options.push(element[condition[0]])
-                    if(typeof element[condition[0]] === 'number'){
-                        if(condition[1].length>=1) condition[1][0]=1;
-                        else condition[1].push(1);
-                    }else if(element[condition[0]]===null){//之後再改= =
+                    if(element[condition[0]]===null){//之後再改= =
                         if(condition[1].length>=1) condition[1][0]=1;
                         else condition[1].push(1);
                     }else{
@@ -173,7 +175,6 @@ function optionGenerator(subCardName, max){
 }
 
 optionGenerator(Ch_subCardName,0).then(result => {
-    // 在這裡可以使用 A 函式的結果，例如呼叫 B 函式
     createSubCard('Ch_subCardWrapper',result);
 });
 
