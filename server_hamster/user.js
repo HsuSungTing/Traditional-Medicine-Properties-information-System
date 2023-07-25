@@ -88,5 +88,29 @@ router.get("/option",function(req, res, next){
         res.send(result.recordset);
     });
 });
+//let select = async function (tableName, topNumber, whereSql, params, orderSql, callBack) {
+router.get("/filter_result",function(req, res, next){
+    const parent = req.query.parent;
+    const attr = req.query.attr;
+    db.select('樣品數據表',"",`where ${parent}=@param`,{param:attr},"",function(err,result){
+        const extractedValues = [];
+        for (const item of result.recordset) {
+            const valuesArray = x = `${item.藥材ID.toString().padStart(2, '0')}${item.資料來源ID.toString().padStart(3, '0')}${item.樣品編號ID.toString().padStart(3, '0')}`;
+            extractedValues.push(valuesArray);
+        }
+        res.send(extractedValues);
+        //console.log(extractedValues);
+    });
+});
+
+router.get("/option_search_result",function(req, res, next){
+    const num = req.query.num;
+    const nid = parseInt(num.substring(0, 2), 10);
+    const x = parseInt(num.substring(2, 5), 10);
+    const y = parseInt(num.substring(5, 8), 10);
+    db.select('樣品數據表',"",`where 藥材ID=@param1 and 資料來源ID=@param2 and 樣品編號ID=@param3`,{param1:nid,param2:x,param3:y},"",function(err,result){
+        res.send(result.recordset);
+    });
+});
 module.exports = router;
 

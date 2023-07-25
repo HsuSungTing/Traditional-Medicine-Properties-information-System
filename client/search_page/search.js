@@ -1,4 +1,55 @@
 const OptionGeneratorAPI = "http://localhost:8002/option?Attribute=";
+const FilterResultAPI = "http://localhost:8002/filter_result";
+const OptionSearchResultAPI = "http://localhost:8002/option_search_result";
+class Filter {
+    constructor() {
+      this.filterOptions = {};
+    }
+  
+    addOption(tag, result) {
+      this.filterOptions[tag] = new Set(result);
+    }
+  
+    filter(selectedTags) {
+      const filteredResult = new Set();
+      selectedTags.forEach(tag => {
+        if (this.filterOptions.hasOwnProperty(tag)) {
+          this.filterOptions[tag].forEach(item => filteredResult.add(item));
+        }
+      });
+      return filteredResult;
+    }
+    show() {
+        console.log("Current filter options:");
+        console.log(this.filterOptions);
+    }
+}
+const optionState = {};
+function toggleOption(optionId) {
+    optionState[optionId] = !optionState[optionId];
+    updateOptionStyle(optionId);
+    // 進行篩選
+    const selectedTags = [];
+    for (const optionId in optionState) {
+        if (optionState[optionId] === true) {
+            selectedTags.push(optionId);
+        }
+    }
+    const result = filterObj.filter(selectedTags);
+    console.log(result);
+    parentDiv = document.getElementById("page-content");
+    while (parentDiv.firstChild) {
+        parentDiv.removeChild(parentDiv.firstChild);
+    }
+    makeContent(result);
+}
+function updateOptionStyle(optionId) {
+    const optionElement = document.getElementById(optionId);
+    optionElement.style.backgroundColor = optionState[optionId] ? 'gray' : 'rgb(228, 239, 239)';
+    optionElement.style.color = optionState[optionId] ? 'white' : 'black';
+}
+
+
 // 获取sidebar class的元素
 const element = document.querySelector(".sidebar");
 
@@ -113,8 +164,8 @@ createValueItem("Math_subCardWrapper");
 
 //////Option Generator///////////
 
-Ex_subCardName = [['萃取溶劑',['乙醇','甲醇']],['條件2',['選項1','選項2']]];
-Cl_subCardName = [['廠牌',['Kanto Mightysil']], ['型號',['RP-18GP']]];
+Ex_subCardName = [['萃取溶劑',[]]];
+Cl_subCardName = [['管柱條件_廠牌',[]], ['管柱條件_型號',[]]];
 Ch_subCardName = [['層析條件_Mobile_phase_A',[]], ['層析條件_Mobile_phase_B',[]]];
 
 /**
@@ -152,34 +203,31 @@ function optionGenerator(subCardName, max){
         }, 1000); // 假設 A 函式需要 1 秒完成
       });
 
-    // options=[];
-    // subCardName.forEach(function(condition){
-    //     if(max!==0) url= OptionGeneratorAPI+condition[0]+`&max=${max}`;
-    //     else url = OptionGeneratorAPI+condition[0];
-    //     axios(url).then((res)=>{
-    //         res.data.forEach(element => {
-    //             //options.push(element[condition[0]])
-    //             if(typeof element[condition[0]] === 'number'){
-    //                 if(condition[1].length>=1) condition[1][0]=1;
-    //                 else condition[1].push(1);
-    //             }else if(element[condition[0]]===null){//之後再改= =
-    //                 if(condition[1].length>=1) condition[1][0]=1;
-    //                 else condition[1].push(1);
-    //             }else{
-    //                 condition[1].push(element[condition[0]]);
-    //             }
-    //         });
-    //     });
-    // });
-    //callback();
 }
 
-optionGenerator(Ch_subCardName,0).then(result => {
-    createSubCard('Ch_subCardWrapper',result);
-});
+// 創建篩選器
+const filterObj = new Filter();
+Promise.resolve(filterObj)
+  .then(() => {
+    // 在這裡執行接下來的操作
+    // 確保在這個 .then() 中的程式碼會在 filterObj 被創建後執行
+        optionGenerator(Ch_subCardName,0).then(result => {
+            createSubCard('Ch_subCardWrapper',result);
+        });
+        optionGenerator(Ex_subCardName,0).then(result => {
+            createSubCard('Ex_subCardWrapper',result);
+        });
+        optionGenerator(Cl_subCardName,0).then(result => {
+            createSubCard('Cl_subCardWrapper',result);
+        });
+  })
+  .catch(err => {
+    console.log(err);
+  });
 
 
-console.log(Ch_subCardName);
+
+// console.log(Ch_subCardName);
 
 //////Option Generator///////////
 
@@ -201,15 +249,34 @@ function createSubCard(containerID, Names){
             ele = element[1][i];
             if (typeof ele === 'number') {//創一個輸入框，並且這個itemNames的array項目只有一個
                 // createValueItem(ItemsWrapper.id)
-                const valueItem = document.createElement("div");
-                valueItem.classList.add("ValueItem");
-                valueItem.innerHTML = '：<input type="number" class="numberInput" oninput="adjustInputWidth(this)"> &le; x &le; <input type="number" class="numberInput" oninput="adjustInputWidth(this)">';
-                ItemsWrapper.appendChild(valueItem);
+                // const valueItem = document.createElement("div");
+                // valueItem.classList.add("ValueItem");
+                // valueItem.innerHTML = '：<input type="number" class="numberInput" oninput="adjustInputWidth(this)"> &le; x &le; <input type="number" class="numberInput" oninput="adjustInputWidth(this)">';
+                // ItemsWrapper.appendChild(valueItem);//輸入數值被獨立出來了
                 break;
             } else {//對多個名稱選項創ChoiceItem
                 const Item = document.createElement('div');
                 Item.classList.add('ChoiceItem');
                 Item.textContent = ele;
+                Item.id = "option_"+ele;
+                findFilterResult(Item.id,element[0]);
+                optionState[Item.id] = false;
+                Item.onclick = function(){toggleOption(Item.id);};
+                Item.addEventListener('mouseover', function() {
+                    Item.style.backgroundColor = 'rgb(91, 91, 95)';
+                    Item.style.color = 'white';
+                });
+                
+                Item.addEventListener('mouseout', function() {
+                    if(optionState[Item.id]===true){
+                        Item.style.backgroundColor = 'gray';
+                        Item.style.color = 'white';
+                    }else{
+                        Item.style.backgroundColor = 'rgb(228, 239, 239)';
+                        Item.style.color = 'black';
+                    }
+                    
+                });
                 ItemsWrapper.appendChild(Item);
             }
         }
@@ -219,24 +286,60 @@ function createSubCard(containerID, Names){
         subCard.appendChild(ItemsWrapper);
         
         container.appendChild(subCard);
-
         
     });
+    filterObj.show();
 }
-createSubCard('Ex_subCardWrapper',Ex_subCardName);
-createSubCard('Cl_subCardWrapper',Cl_subCardName);
+// createSubCard('Ex_subCardWrapper',Ex_subCardName);
+// createSubCard('Cl_subCardWrapper',Cl_subCardName);
 
-//////Create subCard///////////
-// function createItems(containerID, itemNames){
-//     const container = document.getElementById(containerID);
-//     itemNames.forEach(function(element){
-//         if (typeof element === 'number') {//創一個輸入框，並且這個itemNames的array項目只有一個
-//             createValueItem(containerID)
-//         } else {//對多個名稱選項創ChoiceItem
-//             Item = document.createElement('div');
-//             Item.classList.add('ChoiceItem');
-//             Item.textContent = element;
-//             container.appendChild(Item);
-//         }
-//     });
-// }//寫進createSubCard裡面了
+////////多選項篩選器製作///////
+
+  
+  
+  // 添加選項tag與結果
+//   filterObj.addOption('tag1', [1, 2, 3]);//這裡在選項創建的時候就要去資料庫抓了
+//   filterObj.addOption('tag2', [2, 3, 4]);
+//   filterObj.addOption('tag3', [3, 4, 5]);
+  function findFilterResult(tag,parent){
+    Attribute = tag.replace("option_", "")
+    url = FilterResultAPI+"?parent="+parent+"&attr="+Attribute;
+    axios(url).then((res)=>{
+        filterObj.addOption(tag,res.data);
+    });
+    console.log("it is complete owo happy!");
+  }
+  
+  function makeContent(result){
+    console.log("content is making...");
+    container = document.getElementById("page-content");
+    for (const res of result){
+        url = OptionSearchResultAPI + "?num=" + res;
+        axios(url).then((res)=>{
+            res.data.forEach(element=>{
+                const div_card = document.createElement('div');
+                div_card.classList.add("herb");
+                div_card.setAttribute('id',`Card_${element.藥名}_${element.資料來源ID}_${element.樣品編號ID}`)
+        
+                const image = document.createElement('img');
+                image.classList.add("herb-img");
+                image.setAttribute('alt',`${element.藥名}_${element.資料來源ID}_${element.樣品編號ID}`);
+                image.setAttribute('title',`${element.藥名}_${element.資料來源ID}_${element.樣品編號ID}`);
+                image.src = `甘草1_1_1.png`;
+
+                const title = document.createElement('p');
+                title.innerHTML = `<font>${element.藥名}-${element.資料來源ID}-${element.樣品編號ID}</font>`;
+        
+                const link = document.createElement('a');
+                link.href = `../leaf_page/leaf.html?herb_name=${element.藥名}&nameid=${element.藥材ID}&x=${element.資料來源ID}&y=${element.樣品編號ID}`
+        
+                link.appendChild(image);
+                div_card.appendChild(link);
+                div_card.appendChild(title);
+                container.appendChild(div_card);
+            });
+        });
+            
+    }
+}
+  ////////多選項篩選器製作///////

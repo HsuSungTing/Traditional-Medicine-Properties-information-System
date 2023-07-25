@@ -164,8 +164,10 @@
     margin:20px;
   }
   .herb-img{
-    width:300px;
-    height:300px;
+    width: 230px; /* 调整图像的宽度 */
+    height: 150px; /* 调整图像的高度 */
+    vertical-align: middle; /* 可选：将图像垂直居中 */
+    margin: 20px;
     border-radius: 10px; /* 圓弧形的四個角 */
   }
 
@@ -185,13 +187,12 @@
     padding:10px;
     margin:5px;
 
-    
-
   }
   
   .ValueItem{/*level 7*/
-    background-color: rgb(0, 255, 81);
+    /* background-color: rgb(0, 255, 81); BG*/
     height:30px;
+    padding:5px;
   }
   .numberInput{
     width:30px;
@@ -203,13 +204,15 @@
     display: flex;
     flex-flow: row wrap;
     align-content:space-around;
-    background-color: chocolate;
+    background-color: rgb(237, 191, 126); 
+    border-radius: 5px;
   }
   .subCard{/*level 5*/
-    background-color: blue;
+    /* background-color: blue; BG*/
+    padding:1px;
   }
   .subCardWrapper{/*level 4*/
-    background-color: greenyellow;
+    /* background-color: greenyellow; BG*/
     width:100%;
     
     display: none; /* 初始状态隐藏内容 */
