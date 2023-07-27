@@ -58,6 +58,9 @@ function toggleOption(optionId) {
     optionState[optionId] = !optionState[optionId];
     updateOptionStyle(optionId);
     // 進行篩選
+    makeSearchContent();
+}
+function makeSearchContent(){
     const selectedTags = [];
     for (const optionId in optionState) {
         if (optionState[optionId] === true) {
@@ -213,6 +216,8 @@ function createValueItem(containerID) {
     valueItem.classList.add("ValueItem");
     valueItem.innerHTML = '：<input type="number" class="numberInput" id="numberInput1" oninput="adjustInputWidth(this)"> &le; x &le; <input type="number" class="numberInput" id="numberInput2" oninput="adjustInputWidth(this)">';
     const comfirm_btn=document.createElement('button');
+    comfirm_btn.borderRadius="10px";
+    comfirm_btn.backgroundColor="#3498db";
     comfirm_btn.innerHTML="confirm";
     comfirm_btn.setAttribute('id',`comfirm_btn_id`);
     //--------------------
@@ -445,9 +450,11 @@ let union_bool_state={
 function union_toggle(){
     if(union_bool_state.union_bool){
         union_bool_state.union_bool=0;
+        makeSearchContent();
     }
     else{
         union_bool_state.union_bool=1;
+        makeSearchContent();
     }
 }
 //-------------------------------------------------

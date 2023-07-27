@@ -12,6 +12,7 @@
   z-index: 1;
   overflow-y: auto;
   padding-bottom: 20px;
+  z-index: 100;/*圖層處理*/
 }
 
 /* 頁面內容的樣式 */
@@ -63,6 +64,7 @@ padding: 10px 20px;
   position: sticky;
   top:0;
   background-color: white;
+  z-index: 80;/*圖層處理*/
 }
 .title_class{
     padding: 0px;
@@ -232,6 +234,7 @@ padding: 10px 20px;
 /*On Off button*/
 .onoffswitch {
   position: relative; width: 62px;
+  margin:5px;
   -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
 }
 .onoffswitch-checkbox {
