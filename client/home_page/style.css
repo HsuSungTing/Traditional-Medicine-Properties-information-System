@@ -1,0 +1,127 @@
+html {
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  
+}
+#logo-img{
+  width:auto;
+  height:70px;
+}
+.search{/*最上1/3部分布局用*/
+  padding: 20px;
+  background-color: #ffffff;
+  text-align: left;
+  display:flex;
+  /*margin:10px;*/
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  
+  position: sticky;/*最上方固定不動*/
+  top:0;
+}
+.sea-container {
+  height: 30px;
+  /*margin: 100px auto;*/
+  border: 1px solid #c9ced6;
+}
+
+/* 搜索下拉框*/
+ul#drop {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+ul#drop li {
+  margin: 0;
+  padding: 10px;
+  background-color: white;
+  font-family: DFKai-sb;
+}
+
+ul#drop li:hover {
+  background-color: darkgrey;
+}
+
+
+#title{
+  background-color: #44546a;
+  width: 100%;
+  font-size: 40px;
+  font-family: DFKai-sb;
+  color: white;
+  font-weight:bold;
+  text-align: center;
+  /*margin:10px;*/
+}
+#searchInput{
+  padding:5px;
+  float: left;
+  height: 30px;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+#search-btn-img{
+  width: 30px; /* 调整图像的宽度 */
+  height: 24px; /* 调整图像的高度 */
+  vertical-align: middle; /* 可选：将图像垂直居中 */
+}
+
+.result{
+  background-color: #f2ece4;
+  /*margin:10px;*/
+  /* border:#fb0404;border-style:solid;border-width:12px;padding:5px; */
+  display: flex;
+  flex-flow: row wrap;
+  align-content:space-around;
+  padding:20px;
+  
+}
+.herb{
+  display:flex;
+  flex-direction: column;
+  flex-basis:1;
+  height:300px;
+  /*border:#fb0404;border-style:solid;border-width:12px;padding:5px;*/
+  font-size: 20px;
+  font-family: DFKai-sb;
+  color: black;
+  text-align: center;
+  margin:30px;
+}
+.herb-img{
+  width:300px;
+  height:300px;
+  border-radius: 10px;
+}
+
+
+.rounded-button {
+  display: flex;
+  justify-content: center; /* 將內容水平置中 */
+  align-items: center; /* 將內容垂直置中 */
+  height:15px;
+  width:90px;
+  padding: 15px 20px;
+  border: 3px solid rgb(205, 205, 231); /*黑色邊框*/
+  border-radius: 20px; /* 圓弧形的四個角 */
+  background-color: rgba(68, 84, 106, 0.22); /* 背景填色透明度為22% */; /* 背景填色 */
+  color: black; /* 文字顏色 */
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* 滑鼠懸停時變換按鈕顏色 */
+.rounded-button:hover {
+  background-color: #9b9ea3;
+  color: white; /* 文字顏色變換為白色 */
+  border: 3px solid rgb(205, 205, 231); /* 灰色邊框 */
+}
+
+/* 按鈕被點擊時變換按鈕顏色 */
+.rounded-button:active {
+  background-color: #23334A;
+}

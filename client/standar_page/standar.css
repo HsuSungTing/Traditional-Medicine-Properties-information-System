@@ -1,0 +1,136 @@
+.position-fix-wrapper{
+  position: sticky;
+  top:0;
+  background-color: white;
+}
+.title_class{
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 50px;
+    margin: 5px;
+    position: sticky;/*頂部固定*/
+    top:0;
+}
+#logo{
+    width: 330px;
+    height: auto;
+}
+#sub_title{
+    font-weight: bold;
+    font-size: 17px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 40px;
+    width: 320px;
+    position: relative;
+    left: 80px;
+    color: rgb(0, 0, 0);
+}
+.line{
+    position: relative;
+    top: 10px;
+  
+  
+}
+.choice_class{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 2px;
+    margin: 5px 0px 0px 0px;
+    height: 40px;
+    width: 270px;
+    font-weight: bold;
+    color: rgb(1, 1, 1);
+    
+}
+#med_name{ color:black;}
+#med_info{ color:black;}
+#med_ref{ color:black;}
+#med_info:hover{
+  width: fit-content;
+  height: 25px;
+  background-color: rgb(11, 11, 90);
+  padding: 2px;
+  border-radius: 2px;
+  color: aliceblue;
+}
+#med_ref:hover{
+  width: fit-content;
+  height: 25px;
+  padding: 2px;
+  background-color: rgb(11, 11, 90);
+  border-radius: 2px;
+  color: aliceblue;
+}
+#med_name:hover{
+  width: fit-content;
+  height: 25px;
+  padding: 2px;
+  background-color: rgb(11, 11, 90);
+  border-radius: 2px;
+  color: aliceblue;
+}
+.data-content-wrapper{
+  display:flex;
+  flex-direction: row;
+  /* border:#fb0404;border-style:solid;border-width:12px;padding:5px; */
+}
+.data-subtitle-leftpart{
+  display:flex;
+  flex-direction: column;
+  /* border:#040cfb;border-style:solid;border-width:12px;padding:5px; */
+}
+#herb-name{
+  background-color: #44546a;
+  margin:20px;
+  padding:10px;
+  font-family: DFKai-sb;
+  color: white;
+  font-weight:bold;
+  font-size: 30px;
+  text-align: center;
+}
+.link-text-color{
+  color: #0070c0;
+  font-family: DFKai-sb;
+  text-align: center;
+  margin:10px;
+}
+.chart-link-rightpart{
+  flex-grow: 1;
+  display:flex;
+  flex-direction: column;
+  /* border:#04fb4e;border-style:solid;border-width:12px;padding:5px; */
+  
+
+}
+
+.chart-part{
+  display:flex;
+  flex-direction: column;
+  justify-content: center; /*置中用*/
+  align-items: center; /*置中用*/
+
+}
+.datachart-img{
+  flex-basis: 1;
+  width: 450px;
+  margin-left:20px;
+  max-width:100%; /*置中用*/
+  max-height:100%; /*置中用*/
+  
+}
+.link-part{
+  display:flex;
+  justify-content: center; /*置中用*/
+  align-items: center; /*置中用*/
+}
+/* #dummy{
+  border:#fb9404;border-style:solid;border-width:12px;padding:5px;
+  height:100000px;
+  
+} */
