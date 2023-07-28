@@ -55,8 +55,9 @@ class Filter {
 //處理查找
 const optionState = {};
 function toggleOption(optionId) {
+    document.getElementById(optionId).clicked = !document.getElementById(optionId).clicked;
     optionState[optionId] = !optionState[optionId];
-    updateOptionStyle(optionId);
+    updateStyle(optionId);
     // 進行篩選
     makeSearchContent();
 }
@@ -82,16 +83,16 @@ function makeSearchContent(){
 }
 
 //處理甲醇等選項點擊後的變色
-function updateOptionStyle(optionId) {
+function updateStyle(optionId) {
     const optionElement = document.getElementById(optionId);
-    optionElement.style.backgroundColor = optionState[optionId] ? 'gray' : 'rgb(228, 239, 239)';
-    optionElement.style.color = optionState[optionId] ? 'white' : 'black';
+    optionElement.style.backgroundColor = optionElement.clicked ? 'gray' : 'rgb(228, 239, 239)';
+    optionElement.style.color = optionElement.clicked ? 'white' : 'black';
 }
 
 // 側拉式選單
 const element = document.querySelector(".sidebar");
 const sidebarWidth = window.getComputedStyle(element).width;//注意這傢伙是字串:(
-
+    document.getElementById("page-content").style.marginRight=sidebarWidth;/*content初始設定收起*/
 function openNav() {
     document.getElementById("mySidebar").style.right = "0"; /* 從右邊拉出 */
     document.getElementById("page-content").style.marginRight=sidebarWidth;/*content彈性移動*/
@@ -102,7 +103,7 @@ function closeNav() {
     document.getElementById("page-content").style.marginRight="0px";
 }
 
-let sidebarClose = true;
+let sidebarClose = false;
 
 function opneORclose(){
     if(sidebarClose){
@@ -114,35 +115,16 @@ function opneORclose(){
     }
 }
 
-//頁面的連結
-document.getElementById("med_name").setAttribute("href","../home_page/index.html");
-document.getElementById("med_info").setAttribute("href",`../home_page/index.html`);
-document.getElementById("med_ref").setAttribute("href", `../home_page/index.html`);
-
 ///////三個條件按鈕事件處理//////
 const Ex_cardName = document.getElementById('Ex_cardName');
 const Cl_cardName = document.getElementById('Cl_cardName');
 const Ch_cardName = document.getElementById('Ch_cardName');
 const Math_cardName = document.getElementById('Math_cardName');
-let downPage = [false, false, false, false];
 cardNames = [Ex_cardName, Cl_cardName, Ch_cardName, Math_cardName]
 
 for (let i = 0; i < cardNames.length; i++) {
     const cardName = cardNames[i];
-    cardName.addEventListener('mouseover', function() {
-        cardName.style.backgroundColor = 'rgb(91, 91, 95)';
-        cardName.style.color = 'white';
-    });
-
-    cardName.addEventListener('mouseout', function() {
-        if (downPage[i]) {
-        cardName.style.backgroundColor = 'gray';
-        cardName.style.color = 'white';
-    } else {
-        cardName.style.backgroundColor = 'rgb(228, 239, 239)';
-        cardName.style.color = 'black';
-        }
-    });
+    setHoverStyle(cardName);
 }
 
 function DownExpand(expandId) {
@@ -160,16 +142,16 @@ function DownExpand(expandId) {
         btn = Math_cardName
     }
 
-    if (downPage[expandId]) {
+    if (btn.clicked) {
         content.style.display = 'none';// 隐藏内容
         btn.style.backgroundColor='rgb(228, 239, 239)';
         btn.style.color = 'black';
-        downPage[expandId]=false;
+        btn.clicked = false;
     } else {
         content.style.display = 'flex'; // 显示内容
         btn.style.backgroundColor='gray';
         btn.style.color='white';
-        downPage[expandId]=true;
+        btn.clicked = true;
     }    
 }
 ////////三個條件的按鈕事件處理///////
@@ -333,21 +315,9 @@ function createSubCard(containerID, Names){
                 Item.id = "option_"+ele;
                 findFilterResult(Item.id,element[0]);
                 optionState[Item.id] = false;
+                Item.clicked = false;
                 Item.onclick = function(){toggleOption(Item.id);};
-                Item.addEventListener('mouseover', function() {
-                    Item.style.backgroundColor = 'rgb(91, 91, 95)';
-                    Item.style.color = 'white';
-                });
-                
-                Item.addEventListener('mouseout', function() {
-                    if(optionState[Item.id]===true){
-                        Item.style.backgroundColor = 'gray';
-                        Item.style.color = 'white';
-                    }else{
-                        Item.style.backgroundColor = 'rgb(228, 239, 239)';
-                        Item.style.color = 'black';
-                    }
-                });
+                setHoverStyle(Item);
                 ItemsWrapper.appendChild(Item);
             }
         }
@@ -458,3 +428,57 @@ function union_toggle(){
     }
 }
 //-------------------------------------------------
+/////Reset button/////
+const resetBtn = document.getElementById("reset-btn");
+resetBtn.onclick = function(){ resetOptionState(optionState);}
+
+function resetOptionState(optionState) {
+    for (const key in optionState) {
+      if (optionState.hasOwnProperty(key)) {
+        optionState[key] = false;
+      }
+    }
+    const elements = document.getElementsByClassName("ChoiceItem");
+    for (let i = 0; i < elements.length; i++) {
+        elements[i].clicked = false;
+        elements[i].style.backgroundColor = "rgb(228, 239, 239)";
+        elements[i].style.color = "black";
+    }
+    makeSearchContent();
+}
+setHoverStyle(resetBtn);
+/**
+ * 
+ * @param obj get it from document.getElementByID(your_id)
+ * through obj.clicked control its mouseout color
+ */
+
+function setHoverStyle(obj){
+
+    obj.addEventListener('mouseover', function() {
+        obj.style.backgroundColor = 'rgb(91, 91, 95)';
+        obj.style.color = 'white';
+    });
+        
+    obj.addEventListener('mouseout', function() {
+        if (obj.clicked) {
+            obj.style.backgroundColor = 'gray';
+            obj.style.color = 'white';
+        } else {
+            obj.style.backgroundColor = 'rgb(228, 239, 239)';
+            obj.style.color = 'black';
+        }
+    });  
+}
+sampleBtn = document.getElementById("sample-btn");
+sampleBtn.onclick = function(){sampleORstandar(sampleBtn.id);}
+setHoverStyle(sampleBtn);
+standarBtn = document.getElementById("standar-btn");
+standarBtn.onclick = function(){sampleORstandar(standarBtn.id);}
+setHoverStyle(standarBtn);
+
+function sampleORstandar(ssId) {
+    document.getElementById(ssId).clicked = document.getElementById(ssId).clicked? false:true;
+    updateStyle(ssId);
+    makeSearchContent();
+}

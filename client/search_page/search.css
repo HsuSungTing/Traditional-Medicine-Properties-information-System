@@ -5,7 +5,7 @@
   width: 650px;
   position: fixed;
   top: 75px; 
-  right: -650px; /* 初始位置為合起來(距右邊-450) */
+  right: 0px; /* 初始位置開啟(距右邊0) */
   background-color: #333;
   /* padding-top: 60px; */
   transition: right 0.3s; /* 使用 right 屬性的過渡效果 */
@@ -69,7 +69,7 @@ padding: 10px 20px;
 .title_class{
     padding: 0px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
     height: 50px;
     margin: 5px;
@@ -91,49 +91,42 @@ padding: 10px 20px;
     position: relative;
     left: 80px;
     color: rgb(0, 0, 0);
+    margin-left:150px;
 }
 .line{
     position: relative;
     top: 10px;
   
 }
-.choice_class{
+.advance_search{
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     padding: 2px;
     margin: 5px 0px 0px 0px;
-    height: 20px;
-    width: 270px;
+    height: 30px;
+    font-size: large;
     font-weight: bold;
     color: rgb(1, 1, 1);
-    
 }
-#med_name{ color:black;}
-#med_info{ color:black;}
-#med_ref{ color:black;}
-#med_info:hover{
-  width: fit-content;
-  height: 25px;
-  background-color: rgb(11, 11, 90);
-  padding: 2px;
-  border-radius: 2px;
-  color: aliceblue;
-}
-#med_ref:hover{
-  width: fit-content;
-  height: 25px;
-  padding: 2px;
-  background-color: rgb(11, 11, 90);
-  border-radius: 2px;
-  color: aliceblue;
+#med_name{ 
+  width: 60px;
+  height: auto;
+  margin:5px;
+  padding: 5px;
+  color:black;
+  font-size: large;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 10px;
+
+  /* 使用 Flexbox 將文字置中 */
+  display: flex;
+  justify-content: center; /* 水平置中 */
+  align-items: center; /* 垂直置中 */
 }
 #med_name:hover{
-  width: fit-content;
-  height: 25px;
-  padding: 2px;
-  background-color: rgb(11, 11, 90);
-  border-radius: 2px;
+  background-color: rgb(144, 144, 147);
   color: aliceblue;
 }
 /*側邊欄位選項內容*/
@@ -234,7 +227,7 @@ padding: 10px 20px;
 /*On Off button*/
 .onoffswitch {
   position: relative; width: 62px;
-  margin:5px;
+  margin:10px;
   -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
 }
 .onoffswitch-checkbox {
