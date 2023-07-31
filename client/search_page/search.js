@@ -7,47 +7,80 @@ const SelectAllAPI="http://localhost:5000/getMedicineSource";//選取表四
 //點選的篩選
 class Filter {
     constructor() {
-        this.filterOptions = {};
+        this.sampleOptions = {};
+        this.standarOptions = {};
     }
 
-    addOption(tag, result) {
-        this.filterOptions[tag] = new Set(result);
+    addOption(tag, result, IsSample) {
+        if(IsSample) this.sampleOptions[tag] = new Set(result);
+        else  this.standarOptions[tag] = new Set(result);
+           
     }
 
     filter(selectedTags) {
         const filteredResult = new Set();
-        selectedTags.forEach(tag => {
-            if (this.filterOptions.hasOwnProperty(tag)) {
-                this.filterOptions[tag].forEach(item => filteredResult.add(item));
+        const sampleBtn = document.getElementById("sample-btn");
+        const standarBtn = document.getElementById("standar-btn");
+        
+        selectedTags.forEach(tag => {  
+            if (this.sampleOptions.hasOwnProperty(tag) && sampleBtn.clicked===true) {
+                this.sampleOptions[tag].forEach(item => filteredResult.add(item));
+            }
+            if(this.standarOptions.hasOwnProperty(tag) && standarBtn.clicked===true){
+                this.standarOptions[tag].forEach(item => filteredResult.add(item));
             }
         });
         return filteredResult;
     }
     filter_intersect(selectedTags){
-        if (selectedTags.length === 0) {
-            return new Set(); // 當選定標籤為空時，返回空集合
-        }
-        let intersectionSet = new Set(this.filterOptions[selectedTags[0]]);
-        
-        // 找出選定標籤的結果之間的交集
-        for (let i = 1; i < selectedTags.length; i++) {
-            const tag = selectedTags[i];
-            if (this.filterOptions.hasOwnProperty(tag)) {
-            intersectionSet = new Set(
-                [...intersectionSet].filter((item) => this.filterOptions[tag].has(item))
-            );
-            } else {
-                // 若某個選定標籤不存在，則交集為空集合
-                return new Set();
+        if (selectedTags.length === 0) return new Set(); // 當選定標籤為空時，返回空集合
+        const sampleBtn = document.getElementById("sample-btn");
+        const standarBtn = document.getElementById("standar-btn");
+        let sampleIntersect = new Set();
+        let standarIntersect = new Set();
+        if(sampleBtn.clicked===true){
+            sampleIntersect = new Set(this.sampleOptions[selectedTags[0]] || []);
+            for (let i = 1; i < selectedTags.length; i++) {
+                const tag = selectedTags[i];
+                if (this.sampleOptions.hasOwnProperty(tag)) {
+                    sampleIntersect = new Set(
+                        [...sampleIntersect].filter((item) => this.sampleOptions[tag].has(item))
+                    );
+                } else {
+                    // 若某個選定標籤不存在，則交集為空集合
+                    //return new Set();
+                    sampleIntersect = new Set();
+                    break;
+                }
             }
         }
+        if(standarBtn.clicked===true){
+            standarIntersect = new Set(this.standarOptions[selectedTags[0]] || []);
+            for (let i = 1; i < selectedTags.length; i++) {
+                const tag = selectedTags[i];
+                if (this.standarOptions.hasOwnProperty(tag)) {
+                    standarIntersect = new Set(
+                        [...standarIntersect].filter((item) => this.standarOptions[tag].has(item))
+                    );
+                } else {
+                    // 若某個選定標籤不存在，則交集為空集合
+                    standarIntersect =  new Set();
+                }
+            }
+        }
+        let intersectionSet = new Set(sampleIntersect);
+        for (const item of standarIntersect) {
+            intersectionSet.add(item);
+        }
+  
+        
         return intersectionSet;
     }
     
 
     show() {
         console.log("Current filter options:");
-        console.log(this.filterOptions);
+        console.log(this.sampleOptions);
     }
 }
 
@@ -259,7 +292,7 @@ function optionGenerator(subCardName, max){
             });
         });
         setTimeout(() => {
-            console.log("A function completed.");
+          console.log("Option generator function completed.");
           const result = subCardName; // 假設 A 函式的結果是 42
           resolve(result); // 將結果傳遞給 Promise
         }, 1000); // 假設 A 函式需要 1 秒完成
@@ -313,7 +346,8 @@ function createSubCard(containerID, Names){
                 Item.classList.add('ChoiceItem');
                 Item.textContent = ele;
                 Item.id = "option_"+ele;
-                findFilterResult(Item.id,element[0]);
+                findFilterResult(Item.id,element[0], true);
+                findFilterResult(Item.id,element[0], false);//生成standar result
                 optionState[Item.id] = false;
                 Item.clicked = false;
                 Item.onclick = function(){toggleOption(Item.id);};
@@ -329,16 +363,20 @@ function createSubCard(containerID, Names){
 }
 
   // 添加選項tag與結果
-//   filterObj.addOption('tag1', [1, 2, 3]);//這裡在選項創建的時候就要去資料庫抓了
-//   filterObj.addOption('tag2', [2, 3, 4]);
-//   filterObj.addOption('tag3', [3, 4, 5]);
-function findFilterResult(tag,parent){
+function findFilterResult(tag,parent, IsSample){
     Attribute = tag.replace("option_", "")
-    url = FilterResultAPI+"?parent="+parent+"&attr="+Attribute;
-    axios(url).then((res)=>{
-        filterObj.addOption(tag,res.data);
-    });
-    console.log("it is complete owo happy!");
+    if(IsSample){
+        url = FilterResultAPI+"?tbName=樣品數據表"+"&parent="+parent+"&attr="+Attribute;
+        axios(url).then((res)=>{
+            filterObj.addOption(tag,res.data,IsSample);
+        });
+    }else{
+        url = FilterResultAPI+"?tbName=標準品數據表"+"&parent="+parent+"&attr="+Attribute;
+        axios(url).then((res)=>{
+            filterObj.addOption(tag,res.data,IsSample);
+        });
+    }
+    
 }
 
 function makeContent(result){//此result已經是選定出來的資料了
@@ -347,22 +385,32 @@ function makeContent(result){//此result已經是選定出來的資料了
     for (const res of result){
         url = OptionSearchResultAPI + "?num=" + res;
         axios(url).then((res)=>{
+            //const element = res.data;
             res.data.forEach(element=>{
                 const div_card = document.createElement('div');
                 div_card.classList.add("herb");
-                div_card.setAttribute('id',`Card_${element.藥名}_${element.資料來源ID}_${element.樣品編號ID}`)
+                //div_card.setAttribute('id',`Card_${element.藥名}_${element.資料來源ID}_${element.樣品編號ID}`)
         
                 const image = document.createElement('img');
                 image.classList.add("herb-img");
-                image.setAttribute('alt',`${element.藥名}_${element.資料來源ID}_${element.樣品編號ID}`);
-                image.setAttribute('title',`${element.藥名}_${element.資料來源ID}_${element.樣品編號ID}`);
-                image.src = `甘草1_1_1.png`;
-
                 const title = document.createElement('p');
-                title.innerHTML = `<font>${element.藥名}-${element.資料來源ID}-${element.樣品編號ID}</font>`;
-
                 const link = document.createElement('a');
-                link.href = `../leaf_page/leaf.html?herb_name=${element.藥名}&nameid=${element.藥材ID}&x=${element.資料來源ID}&y=${element.樣品編號ID}`
+                if(element.source==="sample"){
+                    image.setAttribute('alt',`${element.藥名}_${element.資料來源ID}_${element.樣品編號ID}`);
+                    image.setAttribute('title',`${element.藥名}_${element.資料來源ID}_${element.樣品編號ID}`);
+                    image.src = `甘草1_1_1.png`;
+                    title.innerHTML = `<font>${element.藥名}-${element.資料來源ID}-${element.樣品編號ID}</font>`;
+                    link.href = `../leaf_page/leaf.html?herb_name=${element.藥名}&nameid=${element.藥材ID}&x=${element.資料來源ID}&y=${element.樣品編號ID}`
+                }else if(element.source==="standar"){
+                    image.setAttribute('alt',`${element.標準品名稱}_${element.標準品編號ID}`);
+                    image.setAttribute('title',`${element.標準品名稱}_${element.標準品編號ID}`);
+                    image.src = `甘草1_1_1.png`;
+                    title.innerHTML = `<font>${element.標準品名稱}_${element.標準品編號ID}</font>`;
+                    link.href = `../leaf_page/leaf.html?herb_name=${"甘草"}&nameid=${1}&x=${1}&y=${1}`//尚須更改standar page才能修改這裡
+                }else console.log("source error the source is "+element);
+                
+
+                
                 link.appendChild(image);
                 div_card.appendChild(link);
                 div_card.appendChild(title);
@@ -386,7 +434,7 @@ function getSelectedOption(upper_limit,lower_limit,SelectAllAPI) {
     const selectedOption = selectElement.options[selectElement.selectedIndex];
     const optionId = selectedOption.id;
     const optionText = selectedOption.text;
-    console.log("選取的 ID：", optionId);
+    //console.log("選取的 ID：", optionId);
     const optionValue = selectedOption.value;
     get_Num_Data(optionId,upper_limit,lower_limit,SelectAllAPI);
 }
@@ -407,9 +455,9 @@ function get_Num_Data(target_attr,lower_limit,upper_limit,url){ axios(url).then(
     med_ID=data.map(item => item['藥材ID']);
     info_ID=data.map(item => item['資料來源ID']);
     sample_ID=data.map(item => item['樣品編號ID']);
-    console.log("here",data);
-    console.log("result",state.result_num);
-    filterObj.addOption(`comfirm_btn_id`,state.result_num);
+    //console.log("here",data);
+    //console.log("result",state.result_num);
+    filterObj.addOption(`comfirm_btn_id`,state.result_num, true);
     toggleOption(`comfirm_btn_id`);
     });
 }
@@ -444,11 +492,13 @@ function resetOptionState(optionState) {
         elements[i].style.backgroundColor = "rgb(228, 239, 239)";
         elements[i].style.color = "black";
     }
+    if(state.comfirm_btn_bool===0){
+        document.getElementById("comfirm_btn_id").onclick();
+    }
     makeSearchContent();
 }
 setHoverStyle(resetBtn);
 /**
- * 
  * @param obj get it from document.getElementByID(your_id)
  * through obj.clicked control its mouseout color
  */
@@ -471,14 +521,24 @@ function setHoverStyle(obj){
     });  
 }
 sampleBtn = document.getElementById("sample-btn");
+sampleORstandar("sample-btn");//初始化他為clicked
 sampleBtn.onclick = function(){sampleORstandar(sampleBtn.id);}
 setHoverStyle(sampleBtn);
+
 standarBtn = document.getElementById("standar-btn");
+standarBtn.clicked=false;
 standarBtn.onclick = function(){sampleORstandar(standarBtn.id);}
 setHoverStyle(standarBtn);
 
 function sampleORstandar(ssId) {
     document.getElementById(ssId).clicked = document.getElementById(ssId).clicked? false:true;
-    updateStyle(ssId);
+    if (sampleBtn.clicked!==true && standarBtn.clicked!==true) {
+        sampleBtn.clicked = true;
+        standarBtn.clicked= false;
+    }
+    updateStyle("sample-btn");
+    updateStyle("standar-btn");
+
     makeSearchContent();
 }
+

@@ -90,14 +90,23 @@ router.get("/option",function(req, res, next){
 //encode
 //let select = async function (tableName, topNumber, whereSql, params, orderSql, callBack) {
 router.get("/filter_result",function(req, res, next){
+    const tableName = req.query.tbName;
     const parent = req.query.parent;
     const attr = req.query.attr;
-    db.select('樣品數據表',"",`where ${parent}=@param`,{param:attr},"",function(err,result){
+    db.select(tableName,"",`where ${parent}=@param`,{param:attr},"",function(err,result){
         const extractedValues = [];
-        for (const item of result.recordset) {
-            const valuesArray = x = `${item.藥材ID.toString().padStart(2, '0')}${item.資料來源ID.toString().padStart(3, '0')}${item.樣品編號ID.toString().padStart(3, '0')}`;
-            extractedValues.push(valuesArray);
+        if(tableName==="樣品數據表"){
+            for (const item of result.recordset) {
+                const valuesArray = `${item.藥材ID.toString().padStart(2, '0')}${item.資料來源ID.toString().padStart(3, '0')}${item.樣品編號ID.toString().padStart(3, '0')}`;
+                extractedValues.push(valuesArray);
+            }
+        }else if(tableName==="標準品數據表"){
+            for (const item of result.recordset) {
+                const valuesArray = `${item.標準品編號ID.toString().padStart(3, '0')}`;
+                extractedValues.push(valuesArray);
+            }
         }
+        
         res.send(extractedValues);
         //console.log(extractedValues);
     });
@@ -106,12 +115,23 @@ router.get("/filter_result",function(req, res, next){
 //decode
 router.get("/option_search_result",function(req, res, next){
     const num = req.query.num;
-    const nid = parseInt(num.substring(0, 2), 10);
-    const x = parseInt(num.substring(2, 5), 10);
-    const y = parseInt(num.substring(5, 8), 10);
-    db.select('樣品數據表',"",`where 藥材ID=@param1 and 資料來源ID=@param2 and 樣品編號ID=@param3`,{param1:nid,param2:x,param3:y},"",function(err,result){
-        res.send(result.recordset);
-    });
+    if(num.length===8){
+        const nid = parseInt(num.substring(0, 2), 10);
+        const x = parseInt(num.substring(2, 5), 10);
+        const y = parseInt(num.substring(5, 8), 10);
+        db.select('樣品數據表',"",`where 藥材ID=@param1 and 資料來源ID=@param2 and 樣品編號ID=@param3`,{param1:nid,param2:x,param3:y},"",function(err,result){
+            result.recordset.forEach(item => item.source = 'sample');
+            res.send(result.recordset);
+        });
+    }else if(num.length===3){
+        const id = parseInt(num).toString();
+        console.log(id);
+        db.select('標準品數據表',"",`where 標準品編號ID=@param1`,{param1:id},"",function(err,result){
+            result.recordset.forEach(item => item.source = 'standar');
+            res.send(result.recordset);
+        });
+    }else{console.log("num input error.")}
+    
 });
 module.exports = router;
 
