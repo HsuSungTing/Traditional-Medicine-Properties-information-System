@@ -406,7 +406,7 @@ function makeContent(result){//此result已經是選定出來的資料了
                     image.setAttribute('title',`${element.標準品名稱}_${element.標準品編號ID}`);
                     image.src = `甘草1_1_1.png`;
                     title.innerHTML = `<font>${element.標準品名稱}_${element.標準品編號ID}</font>`;
-                    link.href = `../leaf_page/leaf.html?herb_name=${"甘草"}&nameid=${1}&x=${1}&y=${1}`//尚須更改standar page才能修改這裡
+                    link.href = `../standar_page/standar.html?stanId=${element.標準品編號ID}`//尚須更改standar page才能修改這裡
                 }else console.log("source error the source is "+element);
                 
 

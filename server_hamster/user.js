@@ -64,13 +64,16 @@ router.get('/search_result',function(req, res, next){
 
 //let select2Table = async function (table1, commonID, table2, whereSql, params, callBack) {
 router.get("/standar",function(req, res, next){
-    const nameid = req.query.nameid; // 获取前端传递的关键字参数
-    const x = req.query.x; // 获取前端传递的关键字参数
-    const y = req.query.y; // 获取前端传递的关键字参数
-    db.select2Table('標準品數據表','標準品編號ID', '樣品數據表', 
-    "where 藥材ID = @param0 AND 資料來源ID = @param1 AND 樣品編號ID = @param2",  { param0:nameid, param1:x, param2:y},function(err,result){
-        res.send(result.recordset);
+    const stanId = req.query.stanId; // 获取前端传递的关键字参数
+    const tbName = req.query.tbName;
+    const max = req.query.max;
+    console.log(tbName);
+    console.log(stanId);
+    //select = async function (tableName, topNumber, whereSql, params, orderSql, callBack) 
+    db.select(tbName, max, " where 標準品編號ID = @param",  { param: stanId }, '', function (err, result) {
+        res.send(result.recordset)
     });
+    
 }); 
 
 router.get("/option",function(req, res, next){

@@ -1,6 +1,6 @@
 LinkAPI = 'http://localhost:8002/ref_link';
 const urlParams = new URLSearchParams(window.location.search);
-const {herb_name, nameid, x, y } = Object.fromEntries(urlParams.entries());
+const {herb_name, nameid, x, y ,stanId} = Object.fromEntries(urlParams.entries());
 console.log([herb_name, nameid, x, y]);
 ref_link_block_maker(LinkAPI);
 function ref_link_block_maker(url){
@@ -26,12 +26,15 @@ function ref_link_block_maker(url){
         
         res.data.forEach(element => {
             if(element.資料來源ID=== Number(x)){
-                standar_link.setAttribute('href',`../standar_page/standar.html?herb_name=${herb_name}&nameid=${nameid}&x=${x}&y=${y}`);
+                //standar_link.setAttribute('href',`../standar_page/standar.html?herb_name=${herb_name}&nameid=${nameid}&x=${x}&y=${y}&stanId=${element.標準品編號ID}`);
+                standar_link.setAttribute('href',`../standar_page/standar.html?stanId=${stanId}`);
                 ref_link.setAttribute("href",`${element.資料來源連結}`);
                 ref_text.innerHTML = `${element.資料來源名稱}`;
             }
             
         });
+
+        
         div_linkBox.appendChild(standar_link);
         div_linkBox.appendChild(ref_link);
         div_linkBox.appendChild(ref_text);

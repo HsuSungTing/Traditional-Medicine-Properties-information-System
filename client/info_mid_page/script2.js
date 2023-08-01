@@ -93,7 +93,7 @@ function select_source(url){ axios(url).then((res)=>{
                 title.innerHTML = `<font>${element.藥名}-${element.資料來源ID}-${element.樣品編號ID}</font>`;
         
                 const link = document.createElement('a');
-                link.href = `../leaf_page/leaf.html?herb_name=${element.藥名}&nameid=${element.藥材ID}&x=${element.資料來源ID}&y=${element.樣品編號ID}`
+                link.href = `../leaf_page/leaf.html?herb_name=${element.藥名}&nameid=${element.藥材ID}&x=${element.資料來源ID}&y=${element.樣品編號ID}&stanId=${element.標準品編號ID}`;
         
                 link.appendChild(image);
                 div_card.appendChild(link);
