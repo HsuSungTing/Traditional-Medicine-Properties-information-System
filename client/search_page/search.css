@@ -273,3 +273,40 @@ padding: 10px 20px;
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
   right: 0px; 
 }
+
+#valueItem{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center; /* 水平置中 */
+  align-items: center; /* 垂直置中 */
+  margin: 5px;
+  
+}
+#comfirm_btn_id{
+  border-color: #a09595;
+  width: fit-content;
+  height: fit-content;
+  padding: 10px;
+  border-radius: 5px;
+  color: #fff;
+  background-color: #04205e;
+  margin: 0px 0px 0px 30px;
+  font-weight: bolder;
+}
+
+.allvalueItem{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+.Math_attr{
+  width: 200px;
+  height: fit-content;
+  padding: 10px;
+  margin-right: 5PX;
+  border-radius: 5px;
+  font-weight: bolder;
+  background-color: rgb(114, 86, 34);
+  color: #e4dfdf;
+}

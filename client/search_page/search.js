@@ -205,61 +205,123 @@ function adjustInputWidth(input) {
 function input_toggle(comfirm_btn){
     if(state.comfirm_btn_bool==0){
         comfirm_btn.innerHTML="confirm";
+        comfirm_btn.style.backgroundColor = "#172950";
         state.comfirm_btn_bool=1;
-        state.tag_num="Null";
         state.result_num=[];
     }
     else {
         comfirm_btn.innerHTML="cancel";
+        comfirm_btn.style.backgroundColor = "#0a1327";
         state.comfirm_btn_bool=0;
     }
 }
 
-let state = {//用來控制button
+let state = {//用來控制confrim button
     comfirm_btn_bool: 1,
-    tag_num:"Null",
     result_num:[]
 };
+//////控制confirm btn顏色/////////////
+////只好把confirnbtn變成全域變數//////
+const comfirm_btn = document.getElementById('comfirm_btn_id');
+
+comfirm_btn.addEventListener('mouseover', function () {
+    addHover_comfirm(comfirm_btn);
+});
+
+comfirm_btn.addEventListener('mouseout', function () {
+    removeHover_comfirm(comfirm_btn);
+});
+
+function addHover_comfirm(comfirm_btn) {
+    console.log("hover now");
+    comfirm_btn.style.backgroundColor = "#46536f";
+}
+
+function removeHover_comfirm(comfirm_btn) {
+    console.log("nononono now");
+    if(state.comfirm_btn_bool==1){
+        comfirm_btn.style.backgroundColor = "#172950";
+    }
+    else{
+        comfirm_btn.style.backgroundColor ="#0a1327";
+    }
+}
+
+
 ////////數值獨立處理 按鈕部分///////
-
-
 
 function createValueItem(containerID) {
     const container = document.getElementById(containerID);
-    // 创建<div class="ValueItem">元素
-    const valueItem = document.createElement("div");
-    valueItem.classList.add("ValueItem");
-    valueItem.innerHTML = '：<input type="number" class="numberInput" id="numberInput1" oninput="adjustInputWidth(this)"> &le; x &le; <input type="number" class="numberInput" id="numberInput2" oninput="adjustInputWidth(this)">';
-    const comfirm_btn=document.createElement('button');
-    comfirm_btn.borderRadius="10px";
-    comfirm_btn.backgroundColor="#3498db";
-    comfirm_btn.innerHTML="confirm";
-    comfirm_btn.setAttribute('id',`comfirm_btn_id`);
-    //--------------------
-    input_val1=document.getElementById("numberInput1");
-    input_val2=document.getElementById("numberInput2");
-    //--------------------
+    const comfirm_btn=document.getElementById('comfirm_btn_id');
     
+    //----逐個檢查每個屬性是否有輸入----------------
+    length_val1=document.getElementById("Input_length_1");
+    length_val2=document.getElementById("Input_length_2");
+    width_val1=document.getElementById("Input_width_1");
+    width_val2=document.getElementById("Input_width_2");
+    radius_val1=document.getElementById("Input_radius_1");
+    radius_val2=document.getElementById("Input_radius_2");
+    temp_val1=document.getElementById("Input_temp_1");
+    temp_val2=document.getElementById("Input_temp_2");
+    //--------------------
+    //comfirm_btn.addEventListener('mouseover', addHover_comfirm(comfirm_btn));
+    //comfirm_btn.addEventListener('mouseout', removeHover_comfirm(comfirm_btn));
     comfirm_btn.onclick = function() {
-        getInputValue(numberInput1, numberInput2); // 從前端拿到 numberInput1 和 numberInput2 作為參數
-        correct_input_bool=getInputValue(numberInput1, numberInput2);
-        if(correct_input_bool==0&&comfirm_btn.innerHTML=="confirm"){
-            console.log("error");
+        //console.log("state.comfirm_btn_bool:", state.comfirm_btn_bool);
+        let at_least_one_bool = 0;
+    
+        function checkAndExecute() {
+            if (at_least_one_bool === 0 && state.comfirm_btn_bool === 1) {
+                console.log("error");
+                //confirm的按鍵就不用改成cancel
+            } else {
+                input_toggle(comfirm_btn);
+            }
+            if (at_least_one_bool) {
+                console.log("有進來");
+                makeSearchContent();
+            }
         }
-        else {
-            console.log("toggle now");
-            console.log(state.comfirm_btn_bool)
-            input_toggle(comfirm_btn)
+    
+        function processOption(value1, value2, label, api) {
+            return new Promise((resolve, reject) => {
+                if (getInputValue(value1, value2)) {
+                    getSelectedOption(value1, value2, label, api)
+                        .then(() => {
+                            at_least_one_bool = 1;
+                            resolve();
+                        })
+                        .catch(error => {
+                            console.error("Error while processing option:", error);
+                            reject(); // 這裡使用reject處理錯誤
+                        });
+                } else {
+                    resolve();
+                }
+            });
         }
-        if(correct_input_bool){
-            getSelectedOption(numberInput1, numberInput2,SelectAllAPI);//呼叫後端查詢並編碼
-        }
+        const promises = [
+            processOption(length_val1, length_val2, "管柱條件_長", SelectAllAPI),
+            processOption(width_val1, width_val2, "管柱條件_寬", SelectAllAPI),
+            processOption(radius_val1, radius_val2, "管柱條件_粒徑", SelectAllAPI),
+            processOption(temp_val1, temp_val2, "管柱條件_管柱溫度", SelectAllAPI)
+        ];
+    
+        Promise.all(promises)
+            .then(() => {
+                // 在這裡確保所有 get_Num_Data 完成後，再執行 checkAndExecute();
+                // 可以在這裡加上需要的延遲時間，以確保所有非同步操作完成
+                setTimeout(() => {
+                    checkAndExecute();
+                }, 500); // 假設這裡等待1秒後再執行 makeSearchContent
+            })
+            .catch(error => {
+                console.error("Error in Promise.all:", error);
+            });
     };
-    container.appendChild(valueItem);
     container.appendChild(comfirm_btn);
 }
 createValueItem("Math_subCardWrapper");
-
 Ex_subCardName = [['萃取溶劑',[]]];
 Cl_subCardName = [['管柱條件_廠牌',[]], ['管柱條件_型號',[]]];
 Ch_subCardName = [['層析條件_Mobile_phase_A',[]], ['層析條件_Mobile_phase_B',[]]];
@@ -335,11 +397,6 @@ function createSubCard(containerID, Names){
         for (let i = 0; i < element[1].length; i++){
             ele = element[1][i];
             if (typeof ele === 'number') {//創一個輸入框，並且這個itemNames的array項目只有一個
-                // createValueItem(ItemsWrapper.id)
-                // const valueItem = document.createElement("div");
-                // valueItem.classList.add("ValueItem");
-                // valueItem.innerHTML = '：<input type="number" class="numberInput" oninput="adjustInputWidth(this)"> &le; x &le; <input type="number" class="numberInput" oninput="adjustInputWidth(this)">';
-                // ItemsWrapper.appendChild(valueItem);//輸入數值被獨立出來了
                 break;
             } else {//對多個名稱選項創ChoiceItem
                 const Item = document.createElement('div');
@@ -429,17 +486,11 @@ function getInputValue(input_object1,input_object2){
 }
 
 //-----------------------------------------------------
-function getSelectedOption(upper_limit,lower_limit,SelectAllAPI) {
-    const selectElement = document.getElementById("selectOption");
-    const selectedOption = selectElement.options[selectElement.selectedIndex];
-    const optionId = selectedOption.id;
-    const optionText = selectedOption.text;
-    //console.log("選取的 ID：", optionId);
-    const optionValue = selectedOption.value;
-    get_Num_Data(optionId,upper_limit,lower_limit,SelectAllAPI);
+async function getSelectedOption(upper_limit,lower_limit,selected_ID,SelectAllAPI) {
+    await get_Num_Data(selected_ID,upper_limit,lower_limit,SelectAllAPI);
 }
 //---------------篩選符合條件的對象----------------
-function get_Num_Data(target_attr,lower_limit,upper_limit,url){ axios(url).then((res)=>{
+async function get_Num_Data(target_attr,lower_limit,upper_limit,url){ axios(url).then((res)=>{
     const upper_int = parseInt(upper_limit.value);
     const lower_int = parseInt(lower_limit.value);
     var data = res.data.filter(item => {
@@ -448,17 +499,14 @@ function get_Num_Data(target_attr,lower_limit,upper_limit,url){ axios(url).then(
             return attrValue;
         }
     });
-    //const valuesArray = `${data.藥材ID.toString().padStart(2, '0')}${data.資料來源ID.toString().padStart(3, '0')}${data.樣品編號ID.toString().padStart(3, '0')}`;
+    state.result_num=[];//先清空在放新東西
     data.forEach(element => {
         state.result_num.push(`${element.藥材ID.toString().padStart(2, '0')}${element.資料來源ID.toString().padStart(3, '0')}${element.樣品編號ID.toString().padStart(3, '0')}`);
     });
-    med_ID=data.map(item => item['藥材ID']);
-    info_ID=data.map(item => item['資料來源ID']);
-    sample_ID=data.map(item => item['樣品編號ID']);
-    //console.log("here",data);
-    //console.log("result",state.result_num);
-    filterObj.addOption(`comfirm_btn_id`,state.result_num, true);
-    toggleOption(`comfirm_btn_id`);
+    filterObj.addOption(target_attr+upper_limit.value+"_"+lower_limit.value,state.result_num);
+    optionState[target_attr+upper_limit.value+"_"+lower_limit.value] = !optionState[target_attr+upper_limit.value+"_"+lower_limit.value];
+    //console.log("get_num的optionState",optionState)
+    console.log(target_attr+upper_limit.value+"_"+lower_limit.value," ",state.result_num);
     });
 }
 //-----------用來記錄目前是取交集還是聯集-------------

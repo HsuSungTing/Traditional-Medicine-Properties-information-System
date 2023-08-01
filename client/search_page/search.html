@@ -48,7 +48,7 @@
             <div id="Ex_cardName" class="cardName" onclick="DownExpand(0)" clicked="false"><!--萃取條件條件名 levle 3-->
               萃取條件
             </div>
-            <div id="Ex_subCardWrapper" class="subCardWrapper"><!--萃取條件子項目卡片容器 levle 4-->>
+            <div id="Ex_subCardWrapper" class="subCardWrapper"><!--萃取條件子項目卡片容器 levle 4-->
 
             </div>       
           </div>
@@ -57,7 +57,7 @@
             <div id="Cl_cardName" class="cardName" onclick="DownExpand(1)" clicked="false"><!--管柱條件條件名 levle 3-->
               管柱條件
             </div>
-            <div id="Cl_subCardWrapper" class="subCardWrapper"><!--管柱條件子項目卡片容器 levle 4-->>
+            <div id="Cl_subCardWrapper" class="subCardWrapper"><!--管柱條件子項目卡片容器 levle 4-->
 
             </div>
           </div>
@@ -66,7 +66,7 @@
             <div id="Ch_cardName" class="cardName" onclick="DownExpand(2)" clicked="false"><!--層析條件條件名 levle 3-->
               層析條件
             </div>
-            <div id="Ch_subCardWrapper" class="subCardWrapper"><!--層析條件子項目卡片容器 levle 4-->>
+            <div id="Ch_subCardWrapper" class="subCardWrapper"><!--層析條件子項目卡片容器 levle 4-->
 
             </div>
           </div>
@@ -74,15 +74,33 @@
             <div id="Math_cardName" class="cardName" onclick="DownExpand(3)" clicked="false"><!--數值處理條件名 levle 3-->
               數值選項
             </div>
-            <div id="Math_subCardWrapper" class="subCardWrapper"><!--數值處理子項目卡片容器 levle 4-->>
-              <select id="selectOption">
-                <option>請選擇欲篩選的屬性與數值</option>
-                <option id="管柱條件_長">管柱條件 長(cm)</option>
-                <option id="管柱條件_寬">管柱條件 寬(cm)</option>
-                <option id="管柱條件_粒徑">管柱條件 粒徑(mm)</option>
-                <option id="管柱條件_溫度">管柱條件 溫度(度C)</option>
-              </select>
-              <!-- <button>comfirm</button> -->
+            <div id="Math_subCardWrapper" class="subCardWrapper"><!--數值處理子項目卡片容器 levle 4-->
+              <div class="allvalueItem">
+                <div id="valueItem">
+                  <div class="Math_attr">管柱條件 長(mm)</div>
+                  <input type="number" class="numberInput" id="Input_length_1"> &le; x &le; 
+                  <input type="number" class="numberInput" id="Input_length_2">
+                  <button id="comfirm_btn_id">confirm</button>
+                </div>
+
+                <div id="valueItem">
+                  <div class="Math_attr">管柱條件 寬(mm)</div>
+                  <input type="number" class="numberInput" id="Input_width_1"> &le; x &le; 
+                  <input type="number" class="numberInput" id="Input_width_2">
+                </div>
+
+                <div id="valueItem">
+                  <div class="Math_attr">管柱條件 粒徑(um)</div>
+                  <input type="number" class="numberInput" id="Input_radius_1"> &le; x &le; 
+                  <input type="number" class="numberInput" id="Input_radius_2">
+                </div>
+
+                <div id="valueItem">  
+                  <div class="Math_attr">管柱條件 溫度(C)</div>
+                  <input type="number" class="numberInput" id="Input_temp_1"> &le; x &le; 
+                  <input type="number" class="numberInput" id="Input_temp_2">
+                </div>
+              </div>
             </div>
             
           </div>
