@@ -2,7 +2,8 @@ const OptionGeneratorAPI = "http://localhost:8002/option?Attribute=";
 const FilterResultAPI = "http://localhost:8002/filter_result";
 const OptionSearchResultAPI = "http://localhost:8002/option_search_result";
 //-----------------------------------
-const SelectAllAPI="http://localhost:5000/getMedicineSource";//選取表四
+const SelectAllSampleAPI="http://localhost:5000/getMedicineSource";//選取表四
+const SelectAllStandardAPI="http://localhost:5000/getStandardSource";//選取表五
 
 //點選的篩選
 class Filter {
@@ -14,7 +15,6 @@ class Filter {
     addOption(tag, result, IsSample) {
         if(IsSample) this.sampleOptions[tag] = new Set(result);
         else  this.standarOptions[tag] = new Set(result);
-           
     }
 
     filter(selectedTags) {
@@ -72,12 +72,9 @@ class Filter {
         for (const item of standarIntersect) {
             intersectionSet.add(item);
         }
-  
-        
         return intersectionSet;
     }
     
-
     show() {
         console.log("Current filter options:");
         console.log(this.sampleOptions);
@@ -94,7 +91,7 @@ function toggleOption(optionId) {
     // 進行篩選
     makeSearchContent();
 }
-function makeSearchContent(){
+function makeSearchContent(){//在這裡會分辨現在被選到的tag需要輸出標準品或樣品
     const selectedTags = [];
     for (const optionId in optionState) {
         if (optionState[optionId] === true) {
@@ -102,12 +99,14 @@ function makeSearchContent(){
         }
     }
     //取聯集或交集
+    console.log("目前selectedTags:",selectedTags);
     if(union_bool_state.union_bool){//交集
         result = filterObj.filter_intersect(selectedTags);
     }else{
         result = filterObj.filter(selectedTags);
     }
-    console.log(result);
+    
+    console.log("makeSearchContent()中的:",result);
     parentDiv = document.getElementById("page-content");
     while (parentDiv.firstChild) {
         parentDiv.removeChild(parentDiv.firstChild);
@@ -177,7 +176,7 @@ function DownExpand(expandId) {
 
     if (btn.clicked) {
         content.style.display = 'none';// 隐藏内容
-        btn.style.backgroundColor='rgb(228, 239, 239)';
+        btn.style.backgroundColor='rgb(228, 241, 241)';
         btn.style.color = 'black';
         btn.clicked = false;
     } else {
@@ -204,14 +203,16 @@ function adjustInputWidth(input) {
 ////////數值獨立處理 按鈕部分///////
 function input_toggle(comfirm_btn){
     if(state.comfirm_btn_bool==0){
-        comfirm_btn.innerHTML="confirm";
-        comfirm_btn.style.backgroundColor = "#172950";
+        comfirm_btn.innerHTML="確定";
+        comfirm_btn.style.backgroundColor = "rgb(170, 170, 170)";
+        comfirm_btn.style.color="#ffffff"
         state.comfirm_btn_bool=1;
         state.result_num=[];
     }
     else {
-        comfirm_btn.innerHTML="cancel";
-        comfirm_btn.style.backgroundColor = "#0a1327";
+        comfirm_btn.innerHTML="取消";
+        comfirm_btn.style.color="white"
+        comfirm_btn.style.backgroundColor = "gray";
         state.comfirm_btn_bool=0;
     }
 }
@@ -233,27 +234,24 @@ comfirm_btn.addEventListener('mouseout', function () {
 });
 
 function addHover_comfirm(comfirm_btn) {
-    console.log("hover now");
-    comfirm_btn.style.backgroundColor = "#46536f";
+    comfirm_btn.style.backgroundColor = "rgb(91, 91, 95)";
 }
 
 function removeHover_comfirm(comfirm_btn) {
-    console.log("nononono now");
     if(state.comfirm_btn_bool==1){
-        comfirm_btn.style.backgroundColor = "#172950";
+        comfirm_btn.style.backgroundColor = "rgb(170, 170, 170)";
     }
     else{
-        comfirm_btn.style.backgroundColor ="#0a1327";
+        comfirm_btn.style.backgroundColor ="gray";
     }
 }
-
-
 ////////數值獨立處理 按鈕部分///////
 
 function createValueItem(containerID) {
     const container = document.getElementById(containerID);
     const comfirm_btn=document.getElementById('comfirm_btn_id');
-    
+    const sampleBtn=document.getElementById("sample-btn");
+    const standarBtn=document.getElementById("standar-btn");
     //----逐個檢查每個屬性是否有輸入----------------
     length_val1=document.getElementById("Input_length_1");
     length_val2=document.getElementById("Input_length_2");
@@ -264,16 +262,11 @@ function createValueItem(containerID) {
     temp_val1=document.getElementById("Input_temp_1");
     temp_val2=document.getElementById("Input_temp_2");
     //--------------------
-    //comfirm_btn.addEventListener('mouseover', addHover_comfirm(comfirm_btn));
-    //comfirm_btn.addEventListener('mouseout', removeHover_comfirm(comfirm_btn));
     comfirm_btn.onclick = function() {
-        //console.log("state.comfirm_btn_bool:", state.comfirm_btn_bool);
         let at_least_one_bool = 0;
-    
         function checkAndExecute() {
             if (at_least_one_bool === 0 && state.comfirm_btn_bool === 1) {
                 console.log("error");
-                //confirm的按鍵就不用改成cancel
             } else {
                 input_toggle(comfirm_btn);
             }
@@ -283,10 +276,10 @@ function createValueItem(containerID) {
             }
         }
     
-        function processOption(value1, value2, label, api) {
+        function processOption(value1, value2, label, api,is_sample_bool) {
             return new Promise((resolve, reject) => {
                 if (getInputValue(value1, value2)) {
-                    getSelectedOption(value1, value2, label, api)
+                    getSelectedOption(value1, value2, label, api,is_sample_bool)
                         .then(() => {
                             at_least_one_bool = 1;
                             resolve();
@@ -300,11 +293,16 @@ function createValueItem(containerID) {
                 }
             });
         }
-        const promises = [
-            processOption(length_val1, length_val2, "管柱條件_長", SelectAllAPI),
-            processOption(width_val1, width_val2, "管柱條件_寬", SelectAllAPI),
-            processOption(radius_val1, radius_val2, "管柱條件_粒徑", SelectAllAPI),
-            processOption(temp_val1, temp_val2, "管柱條件_管柱溫度", SelectAllAPI)
+        let promises = [
+            processOption(length_val1, length_val2, "管柱條件_長", SelectAllSampleAPI,1),
+            processOption(width_val1, width_val2, "管柱條件_寬", SelectAllSampleAPI,1),
+            processOption(radius_val1, radius_val2, "管柱條件_粒徑", SelectAllSampleAPI,1),
+            processOption(temp_val1, temp_val2, "管柱條件_管柱溫度", SelectAllSampleAPI,1),
+                    
+            processOption(length_val1, length_val2, "管柱條件_長", SelectAllStandardAPI,0),
+            processOption(width_val1, width_val2, "管柱條件_寬", SelectAllStandardAPI,0),
+            processOption(radius_val1, radius_val2, "管柱條件_粒徑", SelectAllStandardAPI,0),
+            processOption(temp_val1, temp_val2, "管柱條件_管柱溫度", SelectAllStandardAPI,0)
         ];
     
         Promise.all(promises)
@@ -433,7 +431,6 @@ function findFilterResult(tag,parent, IsSample){
             filterObj.addOption(tag,res.data,IsSample);
         });
     }
-    
 }
 
 function makeContent(result){//此result已經是選定出來的資料了
@@ -447,7 +444,6 @@ function makeContent(result){//此result已經是選定出來的資料了
                 const div_card = document.createElement('div');
                 div_card.classList.add("herb");
                 //div_card.setAttribute('id',`Card_${element.藥名}_${element.資料來源ID}_${element.樣品編號ID}`)
-        
                 const image = document.createElement('img');
                 image.classList.add("herb-img");
                 const title = document.createElement('p');
@@ -465,8 +461,6 @@ function makeContent(result){//此result已經是選定出來的資料了
                     title.innerHTML = `<font>${element.標準品名稱}_${element.標準品編號ID}</font>`;
                     link.href = `../standar_page/standar.html?stanId=${element.標準品編號ID}`//尚須更改standar page才能修改這裡
                 }else console.log("source error the source is "+element);
-                
-
                 
                 link.appendChild(image);
                 div_card.appendChild(link);
@@ -486,32 +480,48 @@ function getInputValue(input_object1,input_object2){
 }
 
 //-----------------------------------------------------
-async function getSelectedOption(upper_limit,lower_limit,selected_ID,SelectAllAPI) {
-    await get_Num_Data(selected_ID,upper_limit,lower_limit,SelectAllAPI);
+async function getSelectedOption(upper_limit,lower_limit,selected_ID,SelectAllAPI,is_sample_bool) {
+    await get_Num_Data(selected_ID,upper_limit,lower_limit,SelectAllAPI,is_sample_bool);
 }
 //---------------篩選符合條件的對象----------------
-async function get_Num_Data(target_attr,lower_limit,upper_limit,url){ axios(url).then((res)=>{
+async function get_Num_Data(target_attr,lower_limit,upper_limit,url,is_sample_bool){ axios(url).then((res)=>{
     const upper_int = parseInt(upper_limit.value);
     const lower_int = parseInt(lower_limit.value);
+    console.log("target_attr",target_attr);
     var data = res.data.filter(item => {
         const attrValue = parseInt(item[target_attr]);
         if(attrValue >= lower_int&& attrValue <= upper_int){
             return attrValue;
         }
     });
-    state.result_num=[];//先清空在放新東西
-    data.forEach(element => {
-        state.result_num.push(`${element.藥材ID.toString().padStart(2, '0')}${element.資料來源ID.toString().padStart(3, '0')}${element.樣品編號ID.toString().padStart(3, '0')}`);
-    });
-    filterObj.addOption(target_attr+upper_limit.value+"_"+lower_limit.value,state.result_num);
-    optionState[target_attr+upper_limit.value+"_"+lower_limit.value] = !optionState[target_attr+upper_limit.value+"_"+lower_limit.value];
-    //console.log("get_num的optionState",optionState)
+    console.log("selected data",data);
+    state.result_num=[];//先清空，再放新東西
+    //分別建立local資料表
+    console.log("is_sample_bool: ",is_sample_bool);
+    if(is_sample_bool==1){
+        data.forEach(element => {
+            state.result_num.push(`${element.藥材ID.toString().padStart(2, '0')}${element.資料來源ID.toString().padStart(3, '0')}${element.樣品編號ID.toString().padStart(3, '0')}`);
+        });
+        filterObj.addOption(target_attr+upper_limit.value+"_"+lower_limit.value, state.result_num, true);
+        if(state.comfirm_btn_bool==1){//加入搜尋
+            optionState[target_attr+upper_limit.value+"_"+lower_limit.value] = true;
+        }
+        else{
+            optionState[target_attr+upper_limit.value+"_"+lower_limit.value] = false;
+        }
+    }
+    else{
+        data.forEach(element => {
+            state.result_num.push(`${element.標準品編號ID.toString().padStart(3, '0')}`);
+            filterObj.addOption(target_attr+upper_limit.value+"_"+lower_limit.value, state.result_num, false);
+        });
+    }
     console.log(target_attr+upper_limit.value+"_"+lower_limit.value," ",state.result_num);
     });
 }
 //-----------用來記錄目前是取交集還是聯集-------------
 let union_bool_state={
-    union_bool:1 //預設是取聯集，
+    union_bool:1 //預設是取聯集
 }
 function union_toggle(){
     if(union_bool_state.union_bool){
@@ -589,4 +599,3 @@ function sampleORstandar(ssId) {
 
     makeSearchContent();
 }
-
