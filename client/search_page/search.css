@@ -1,4 +1,8 @@
 /* 側邊欄的樣式 */
+body{
+  font-weight: bold;
+  font-family: "微軟正黑體", "Microsoft JhengHei", sans-serif;
+}
 .sidebar {/*level 1*/
   /*height: 500px;*/
   height:85%;
@@ -284,15 +288,15 @@ padding: 10px 20px;
   
 }
 #comfirm_btn_id{
-  border-color: #a09595;
   width: fit-content;
   height: fit-content;
   padding: 10px;
   border-radius: 5px;
-  color: #fff;
-  background-color: #04205e;
+  color: #ffffff;
+  background-color: rgb(170, 170, 170);
   margin: 0px 0px 0px 30px;
   font-weight: bolder;
+  border-color: white;
 }
 
 .allvalueItem{
@@ -307,6 +311,6 @@ padding: 10px 20px;
   margin-right: 5PX;
   border-radius: 5px;
   font-weight: bolder;
-  background-color: rgb(114, 86, 34);
-  color: #e4dfdf;
+  background-color: rgb(245, 209, 143);
+  color: #716666;
 }
