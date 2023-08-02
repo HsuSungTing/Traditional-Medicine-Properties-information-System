@@ -188,17 +188,7 @@ function DownExpand(expandId) {
 }
 ////////三個條件的按鈕事件處理///////
 
-////////處理數值輸入框設定//////
-function adjustInputWidth(input) {
-    const valueLength = input.value.length;
-    const minWidth = 30; // 设置输入框的最小宽度
-    const maxWidth = 150; // 设置输入框的最大宽度
-    const charWidth = 15; // 设置一个字符的宽度（根据具体情况调整）
 
-    // 根据输入的数字个数计算输入框的宽度
-    const newWidth = Math.min(Math.max(valueLength * charWidth, minWidth), maxWidth);
-    input.style.width = newWidth + "px";
-}
 
 ////////數值獨立處理 按鈕部分///////
 function input_toggle(comfirm_btn){
@@ -221,6 +211,7 @@ let state = {//用來控制confrim button
     comfirm_btn_bool: 1,
     result_num:[]
 };
+
 //////控制confirm btn顏色/////////////
 ////只好把confirnbtn變成全域變數//////
 const comfirm_btn = document.getElementById('comfirm_btn_id');
@@ -298,7 +289,7 @@ function createValueItem(containerID) {
             processOption(width_val1, width_val2, "管柱條件_寬", SelectAllSampleAPI,1),
             processOption(radius_val1, radius_val2, "管柱條件_粒徑", SelectAllSampleAPI,1),
             processOption(temp_val1, temp_val2, "管柱條件_管柱溫度", SelectAllSampleAPI,1),
-                    
+            
             processOption(length_val1, length_val2, "管柱條件_長", SelectAllStandardAPI,0),
             processOption(width_val1, width_val2, "管柱條件_寬", SelectAllStandardAPI,0),
             processOption(radius_val1, radius_val2, "管柱條件_粒徑", SelectAllStandardAPI,0),
@@ -598,4 +589,16 @@ function sampleORstandar(ssId) {
     updateStyle("standar-btn");
 
     makeSearchContent();
+}
+////調整數值輸入框////////////
+let num_input_array = Array.from(document.getElementsByClassName("numberInput"));
+num_input_array.forEach(ele=>{
+    ele.addEventListener("input", () => resizeInput(ele));
+})
+
+function resizeInput(input_obj) {
+    console.log("input now",input_obj.value.length);
+    const valueLength = input_obj.value.length;
+    newWidth=Math.min(Math.max(valueLength * 15, 30), 60);
+    input_obj.style.width=newWidth + "px";
 }
