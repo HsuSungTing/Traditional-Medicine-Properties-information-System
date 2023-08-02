@@ -17,5 +17,10 @@ router.get('/getMedicineSource', function (req, res, next) {
         res.send(result.recordset)
     });
 });
-
+//全選表五
+router.get('/getStandardSource', function (req, res, next) {
+    db.selectAll("標準品數據表", function (err, result) {//查询所有
+        res.send(result.recordset)
+    });
+});
 module.exports = router;
