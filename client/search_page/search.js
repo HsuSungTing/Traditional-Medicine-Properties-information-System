@@ -241,8 +241,6 @@ function removeHover_comfirm(comfirm_btn) {
 function createValueItem(containerID) {
     const container = document.getElementById(containerID);
     const comfirm_btn=document.getElementById('comfirm_btn_id');
-    const sampleBtn=document.getElementById("sample-btn");
-    const standarBtn=document.getElementById("standar-btn");
     //----逐個檢查每個屬性是否有輸入----------------
     length_val1=document.getElementById("Input_length_1");
     length_val2=document.getElementById("Input_length_2");
@@ -267,10 +265,10 @@ function createValueItem(containerID) {
             }
         }
     
-        function processOption(value1, value2, label, api,is_sample_bool) {
+        function processOption(value1, value2, label) {
             return new Promise((resolve, reject) => {
                 if (getInputValue(value1, value2)) {
-                    getSelectedOption(value1, value2, label, api,is_sample_bool)
+                    getSelectedOption(value1, value2, label)
                         .then(() => {
                             at_least_one_bool = 1;
                             resolve();
@@ -285,15 +283,10 @@ function createValueItem(containerID) {
             });
         }
         let promises = [
-            processOption(length_val1, length_val2, "管柱條件_長", SelectAllSampleAPI,1),
-            processOption(width_val1, width_val2, "管柱條件_寬", SelectAllSampleAPI,1),
-            processOption(radius_val1, radius_val2, "管柱條件_粒徑", SelectAllSampleAPI,1),
-            processOption(temp_val1, temp_val2, "管柱條件_管柱溫度", SelectAllSampleAPI,1),
-            
-            processOption(length_val1, length_val2, "管柱條件_長", SelectAllStandardAPI,0),
-            processOption(width_val1, width_val2, "管柱條件_寬", SelectAllStandardAPI,0),
-            processOption(radius_val1, radius_val2, "管柱條件_粒徑", SelectAllStandardAPI,0),
-            processOption(temp_val1, temp_val2, "管柱條件_管柱溫度", SelectAllStandardAPI,0)
+            processOption(length_val1, length_val2, "管柱條件_長"),
+            processOption(width_val1, width_val2, "管柱條件_寬"),
+            processOption(radius_val1, radius_val2, "管柱條件_粒徑"),
+            processOption(temp_val1, temp_val2, "管柱條件_管柱溫度")
         ];
     
         Promise.all(promises)
@@ -470,9 +463,10 @@ function getInputValue(input_object1,input_object2){
     return correct_input_bool;
 }
 
-//-----------------------------------------------------
-async function getSelectedOption(upper_limit,lower_limit,selected_ID,SelectAllAPI,is_sample_bool) {
-    await get_Num_Data(selected_ID,upper_limit,lower_limit,SelectAllAPI,is_sample_bool);
+//--------------同時選好藥品和標準品---------------------------------------
+async function getSelectedOption(upper_limit,lower_limit,selected_ID) {
+    await get_Num_Data(selected_ID,upper_limit,lower_limit,SelectAllSampleAPI,1);
+    await get_Num_Data(selected_ID,upper_limit,lower_limit,SelectAllStandardAPI,0);
 }
 //---------------篩選符合條件的對象----------------
 async function get_Num_Data(target_attr,lower_limit,upper_limit,url,is_sample_bool){ axios(url).then((res)=>{
