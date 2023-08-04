@@ -191,21 +191,29 @@ function DownExpand(expandId) {
 
 
 ////////數值獨立處理 按鈕部分///////
-function input_toggle(comfirm_btn){
+function input_toggle(comfirm_btn,num_input_array){
     if(state.comfirm_btn_bool==0){
         comfirm_btn.innerHTML="確定";
         comfirm_btn.style.backgroundColor = "rgb(170, 170, 170)";
         comfirm_btn.style.color="#ffffff"
         state.comfirm_btn_bool=1;
         state.result_num=[];
+        num_input_array.forEach(element => {
+            element.removeAttribute('disabled');
+        });
     }
     else {
         comfirm_btn.innerHTML="取消";
         comfirm_btn.style.color="white"
         comfirm_btn.style.backgroundColor = "gray";
         state.comfirm_btn_bool=0;
+        num_input_array.forEach(element => {
+            element.setAttribute('disabled', 'true');
+        });
+        
     }
 }
+
 
 let state = {//用來控制confrim button
     comfirm_btn_bool: 1,
@@ -239,6 +247,7 @@ function removeHover_comfirm(comfirm_btn) {
 ////////數值獨立處理 按鈕部分///////
 
 function createValueItem(containerID) {
+    let num_input_array = Array.from(document.getElementsByClassName("numberInput"));
     const container = document.getElementById(containerID);
     const comfirm_btn=document.getElementById('comfirm_btn_id');
     //----逐個檢查每個屬性是否有輸入----------------
@@ -250,14 +259,17 @@ function createValueItem(containerID) {
     radius_val2=document.getElementById("Input_radius_2");
     temp_val1=document.getElementById("Input_temp_1");
     temp_val2=document.getElementById("Input_temp_2");
+    wave_val1=document.getElementById("Input_wave_1");
+    wave_val2=document.getElementById("Input_wave_2");
     //--------------------
     comfirm_btn.onclick = function() {
         let at_least_one_bool = 0;
         function checkAndExecute() {
             if (at_least_one_bool === 0 && state.comfirm_btn_bool === 1) {
                 console.log("error");
-            } else {
-                input_toggle(comfirm_btn);
+            } 
+            else {
+                input_toggle(comfirm_btn,num_input_array);
             }
             if (at_least_one_bool) {
                 console.log("有進來");
@@ -286,7 +298,8 @@ function createValueItem(containerID) {
             processOption(length_val1, length_val2, "管柱條件_長"),
             processOption(width_val1, width_val2, "管柱條件_寬"),
             processOption(radius_val1, radius_val2, "管柱條件_粒徑"),
-            processOption(temp_val1, temp_val2, "管柱條件_管柱溫度")
+            processOption(temp_val1, temp_val2, "管柱條件_管柱溫度"),
+            processOption(wave_val1, wave_val2, "層析條件_Detection_wavelength_nm"),
         ];
     
         Promise.all(promises)
@@ -303,6 +316,7 @@ function createValueItem(containerID) {
     };
     container.appendChild(comfirm_btn);
 }
+
 createValueItem("Math_subCardWrapper");
 Ex_subCardName = [['萃取溶劑',[]]];
 Cl_subCardName = [['管柱條件_廠牌',[]], ['管柱條件_型號',[]]];
@@ -327,8 +341,8 @@ function optionGenerator(subCardName, max){
                 res.data.forEach(element => {
                     //options.push(element[condition[0]])
                     if(element[condition[0]]===null){//之後再改= =
-                        if(condition[1].length>=1) condition[1][0]=1;
-                        else condition[1].push(1);
+                        // if(condition[1].length>=1) condition[1][0]=1;
+                        // else condition[1].push(1);
                     }else{
                         condition[1].push(element[condition[0]]);
                     }
@@ -375,24 +389,19 @@ function createSubCard(containerID, Names){
         const ItemsWrapper = document.createElement('div');
         ItemsWrapper.classList.add('ChoiceItemsWrapper');
         ItemsWrapper.id = element[0]+"_ItemsWrapper";
-        
         for (let i = 0; i < element[1].length; i++){
             ele = element[1][i];
-            if (typeof ele === 'number') {//創一個輸入框，並且這個itemNames的array項目只有一個
-                break;
-            } else {//對多個名稱選項創ChoiceItem
-                const Item = document.createElement('div');
-                Item.classList.add('ChoiceItem');
-                Item.textContent = ele;
-                Item.id = "option_"+ele;
-                findFilterResult(Item.id,element[0], true);
-                findFilterResult(Item.id,element[0], false);//生成standar result
-                optionState[Item.id] = false;
-                Item.clicked = false;
-                Item.onclick = function(){toggleOption(Item.id);};
-                setHoverStyle(Item);
-                ItemsWrapper.appendChild(Item);
-            }
+            const Item = document.createElement('div');
+            Item.classList.add('ChoiceItem');
+            Item.textContent = ele;
+            Item.id = "option_"+ele;
+            findFilterResult(Item.id,element[0], true);
+            findFilterResult(Item.id,element[0], false);//生成standar result
+            optionState[Item.id] = false;
+            Item.clicked = false;
+            Item.onclick = function(){toggleOption(Item.id);};
+            setHoverStyle(Item);
+            ItemsWrapper.appendChild(Item);
         }
         subCard.appendChild(cardName);
         subCard.appendChild(ItemsWrapper);
@@ -463,7 +472,7 @@ function getInputValue(input_object1,input_object2){
     return correct_input_bool;
 }
 
-//--------------同時選好藥品和標準品---------------------------------------
+//-----------------------------------------------------
 async function getSelectedOption(upper_limit,lower_limit,selected_ID) {
     await get_Num_Data(selected_ID,upper_limit,lower_limit,SelectAllSampleAPI,1);
     await get_Num_Data(selected_ID,upper_limit,lower_limit,SelectAllStandardAPI,0);
@@ -504,6 +513,7 @@ async function get_Num_Data(target_attr,lower_limit,upper_limit,url,is_sample_bo
     console.log(target_attr+upper_limit.value+"_"+lower_limit.value," ",state.result_num);
     });
 }
+
 //-----------用來記錄目前是取交集還是聯集-------------
 let union_bool_state={
     union_bool:1 //預設是取聯集
