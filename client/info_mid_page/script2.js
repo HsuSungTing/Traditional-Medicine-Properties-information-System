@@ -44,10 +44,10 @@ function select(url){ axios(url).then((res)=>{
         var herb_attribute = data.map(item => item['性味與歸經']);
         //---------------------------------------------------
         var herb_effect_Container=document.getElementById('herb_effect')
-        var herb_effect = data.map(item => item['含量']);
+        var herb_effect = data.map(item => item['效能']);
         //---------------------------------------------------
         var herb_use_amount_Container=document.getElementById('herb_use_amount')
-        var herb_use_amount = data.map(item => item['用途分類']);
+        var herb_use_amount = data.map(item => item['用法與用量']);
         //---------------------------------------------------
         var herb_storage_Container=document.getElementById('herb_storage')
         var herb_storage = data.map(item => item['貯藏法']);
