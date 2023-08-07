@@ -304,6 +304,9 @@ padding: 10px 20px;
   flex-direction: column;
   flex-wrap: wrap;
 }
+.numberInput {
+  width: 45px;
+}
 .Math_attr{
   width: 200px;
   height: fit-content;
