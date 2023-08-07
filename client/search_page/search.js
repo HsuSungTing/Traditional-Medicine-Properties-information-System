@@ -1,3 +1,4 @@
+
 const OptionGeneratorAPI = "http://localhost:8002/option?Attribute=";
 const FilterResultAPI = "http://localhost:8002/filter_result";
 const OptionSearchResultAPI = "http://localhost:8002/option_search_result";
@@ -295,11 +296,11 @@ function createValueItem(containerID) {
             });
         }
         let promises = [
-            processOption(length_val1, length_val2, "管柱條件_長"),
-            processOption(width_val1, width_val2, "管柱條件_寬"),
-            processOption(radius_val1, radius_val2, "管柱條件_粒徑"),
-            processOption(temp_val1, temp_val2, "管柱條件_管柱溫度"),
-            processOption(wave_val1, wave_val2, "層析條件_Detection_wavelength_nm"),
+            processOption(length_val1, length_val2, "SS_col_length"),
+            processOption(width_val1, width_val2, "SS_col_width"),
+            processOption(radius_val1, radius_val2, "SS_col_particle_size"),
+            processOption(temp_val1, temp_val2, "SS_col_temperature"),
+            processOption(wave_val1, wave_val2, "SS_ch_detect_wavelength"),
         ];
     
         Promise.all(promises)
@@ -318,9 +319,9 @@ function createValueItem(containerID) {
 }
 
 createValueItem("Math_subCardWrapper");
-Ex_subCardName = [['萃取溶劑',[]]];
-Cl_subCardName = [['管柱條件_廠牌',[]], ['管柱條件_型號',[]]];
-Ch_subCardName = [['層析條件_Mobile_phase_A',[]], ['層析條件_Mobile_phase_B',[]]];
+Ex_subCardName = [['SS_extract',[]]];
+Cl_subCardName = [['SS_col_brand',[]], ['SS_col_type',[]]];
+Ch_subCardName = [['SS_ch_mobileA',[]], ['SS_ch_mobileB',[]]];
 
 /**
  * 對subCardName做forEach condition[0]取出該屬性數量>1的選項(至多?個選項)
@@ -414,12 +415,12 @@ function createSubCard(containerID, Names){
 function findFilterResult(tag,parent, IsSample){
     Attribute = tag.replace("option_", "")
     if(IsSample){
-        url = FilterResultAPI+"?tbName=樣品數據表"+"&parent="+parent+"&attr="+Attribute;
+        url = FilterResultAPI+"?tbName=SampleData"+"&parent="+parent+"&attr="+Attribute;
         axios(url).then((res)=>{
             filterObj.addOption(tag,res.data,IsSample);
         });
     }else{
-        url = FilterResultAPI+"?tbName=標準品數據表"+"&parent="+parent+"&attr="+Attribute;
+        url = FilterResultAPI+"?tbName=StandardData"+"&parent="+parent+"&attr="+Attribute;
         axios(url).then((res)=>{
             filterObj.addOption(tag,res.data,IsSample);
         });
@@ -442,17 +443,17 @@ function makeContent(result){//此result已經是選定出來的資料了
                 const title = document.createElement('p');
                 const link = document.createElement('a');
                 if(element.source==="sample"){
-                    image.setAttribute('alt',`${element.藥名}_${element.資料來源ID}_${element.樣品編號ID}`);
-                    image.setAttribute('title',`${element.藥名}_${element.資料來源ID}_${element.樣品編號ID}`);
+                    image.setAttribute('alt',`${element.Med_name}_${element.Source_id}_${element.Sample_id}`);
+                    image.setAttribute('title',`${element.Med_name}_${element.Source_id}_${element.Sample_id}`);
                     image.src = `甘草1_1_1.png`;
-                    title.innerHTML = `<font>${element.藥名}-${element.資料來源ID}-${element.樣品編號ID}</font>`;
-                    link.href = `../leaf_page/leaf.html?herb_name=${element.藥名}&nameid=${element.藥材ID}&x=${element.資料來源ID}&y=${element.樣品編號ID}`
+                    title.innerHTML = `<font>${element.Med_name}-${element.Source_id}-${element.Sample_id}</font>`;
+                    link.href = `../leaf_page/leaf.html?herb_name=${element.Med_name}&nameid=${element.Med_id}&x=${element.Source_id}&y=${element.Sample_id}`
                 }else if(element.source==="standar"){
-                    image.setAttribute('alt',`${element.標準品名稱}_${element.標準品編號ID}`);
-                    image.setAttribute('title',`${element.標準品名稱}_${element.標準品編號ID}`);
+                    image.setAttribute('alt',`${element.Standard_name}_${element.Standard_id}`);
+                    image.setAttribute('title',`${element.Standard_name}_${element.Standard_id}`);
                     image.src = `甘草1_1_1.png`;
-                    title.innerHTML = `<font>${element.標準品名稱}_${element.標準品編號ID}</font>`;
-                    link.href = `../standar_page/standar.html?stanId=${element.標準品編號ID}`//尚須更改standar page才能修改這裡
+                    title.innerHTML = `<font>${element.Standard_name}_${element.Standard_id}</font>`;
+                    link.href = `../standar_page/standar.html?stanId=${element.Standard_id}`//尚須更改standar page才能修改這裡
                 }else console.log("source error the source is "+element);
                 
                 link.appendChild(image);
@@ -494,7 +495,7 @@ async function get_Num_Data(target_attr,lower_limit,upper_limit,url,is_sample_bo
     console.log("is_sample_bool: ",is_sample_bool);
     if(is_sample_bool==1){
         data.forEach(element => {
-            state.result_num.push(`${element.藥材ID.toString().padStart(2, '0')}${element.資料來源ID.toString().padStart(3, '0')}${element.樣品編號ID.toString().padStart(3, '0')}`);
+            state.result_num.push(`${element.Med_id.toString().padStart(2, '0')}${element.Source_id.toString().padStart(3, '0')}${element.Sample_id.toString().padStart(3, '0')}`);
         });
         filterObj.addOption(target_attr+upper_limit.value+"_"+lower_limit.value, state.result_num, true);
         if(state.comfirm_btn_bool==1){//加入搜尋
@@ -506,7 +507,7 @@ async function get_Num_Data(target_attr,lower_limit,upper_limit,url,is_sample_bo
     }
     else{
         data.forEach(element => {
-            state.result_num.push(`${element.標準品編號ID.toString().padStart(3, '0')}`);
+            state.result_num.push(`${element.Standard_id.toString().padStart(3, '0')}`);
             filterObj.addOption(target_attr+upper_limit.value+"_"+lower_limit.value, state.result_num, false);
         });
     }
