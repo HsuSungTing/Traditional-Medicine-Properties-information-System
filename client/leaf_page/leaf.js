@@ -7,10 +7,6 @@ function ref_link_block_maker(url){
     axios(url).then((res)=>{
 
         console.log(res.data);
-    
-        // const div_linkBox = document.createElement('div');
-        // div_linkBox.setAttribute('class',"link-part");
-        // div_linkBox.setAttribute('id' , "link-part");
         const div_linkBox = document.getElementById("link-part");
         const standar_link = document.createElement('a');
         standar_link.setAttribute('class', 'link-text-color');
@@ -25,16 +21,14 @@ function ref_link_block_maker(url){
         ref_text.setAttribute('style',"margin:10px;");
         
         res.data.forEach(element => {
-            if(element.資料來源ID=== Number(x)){
+            if(element.Source_id=== Number(x)){
                 //standar_link.setAttribute('href',`../standar_page/standar.html?herb_name=${herb_name}&nameid=${nameid}&x=${x}&y=${y}&stanId=${element.標準品編號ID}`);
                 standar_link.setAttribute('href',`../standar_page/standar.html?stanId=${stanId}`);
-                ref_link.setAttribute("href",`${element.資料來源連結}`);
-                ref_text.innerHTML = `${element.資料來源名稱}`;
+                ref_link.setAttribute("href",`${element.Source_link}`);
+                ref_text.innerHTML = `${element.Source_name}`;
             }
             
         });
-
-        
         div_linkBox.appendChild(standar_link);
         div_linkBox.appendChild(ref_link);
         div_linkBox.appendChild(ref_text);
@@ -49,4 +43,3 @@ document.getElementById("med_ref").setAttribute("href", `../info_mid_page/index2
 
 document.getElementById("herb-name").innerHTML = `${herb_name}`;
 document.getElementById("sample").innerHTML=`參考條件${x}-${y}`;
-
