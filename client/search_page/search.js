@@ -594,15 +594,4 @@ function sampleORstandar(ssId) {
 
     makeSearchContent();
 }
-////調整數值輸入框////////////
 let num_input_array = Array.from(document.getElementsByClassName("numberInput"));
-num_input_array.forEach(ele=>{
-    ele.addEventListener("input", () => resizeInput(ele));
-})
-
-function resizeInput(input_obj) {
-    console.log("input now",input_obj.value.length);
-    const valueLength = input_obj.value.length;
-    newWidth=Math.min(Math.max(valueLength * 15, 30), 60);
-    input_obj.style.width=newWidth + "px";
-}
