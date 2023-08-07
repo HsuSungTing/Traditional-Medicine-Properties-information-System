@@ -6,21 +6,22 @@ const router = express.Router();
 
 //let selectAll = async function (tableName, callBack) {
 router.get('/getMedicineData', function (req, res, next) {
-    db.selectAll('所有藥材資料表', function (err, result) {//查询所有
+    db.selectAll('AllMed', function (err, result) {//查询所有
         res.send(result.recordset)
     });
 });
 
 //let selectAll = async function (tableName, callBack) {
 router.get('/getMedicineSource', function (req, res, next) {
-    db.selectAll('樣品數據表', function (err, result) {//查询所有
+    db.selectAll('SampleData', function (err, result) {//查询所有
         res.send(result.recordset)
     });
 });
 //全選表五
 router.get('/getStandardSource', function (req, res, next) {
-    db.selectAll("標準品數據表", function (err, result) {//查询所有
+    db.selectAll("StandardData", function (err, result) {//查询所有
         res.send(result.recordset)
     });
 });
+
 module.exports = router;
