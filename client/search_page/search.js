@@ -378,6 +378,14 @@ Promise.resolve(filterObj)//filter object要先生成，才能進行後續的篩
     console.log(err);
 });
 
+//--------中文對應-----
+let attr_to_chinese={}
+attr_to_chinese["SS_extract"]="萃取溶劑";
+attr_to_chinese["SS_col_brand"]="管柱廠牌";
+attr_to_chinese["SS_col_type"]="管柱型號";
+attr_to_chinese["SS_ch_mobileA"]="Mobile Phase A";
+attr_to_chinese["SS_ch_mobileB"]="Mobile Phase B";
+
 function createSubCard(containerID, Names){
     const container = document.getElementById(containerID);
     Names.forEach(function(element){
@@ -385,7 +393,7 @@ function createSubCard(containerID, Names){
         
         const cardName = document.createElement('div');
         cardName.classList.add('cardName');
-        cardName.textContent = element[0];
+        cardName.textContent=attr_to_chinese[element[0]];
 
         const ItemsWrapper = document.createElement('div');
         ItemsWrapper.classList.add('ChoiceItemsWrapper');
@@ -395,9 +403,9 @@ function createSubCard(containerID, Names){
             const Item = document.createElement('div');
             Item.classList.add('ChoiceItem');
             Item.textContent = ele;
-            Item.id = "option_"+element[0]+"_"+ele;
-            findFilterResult(ele, Item.id,element[0], true);
-            findFilterResult(ele, Item.id,element[0], false);//生成standar result
+            Item.id = "option_"+ele;
+            findFilterResult(Item.id,element[0], true);
+            findFilterResult(Item.id,element[0], false);//生成standar result
             optionState[Item.id] = false;
             Item.clicked = false;
             Item.onclick = function(){toggleOption(Item.id);};
@@ -412,18 +420,17 @@ function createSubCard(containerID, Names){
 }
 
   // 添加選項tag與結果
-function findFilterResult(tag, id, parent, IsSample){
-    //Attribute = tag.replace("option_", "")
-    Attribute = tag;
+function findFilterResult(tag,parent, IsSample){
+    Attribute = tag.replace("option_", "")
     if(IsSample){
         url = FilterResultAPI+"?tbName=SampleData"+"&parent="+parent+"&attr="+Attribute;
         axios(url).then((res)=>{
-            filterObj.addOption(id,res.data,IsSample);
+            filterObj.addOption(tag,res.data,IsSample);
         });
     }else{
         url = FilterResultAPI+"?tbName=StandardData"+"&parent="+parent+"&attr="+Attribute;
         axios(url).then((res)=>{
-            filterObj.addOption(id,res.data,IsSample);
+            filterObj.addOption(tag,res.data,IsSample);
         });
     }
 }
