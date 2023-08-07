@@ -1,20 +1,27 @@
 LinkAPI = 'http://localhost:8002/ref_link';
 const urlParams = new URLSearchParams(window.location.search);
-const {herb_name, nameid, x, y } = Object.fromEntries(urlParams.entries());
+const {herb_name, nameid, x, y ,stanId} = Object.fromEntries(urlParams.entries());
 console.log([herb_name, nameid, x, y]);
+
 ref_link_block_maker(LinkAPI);
 function ref_link_block_maker(url){
     axios(url).then((res)=>{
 
         console.log(res.data);
-    
-        // const div_linkBox = document.createElement('div');
-        // div_linkBox.setAttribute('class',"link-part");
-        // div_linkBox.setAttribute('id' , "link-part");
         const div_linkBox = document.getElementById("link-part");
         const standar_link = document.createElement('a');
+        standar_link.setAttribute('id','standar_link');
         standar_link.setAttribute('class', 'link-text-color');
         standar_link.innerHTML = `<font>藥材適用標準品</font>`;
+        if(isNaN(stanId)) {// 如果 stanId 不是一個數字 用===null沒用QQ
+            standar_link.addEventListener('click', function(event) {
+            // 阻止默認的鏈接行為，以便我們可以自行控制
+                event.preventDefault();
+                alert('此樣品無對應之標準品');
+            });
+        } else {
+            standar_link.setAttribute('href',`../standar_page/standar.html?stanId=${stanId}`);                    
+        }
 
         const ref_link = document.createElement('a');
         ref_link.setAttribute('class', 'link-text-color');
@@ -25,10 +32,9 @@ function ref_link_block_maker(url){
         ref_text.setAttribute('style',"margin:10px;");
         
         res.data.forEach(element => {
-            if(element.資料來源ID=== Number(x)){
-                standar_link.setAttribute('href',`../standar_page/standar.html?herb_name=${herb_name}&nameid=${nameid}&x=${x}&y=${y}`);
-                ref_link.setAttribute("href",`${element.資料來源連結}`);
-                ref_text.innerHTML = `${element.資料來源名稱}`;
+            if(element.Source_id=== Number(x)){
+                ref_link.setAttribute("href",`${element.Source_link}`);
+                ref_text.innerHTML = `${element.Source_name}`;
             }
             
         });
@@ -46,4 +52,5 @@ document.getElementById("med_ref").setAttribute("href", `../info_mid_page/index2
 
 document.getElementById("herb-name").innerHTML = `${herb_name}`;
 document.getElementById("sample").innerHTML=`參考條件${x}-${y}`;
+
 

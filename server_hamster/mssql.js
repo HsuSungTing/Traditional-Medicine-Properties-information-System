@@ -59,14 +59,14 @@ let querySql = async function(sql, params, callBack){
   * @param orderSql 排序语句，例：'order by created_date'
   * @param callBack 回调函数
   */
- let select = async function (tableName, topNumber, whereSql, params, orderSql, callBack) {
-     try {
-         let ps = new mssql.PreparedStatement(await poolConnect);
-         let sql = "select * from " + tableName + " ";
-         if (topNumber != "") {
+let select = async function (tableName, topNumber, whereSql, params, orderSql, callBack) {
+        try {
+        let ps = new mssql.PreparedStatement(await poolConnect);
+        let sql = "select * from " + tableName + " ";
+        if (topNumber != "") {
              sql = "select top(" + topNumber + ") * from " + tableName + " ";
-         }
-         sql += whereSql + " ";
+        }
+        sql += whereSql + " ";
          if (params != "") {
              for (let index in params) {
                  if (typeof params[index] == "number") {
@@ -84,17 +84,17 @@ let querySql = async function(sql, params, callBack){
             ps.execute(params, function (err, recordset) {
                  callBack(err, recordset);
                  ps.unprepare(function (err) {
-                     if (err)
-                         console.log(err);
-                 });
-             });
-         });
-     } catch (e) {
-         console.log(e)
-     }
- };
-  
- /**
+                    if (err)
+                        console.log(err);
+                });
+            });
+        });
+    } catch (e) {
+        console.log(e)
+    }
+};
+
+/**
   * 查询指定表的所有数据
   * @param tableName 数据库表名
   * @param callBack 回调函数
@@ -118,6 +118,50 @@ let querySql = async function(sql, params, callBack){
          console.log(e)
      }
  };
+
+   
+ /**
+  * 按条件和需求查询指定表
+  * @param table1 数据库表名1 取出資料的表，例：'news1'
+  * @param commonID 兩個數據表參照之同名ID(若不同名需修改此function)
+  * @param table2 数据库表名2 參照用的表，例：'news2'
+  * @param whereSql 条件语句，例：'where Pid = @id'
+  * @param params 参数，用来解释sql中的@*，例如： { id: someid }
+  * @param callBack 回调函数
+  */
+//  let select2Table = async function (table1, commonID, table2, whereSql, params, callBack) {
+//     try {
+//         let ps = new mssql.PreparedStatement(await poolConnect);
+//         let sql = "select * from " + table1 + " ";
+//         sql +="where " +table1+'.'+ commonID + " in ";
+//         sql +="( select " + commonID +" from "+ table2 +" ";
+//         sql += whereSql + " );";
+//          if (params != "") {
+//              for (let index in params) {
+//                  if (typeof params[index] == "number") {
+//                      ps.input(index, mssql.Int);
+//                  } else if (typeof params[index] == "string") {
+//                      ps.input(index, mssql.NVarChar);
+//                  }
+//              }
+//          }
+
+//         console.log(sql);
+//         ps.prepare(sql, function (err) {
+//             if (err) console.log(err);
+
+//             ps.execute(params, function (err, recordset) {
+//                 callBack(err, recordset);
+//                 ps.unprepare(function (err) {
+//                     if (err)
+//                         console.log(err);
+//                 });
+//             });
+//         });
+//     } catch (e) {
+//         console.log(e)
+//     }
+// };
   
  /**
   * 添加字段到指定表
@@ -250,6 +294,33 @@ let querySql = async function(sql, params, callBack){
          console.log(e)
      }
  };
+
+ let optionGenerator = async function (tableName, Attribute, topNumber, callBack) {
+    try {
+        let ps = new mssql.PreparedStatement(await poolConnect);
+        let sql = "select " + Attribute + " , COUNT(*) as count";
+        if (topNumber != "") {
+            sql = "select top(" + topNumber + ") " + Attribute + " , COUNT(*) as count";
+        }
+        sql += " from " + tableName + " group by " + Attribute;
+        sql += " HAVING COUNT(*) > 1 ORDER BY COUNT(*) DESC"
+        
+        console.log(sql);
+        ps.prepare(sql, function (err) {
+           if (err) console.log(err);
+
+           ps.execute("", function (err, recordset) {
+                callBack(err, recordset);
+                ps.unprepare(function (err) {
+                    if (err)
+                        console.log(err);
+                });
+            });
+        });
+    } catch (e) {
+        console.log(e)
+    }
+};
   
  exports.config = conf;
  exports.del = del;
@@ -257,4 +328,6 @@ let querySql = async function(sql, params, callBack){
  exports.update = update;
  exports.querySql = querySql;
  exports.selectAll = selectAll;
+ //exports.select2Table = select2Table;
  exports.add = add;
+ exports.optionGenerator = optionGenerator;

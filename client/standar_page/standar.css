@@ -85,6 +85,7 @@
   /* border:#040cfb;border-style:solid;border-width:12px;padding:5px; */
 }
 #herb-name{
+  width : 100px;
   background-color: #44546a;
   margin:20px;
   padding:10px;

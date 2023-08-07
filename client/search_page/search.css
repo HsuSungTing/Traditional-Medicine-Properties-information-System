@@ -1,206 +1,319 @@
 /* 側邊欄的樣式 */
+body{
+  font-weight: bold;
+  font-family: "微軟正黑體", "Microsoft JhengHei", sans-serif;
+}
 .sidebar {/*level 1*/
-    height: 100%;
-    width: 900px;
-    position: fixed;
-    top: 75px; 
-    right: -900px; /* 初始位置為合起來(距右邊-450) */
-    background-color: #333;
-    /* padding-top: 60px; */
-    transition: right 0.3s; /* 使用 right 屬性的過渡效果 */
-    z-index: 1;
-    overflow-y: auto;
-    padding-bottom: 20px;
-  }
+  /*height: 500px;*/
+  height:85%;
+  width: 650px;
+  position: fixed;
+  top: 75px; 
+  right: 0px; /* 初始位置開啟(距右邊0) */
+  background-color: #333;
+  /* padding-top: 60px; */
+  transition: right 0.3s; /* 使用 right 屬性的過渡效果 */
+  z-index: 1;
+  overflow-y: auto;
+  padding-bottom: 20px;
+  z-index: 100;/*圖層處理*/
+}
 
-  /* 頁面內容的樣式 */
-  .page-content {
-    /* 留出側邊欄的寬度 */
-    
-    padding: 10px;
-    margin:10px;
-    border-radius: 10px;
-
-    background-color: #f2ece4;
-    display: flex;
-    flex-flow: row wrap;
-    align-content:space-around;
-    
-    /* height:1000px; */
-    /* border:#fb0404;border-style:solid;border-width:12px;padding:5px; */
-    
-  }
-
-  /* 開啟側邊欄的按鈕樣式 */
-  .openbtn {
-    font-size: 30px;
-    cursor: pointer;
-    background-color: #333;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    width:60px;
-    height:60px;
-    position: absolute;
-    right: 0;
-    border-radius: 5px; /* 圓弧形的四個角 */
-  }
+/* 頁面內容的樣式 */
+.page-content {
+  /* 留出側邊欄的寬度 */
   
+  padding: 10px;
+  margin:10px;
+  border-radius: 10px;
+
+  background-color: #f2ece4;
+  display: flex;
+  flex-flow: row wrap;
+  align-content:space-around;
+  
+  /* height:1000px; */
+  /* border:#fb0404;border-style:solid;border-width:12px;padding:5px; */
+  
+}
+.rounded-button {
+display: flex;
+justify-content: center; /* 將內容水平置中 */
+align-items: center; /* 將內容垂直置中 */
+border-radius: 5px;
+background-color: #3498db;
+color: #fff;
+padding: 10px 20px;
+}
+
+/* 開啟側邊欄的按鈕樣式 */
+.openbtn {
+  font-size: 30px;
+  cursor: pointer;
+  background-color: #333;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  width:60px;
+  height:60px;
+  position: absolute;
+  right: 0;
+  border-radius: 5px; /* 圓弧形的四個角 */
+}
+
 
 
 /*上方橫條的樣式們*/
-  .position-fix-wrapper{
-    position: sticky;
+.position-fix-wrapper{
+  position: sticky;
+  top:0;
+  background-color: white;
+  z-index: 80;/*圖層處理*/
+}
+.title_class{
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 50px;
+    margin: 5px;
+    position: sticky;/*頂部固定*/
     top:0;
-    background-color: white;
-  }
-  .title_class{
-      padding: 0px;
-      display: flex;
-      flex-direction: column;
-      flex-wrap: wrap;
-      height: 50px;
-      margin: 5px;
-      position: sticky;/*頂部固定*/
-      top:0;
-  }
-  #logo{
-      width: 330px;
-      height: auto;
-  }
-  #sub_title{
-      font-weight: bold;
-      font-size: 17px;
-      display: flex;
-      flex-direction: column;
-      flex-wrap: wrap;
-      height: 40px;
-      width: 320px;
-      position: relative;
-      left: 80px;
-      color: rgb(0, 0, 0);
-  }
-  .line{
-      position: relative;
-      top: 10px;
-    
-  }
-  .choice_class{
-      display: flex;
-      flex-direction: column;
-      flex-wrap: wrap;
-      padding: 2px;
-      margin: 5px 0px 0px 0px;
-      height: 20px;
-      width: 270px;
-      font-weight: bold;
-      color: rgb(1, 1, 1);
-      
-  }
-  #med_name{ color:black;}
-  #med_info{ color:black;}
-  #med_ref{ color:black;}
-  /*側邊欄位選項內容*/
-  .Conditions{/*level 2*/
-    
-    background-color: white;
-    margin:5px;
-    border-radius: 10px;
-
-    padding: 10px;
+}
+#logo{
+    width: 330px;
+    height: auto;
+}
+#sub_title{
+    font-weight: bold;
+    font-size: 17px;
     display: flex;
-    flex-flow: row wrap;
-    align-content:space-around;
-  }
-
-
-
-
-  /*內容放置測試*/
-  .med_info_box{
-    padding: 10px;
-    margin:10px;
-    border-radius: 10px;
-
-    background-color: #f2ece4;
-    display: flex;
-    flex-flow: row wrap;
-    align-content:space-around;
-  }
-  .med_info{
-    display:flex;
     flex-direction: column;
-    flex-basis:1;
-    height:300px;
-    /*border:#fb0404;border-style:solid;border-width:12px;padding:5px;*/
-    font-size: 20px;
-    font-family: DFKai-sb;
-    color: black;
-    text-align: center;
-    margin:20px;
-  }
-  .med_info_img{
-    width:280px;
-    height:180px;
-    border-radius: 10px; /* 圓弧形的四個角 */
-  }
-
-
-  /*側邊選項*/
-  .ChoiceItem{/*level 7*/
-    flex-basis:1;
-    
-    /*border:#fb0404;border-style:solid;border-width:12px;padding:5px;*/
-    font-size: 12px;
-    font-family: DFKai-sb;
-    color: black;
-    text-align: center;
-
-    background-color: rgb(228, 239, 239);
-    border-radius: 5px;
-    padding:10px;
-    margin:5px;
-
-    
-
-  }
+    flex-wrap: wrap;
+    height: 40px;
+    width: 320px;
+    position: relative;
+    left: 80px;
+    color: rgb(0, 0, 0);
+    margin-left:150px;
+}
+.line{
+    position: relative;
+    top: 10px;
   
-  .ValueItem{/*level 7*/
-    background-color: rgb(0, 255, 81);
-    height:30px;
-  }
-  .numberInput{
-    width:30px;
-    height:15px;
-  }
-  .ChoiceItemsWrapper{/*level 6*/
-    margin:5px;    
-    padding: 10px;
+}
+.advance_search{
     display: flex;
-    flex-flow: row wrap;
-    align-content:space-around;
-    background-color: chocolate;
-  }
-  .subCard{/*level 5*/
-    background-color: blue;
-  }
-  .subCardWrapper{/*level 4*/
-    background-color: greenyellow;
-    width:100%;
-    
-    display: none; /* 初始状态隐藏内容 */
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 2px;
+    margin: 5px 0px 0px 0px;
+    height: 30px;
+    font-size: large;
+    font-weight: bold;
+    color: rgb(1, 1, 1);
+}
+#med_name{ 
+  width: 60px;
+  height: auto;
+  margin:5px;
+  padding: 5px;
+  color:black;
+  font-size: large;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 10px;
 
-    padding: 10px;
-    flex-flow: row wrap;
-    align-content:space-around;
-  }
-  .cardName{/*level 3*/
-    background-color: rgb(228, 239, 239);
-    border-radius: 5px;
-    padding:10px;
-    margin:5px;
-  }
+  /* 使用 Flexbox 將文字置中 */
+  display: flex;
+  justify-content: center; /* 水平置中 */
+  align-items: center; /* 垂直置中 */
+}
+#med_name:hover{
+  background-color: rgb(144, 144, 147);
+  color: aliceblue;
+}
+/*側邊欄位選項內容*/
+.Conditions{/*level 2*/
   
+  background-color: whitesmoke;
+  margin:5px;
+  border-radius: 10px;
 
+  padding: 10px;
+  display: flex;
+  flex-flow: row wrap;
+  align-content:space-around;
+}
+
+
+
+
+/*內容放置測試*/
+
+.herb{
+  display:flex;
+  flex-direction: column;
+  flex-basis:1;
+  height:300px;
+  /*border:#fb0404;border-style:solid;border-width:12px;padding:5px;*/
+  font-size: 20px;
+  font-family: DFKai-sb;
+  color: black;
+  text-align: center;
+  margin:20px;
+}
+.herb-img{
+  width: 300px; /* 调整图像的宽度 */
+  height: 180px; /* 调整图像的高度 */
+  vertical-align: middle; /* 可选：将图像垂直居中 */
+  margin: 20px;
+  border-radius: 10px; /* 圓弧形的四個角 */
+}
+
+
+/*側邊選項*/
+.ChoiceItem{/*level 7*/
+  flex-basis:1;
   
+  /*border:#fb0404;border-style:solid;border-width:12px;padding:5px;*/
+  font-size: 12px;
+  font-family: DFKai-sb;
+  color: black;
+  text-align: center;
+
+  background-color: rgb(228, 239, 239);
+  border-radius: 5px;
+  padding:10px;
+  margin:5px;
+
+}
+
+.ValueItem{/*level 7*/
+  /* background-color: rgb(0, 255, 81); BG*/
+  height:30px;
+  padding:5px;
+}
+.numberInput{
+  width:30px;
+  height:15px;
+}
+.ChoiceItemsWrapper{/*level 6*/
+  margin:5px;    
+  padding: 10px;
+  display: flex;
+  flex-flow: row wrap;
+  align-content:space-around;
+  background-color: #f0d6b1; 
+  border-radius: 5px;
+}
+.subCard{/*level 5*/
+  /* background-color: blue; BG*/
+  padding:1px;
+}
+.subCardWrapper{/*level 4*/
+  /* background-color: greenyellow; BG*/
+  width:100%;
   
+  display: none; /* 初始状态隐藏内容 */
+
+  padding: 10px;
+  flex-flow: row wrap;
+  align-content:space-around;
+}
+.cardName{/*level 3*/
+  background-color: rgb(228, 239, 239);
+  border-radius: 5px;
+  padding:10px;
+  margin:5px;
+}
+
+/*On Off button*/
+.onoffswitch {
+  position: relative; width: 62px;
+  margin:10px;
+  -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.onoffswitch-label {
+  display: block; overflow: hidden; cursor: pointer;
+  border: 2px solid #999999; border-radius: 20px;
+}
+.onoffswitch-inner {
+  display: block; width: 200%; margin-left: -100%;
+  transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+  display: block; float: left; width: 50%; height: 27px; padding: 0; line-height: 27px;
+  font-size: 10px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+  box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+  content: "交集";
+  padding-left: 5px;
+  background-color: #F5DFB3; color: #69614F;
+}
+.onoffswitch-inner:after {
+  content: "聯集";
+  padding-right: 5px;
+  background-color: #C9B793; color: #FFFFFF;
+  text-align: right;
+}
+.onoffswitch-switch {
+  display: block; width: 20px; margin: 3.5px;
+  background: #FFFFFF;
+  position: absolute; top: 0; bottom: 0;
+  right: 31px;
+  border: 2px solid #999999; border-radius: 20px;
+  transition: all 0.3s ease-in 0s; 
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+  margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+  right: 0px; 
+}
+
+#valueItem{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center; /* 水平置中 */
+  align-items: center; /* 垂直置中 */
+  margin: 5px;
+  
+}
+#comfirm_btn_id{
+  width: fit-content;
+  height: fit-content;
+  padding: 10px;
+  border-radius: 5px;
+  color: #ffffff;
+  background-color: rgb(170, 170, 170);
+  margin: 0px 0px 0px 30px;
+  font-weight: bolder;
+  border-color: white;
+}
+
+.allvalueItem{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+.numberInput {
+  width: 45px;
+}
+.Math_attr{
+  width: 200px;
+  height: fit-content;
+  padding: 10px;
+  margin-right: 5PX;
+  border-radius: 5px;
+  font-weight: bolder;
+  background-color: rgb(245, 209, 143);
+  color: #716666;
+}
