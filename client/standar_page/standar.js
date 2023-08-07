@@ -18,9 +18,9 @@ function ref_link_block_maker(url, sourceId){
         ref_text.setAttribute('style',"margin:10px;");
         
         res.data.forEach(element => {
-            if(element.資料來源ID=== Number(sourceId)){
-                ref_link.setAttribute("href",`${element.資料來源連結}`);
-                ref_text.innerHTML = `${element.資料來源名稱}`;
+            if(element.Source_id=== Number(sourceId)){
+                ref_link.setAttribute("href",`${element.Source_link}`);
+                ref_text.innerHTML = `${element.Source_name}`;
             }
         });
         
@@ -33,9 +33,9 @@ function ref_link_block_maker(url, sourceId){
 function getSampleData(url){
     axios(url).then((res)=>{
         res.data.forEach(element => {
-            nameid=element.藥材ID;
-            herb_name=element.藥名;
-            soruceId = element.資料來源ID;
+            nameid=element.Med_id;
+            herb_name=element.Med_name;
+            soruceId = element.Source_id;
             document.getElementById("med_info").setAttribute("href",`../info_mid_page/index2.html?number=${nameid}`);
             document.getElementById("med_ref").setAttribute("href", `../info_mid_page/index2.html?number=${nameid}`);
             document.getElementById("herb-name").innerHTML = `${herb_name}`; 
@@ -43,6 +43,6 @@ function getSampleData(url){
         });
     });
 }
-getSampleData(StandarDataAPI + `?stanId=${stanId}&tbName=樣品數據表&max=${1}`);
+getSampleData(StandarDataAPI + `?stanId=${stanId}&tbName=SampleData&max=${1}`);
 document.getElementById("med_name").setAttribute("href","../home_page/index.html");
 document.getElementById("sample").innerHTML=`藥材適用標準品`;
