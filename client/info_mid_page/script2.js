@@ -18,39 +18,39 @@ console.log("here3");
 function select(url){ axios(url).then((res)=>{
         console.log(res.data);
         const idToFind = parseInt(number);
-        var data = res.data.filter(item => item['藥材ID'] === idToFind);
+        var data = res.data.filter(item => item['Med_id'] === idToFind);
         console.log(data);
 
 
         var herb_name_Container = document.getElementById('herb_name');
-        var herb_name = data.map(item => item['藥材名']);
+        var herb_name = data.map(item => item['Med_name']);
         //--------------------------------------------------
         var herb_latin_Container=document.getElementById('herb_latin');
-        var herb_latin = data.map(item => item['拉丁生藥名稱']);
+        var herb_latin = data.map(item => item['Med_latin']);
         //---------------------------------------------------
         var herb_Eng_Container=document.getElementById('herb_Eng')
-        var herb_Eng = data.map(item => item['英文名稱']);
+        var herb_Eng = data.map(item => item['Med_en']);
 //---------------------------------------------------
         var herb_base_Container=document.getElementById('herb_base')
-        var herb_base = data.map(item => item['基原']);
+        var herb_base = data.map(item => item['Med_base']);
         //---------------------------------------------------
         var herb_amount_Container=document.getElementById('herb_amount')
-        var herb_amount = data.map(item => item['含量']);
+        var herb_amount = data.map(item => item['Med_content']);
         //---------------------------------------------------
         var herb_use_Container=document.getElementById('herb_use')
-        var herb_use = data.map(item => item['用途分類']);
+        var herb_use = data.map(item => item['Med_use_class']);
 //---------------------------------------------------
         var herb_attribute_Container=document.getElementById('herb_attribute')
-        var herb_attribute = data.map(item => item['性味與歸經']);
+        var herb_attribute = data.map(item => item['Med_character']);
         //---------------------------------------------------
         var herb_effect_Container=document.getElementById('herb_effect')
-        var herb_effect = data.map(item => item['效能']);
+        var herb_effect = data.map(item => item['Med_efficacy']);
         //---------------------------------------------------
         var herb_use_amount_Container=document.getElementById('herb_use_amount')
-        var herb_use_amount = data.map(item => item['用法與用量']);
+        var herb_use_amount = data.map(item => item['Med_dosage']);
         //---------------------------------------------------
         var herb_storage_Container=document.getElementById('herb_storage')
-        var herb_storage = data.map(item => item['貯藏法']);
+        var herb_storage = data.map(item => item['Med_storage']);
 
         herb_name_Container.innerHTML = '中文名：' + herb_name.join(', ');
         herb_latin_Container.innerHTML='拉丁生藥名稱: '+herb_latin.join(', ');
@@ -69,31 +69,31 @@ function select(url){ axios(url).then((res)=>{
 
 function select_source(url){ axios(url).then((res)=>{
         const idToFind = parseInt(number);
-        var data = res.data.filter(item => item['藥材ID'] === idToFind);
+        var data = res.data.filter(item => item['Med_id'] === idToFind);
         console.log(data);
         const div_cardBox = document.createElement('div');
         div_cardBox.setAttribute('class',"med_info_box");
         div_cardBox.setAttribute('id' , "med_info_box");
 
         data.forEach(element => {
-                const exit = document.getElementById(`Card_${element.藥名}_${element.資料來源ID}_${element.樣品編號ID}`)
+                const exit = document.getElementById(`Card_${element.Med_name}_${element.Source_id}_${element.Sample_id}`)
                 if(exit) return;
 
                 const div_card = document.createElement('div');
                 div_card.setAttribute('class', 'med_info');
-                div_card.setAttribute('id',`Card_${element.藥名}_${element.資料來源ID}_${element.樣品編號ID}`)
+                div_card.setAttribute('id',`Card_${element.Med_name}_${element.Source_id}_${element.Sample_id}`)
         
                 const image = document.createElement('img');
                 image.setAttribute('class', 'med_info_img');
-                image.setAttribute('alt',`${element.藥名}_${element.資料來源ID}_${element.樣品編號ID}`);
-                image.setAttribute('title',`${element.藥名}_${element.資料來源ID}_${element.樣品編號ID}`);
+                image.setAttribute('alt',`${element.Med_name}_${element.Source_id}_${element.Sample_id}`);
+                image.setAttribute('title',`${element.Med_name}_${element.Source_id}_${element.Sample_id}`);
                 image.src = `甘草1_1_1.png`;
 
                 const title = document.createElement('p');
-                title.innerHTML = `<font>${element.藥名}-${element.資料來源ID}-${element.樣品編號ID}</font>`;
+                title.innerHTML = `<font>${element.Med_name}-${element.Source_id}-${element.Sample_id}</font>`;
         
                 const link = document.createElement('a');
-                link.href = `../leaf_page/leaf.html?herb_name=${element.藥名}&nameid=${element.藥材ID}&x=${element.資料來源ID}&y=${element.樣品編號ID}&stanId=${element.標準品編號ID}`;
+                link.href = `../leaf_page/leaf.html?herb_name=${element.Med_name}&nameid=${element.Med_id}&x=${element.Source_id}&y=${element.Sample_id}&stanId=${element.Standard_id}`;
         
                 link.appendChild(image);
                 div_card.appendChild(link);
