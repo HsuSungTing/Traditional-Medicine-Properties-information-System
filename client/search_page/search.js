@@ -403,7 +403,7 @@ function createSubCard(containerID, Names){
             const Item = document.createElement('div');
             Item.classList.add('ChoiceItem');
             Item.textContent = ele;
-            Item.id = "option_"+element[0]+"_"+ele;
+            Item.id = "option_"+element[0]+"_"+ele;//for diff element[0] same ele
             findFilterResult(ele, Item.id,element[0], true);
             findFilterResult(ele, Item.id,element[0], false);//生成standar result
             optionState[Item.id] = false;
