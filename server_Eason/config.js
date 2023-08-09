@@ -2,7 +2,7 @@
 let app = {
     user: 'sa', //這裡寫你的數據庫用戶名
     password: '12345',//這裡寫你的數據庫密碼
-    server: 'LAPTOP-B6OG51F6',//'localhost',
+    server: 'LAPTOP-Q69P3FAE\\MSSQLSERVER01',//'localhost',
     database: 'med_DB2', // 数据库名字
     port: 1433, //端口号，默认 1433   //49693
     options: {

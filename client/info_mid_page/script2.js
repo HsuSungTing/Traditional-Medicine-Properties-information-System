@@ -82,18 +82,30 @@ function select_source(url){ axios(url).then((res)=>{
                 const div_card = document.createElement('div');
                 div_card.setAttribute('class', 'med_info');
                 div_card.setAttribute('id',`Card_${element.Med_name}_${element.Source_id}_${element.Sample_id}`)
-        
+                
                 const image = document.createElement('img');
                 image.setAttribute('class', 'med_info_img');
                 image.setAttribute('alt',`${element.Med_name}_${element.Source_id}_${element.Sample_id}`);
                 image.setAttribute('title',`${element.Med_name}_${element.Source_id}_${element.Sample_id}`);
-                image.src = `甘草1_1_1.png`;
+                //---------處理圖片連結-----------------
+                
+                const imagePath = "../../img_path/參考條件截圖/"+`${element.Sample_img_id}`+".png";
+                const img = new Image();
+                img.onload = function() {
+                        console.log('图片存在且可打开。');
+                        image.src=imagePath;
+                };
+                img.onerror = function() {
+                        console.error('图片不存在或无法打开。');
+                        image.src="./甘草1_1_1.png";
+                };
+                img.src = imagePath;//判定圖片是否存在
 
                 const title = document.createElement('p');
                 title.innerHTML = `<font>${element.Med_name}-${element.Source_id}-${element.Sample_id}</font>`;
         
                 const link = document.createElement('a');
-                link.href = `../leaf_page/leaf.html?herb_name=${element.Med_name}&nameid=${element.Med_id}&x=${element.Source_id}&y=${element.Sample_id}&stanId=${element.Standard_id}`;
+                link.href = `../leaf_page/leaf.html?herb_name=${element.Med_name}&nameid=${element.Med_id}&x=${element.Source_id}&y=${element.Sample_id}&stanId=${element.Standard_id}&img_id=${element.Sample_img_id}`;
         
                 link.appendChild(image);
                 div_card.appendChild(link);

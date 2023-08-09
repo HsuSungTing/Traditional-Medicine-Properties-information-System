@@ -455,7 +455,7 @@ function makeContent(result){//此result已經是選定出來的資料了
                     image.setAttribute('title',`${element.Med_name}_${element.Source_id}_${element.Sample_id}`);
                     image.src = `甘草1_1_1.png`;
                     title.innerHTML = `<font>${element.Med_name}-${element.Source_id}-${element.Sample_id}</font>`;
-                    link.href = `../leaf_page/leaf.html?herb_name=${element.Med_name}&nameid=${element.Med_id}&x=${element.Source_id}&y=${element.Sample_id}`
+                    link.href = `../leaf_page/leaf.html?herb_name=${element.Med_name}&nameid=${element.Med_id}&x=${element.Source_id}&y=${element.Sample_id}&img_id=${element.Sample_img_id}`
                 }else if(element.source==="standar"){
                     image.setAttribute('alt',`${element.Standard_name}_${element.Standard_id}`);
                     image.setAttribute('title',`${element.Standard_name}_${element.Standard_id}`);
