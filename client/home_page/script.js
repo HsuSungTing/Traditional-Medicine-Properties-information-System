@@ -18,26 +18,26 @@ function select(url){ axios(url).then((res)=>{//依照filter吐出藥材card
 
     res.data.forEach(element => {
 
-        const exit = document.getElementById(`Card_${element.藥材名}`)
+        const exit = document.getElementById(`Card_${element.Med_name}`)
         if(exit) return;
 
         const div_card = document.createElement('div');
         div_card.setAttribute('class', 'herb');
-        div_card.setAttribute('id',`Card_${element.藥材名}`)
+        div_card.setAttribute('id',`Card_${element.Med_name}`)
         
 
         
         const image = document.createElement('img');
         image.setAttribute('class', 'herb-img');
-        image.setAttribute('alt',`${element.藥材名}`);
-        image.setAttribute('title',`${element.藥材名}`);
-        image.src = `../../img_path/${element.藥材名}.png`;
+        image.setAttribute('alt',`${element.Med_name}`);
+        image.setAttribute('title',`${element.Med_name}`);
+        image.src = `../../img_path/${element.Med_name}.png`;
 
         const title = document.createElement('p');
-        title.innerHTML = `<font>${element.藥材名}</font>`;
+        title.innerHTML = `<font>${element.Med_name}</font>`;
 
         const link = document.createElement('a');
-        link.href = `../info_mid_page/index2.html?number=${element.藥材ID}`;
+        link.href = `../info_mid_page/index2.html?number=${element.Med_id}`;
         link.appendChild(image);
         div_card.appendChild(link);
         div_card.appendChild(title);
@@ -45,7 +45,7 @@ function select(url){ axios(url).then((res)=>{//依照filter吐出藥材card
 //-------------------------------------------------------
         // 為每個子元素（child）添加點選事件處理器
         div_card.addEventListener('click', function() {
-          handleMedicineName(element.藥材ID);
+          handleMedicineName(element.Med_id);
       });        
 
     });
@@ -88,7 +88,7 @@ function getAllHerbName(){
   var herb_list=[];
   axios(SelectAllAPI).then((res)=>{
     res.data.forEach(element => {
-      herb_list.push(`${element.藥材名}`);
+      herb_list.push(`${element.Med_name}`);
     });
   });
   return herb_list;
@@ -164,9 +164,6 @@ search.onblur = function(){//焦點離開搜索框實 列表必須消失
   });
 	
 }
-
-
-
 
 const search_btn = document.getElementById("search-btn-img");
 search_btn.onclick = function(event){

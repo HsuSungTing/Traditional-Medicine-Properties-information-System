@@ -85,6 +85,7 @@
   /* border:#040cfb;border-style:solid;border-width:12px;padding:5px; */
 }
 #herb-name{
+  width : 100px;
   background-color: #44546a;
   margin:20px;
   padding:10px;
@@ -112,17 +113,23 @@
 .chart-part{
   display:flex;
   flex-direction: column;
-  justify-content: center; /*置中用*/
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center; 
+  align-items: center; 
+  justify-content: center; /*置中用
   align-items: center; /*置中用*/
-
+  left: -300px;
 }
 .datachart-img{
   flex-basis: 1;
-  width: 450px;
-  margin-left:20px;
+  width: 500px;
+  left: -100px;
+  /* margin-left:100px; */
   max-width:100%; /*置中用*/
   max-height:100%; /*置中用*/
-  
+  margin-left:0px;
 }
 .link-part{
   display:flex;
@@ -134,3 +141,11 @@
   height:100000px;
   
 } */
+#main{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center; 
+  align-items: center; 
+
+} 
