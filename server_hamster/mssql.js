@@ -295,7 +295,7 @@ let select = async function (tableName, topNumber, whereSql, params, orderSql, c
      }
  };
 
- let optionGenerator = async function (tableName, Attribute, topNumber, callBack) {
+let optionGenerator = async function (tableName, Attribute, topNumber, callBack) {
     try {
         let ps = new mssql.PreparedStatement(await poolConnect);
         let sql = "select " + Attribute + " , COUNT(*) as count";
@@ -303,13 +303,13 @@ let select = async function (tableName, topNumber, whereSql, params, orderSql, c
             sql = "select top(" + topNumber + ") " + Attribute + " , COUNT(*) as count";
         }
         sql += " from " + tableName + " group by " + Attribute;
-        sql += " HAVING COUNT(*) > 1 ORDER BY COUNT(*) DESC"
-        
+        sql += " HAVING COUNT(*) > 1 ORDER BY COUNT(*) DESC";
+
         console.log(sql);
         ps.prepare(sql, function (err) {
-           if (err) console.log(err);
+            if (err) console.log(err);
 
-           ps.execute("", function (err, recordset) {
+            ps.execute("", function (err, recordset) {
                 callBack(err, recordset);
                 ps.unprepare(function (err) {
                     if (err)
@@ -321,13 +321,37 @@ let select = async function (tableName, topNumber, whereSql, params, orderSql, c
         console.log(e)
     }
 };
-  
- exports.config = conf;
- exports.del = del;
- exports.select = select;
- exports.update = update;
- exports.querySql = querySql;
- exports.selectAll = selectAll;
+//這裡怪怪的
+let FindOtherResult_func = async function (tableName, Attribute, callBack) {
+    try {
+        let ps = new mssql.PreparedStatement(await poolConnect);
+        let sql = "SELECT * FROM " + tableName + " WHERE " + Attribute + " IN (";
+        sql += "SELECT " + Attribute + " FROM " + tableName + " GROUP BY " + Attribute + " HAVING COUNT(*) = 1";
+        sql += ")";
+        console.log(sql);
+        ps.prepare(sql, function (err) {
+            if (err) console.log(err);
+            ps.execute("", function (err, recordset) {
+                callBack(err, recordset);
+                ps.unprepare(function (err) {
+                    if (err)
+                        console.log(err);
+                });
+            });
+        });
+    } catch (e) {
+        console.log(e)
+    }
+};
+
+
+exports.config = conf;
+exports.del = del;
+exports.select = select;
+exports.update = update;
+exports.querySql = querySql;
+exports.selectAll = selectAll;
  //exports.select2Table = select2Table;
- exports.add = add;
- exports.optionGenerator = optionGenerator;
+exports.add = add;
+exports.optionGenerator = optionGenerator;
+exports.FindOtherResult_func=FindOtherResult_func;

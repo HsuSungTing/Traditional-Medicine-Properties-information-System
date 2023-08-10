@@ -87,9 +87,33 @@ router.get("/option",function(req, res, next){
         max=""
     }
     db.optionGenerator('SampleData',Attribute,max,function(err,result){
+        
         res.send(result.recordset);
     });
 });
+
+//----------------------------------
+router.get("/FindOtherResult",function(req, res, next){
+    const parent = req.query.parent;
+    const tbName=req.query.tbName;
+    db.FindOtherResult_func(tbName,parent,function(err,result){
+        const extractedValues = [];
+        if(tbName==="SampleData"){
+            for (const item of result.recordset) {
+                const valuesArray = `${item.Med_id.toString().padStart(2, '0')}${item.Source_id.toString().padStart(3, '0')}${item.Sample_id.toString().padStart(3, '0')}`;
+                extractedValues.push(valuesArray);
+            }
+        }else if(tbName==="StandardData"){
+            for (const item of result.recordset) {
+                const valuesArray = `${item.Standard_id.toString().padStart(3, '0')}`;
+                extractedValues.push(valuesArray);
+            }
+        }
+        res.send(extractedValues);
+    });
+});
+//----------------------------------
+
 //encode
 
 router.get("/filter_result",function(req, res, next){
