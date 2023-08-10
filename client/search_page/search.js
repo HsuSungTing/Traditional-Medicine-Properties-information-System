@@ -1,5 +1,6 @@
 
 const OptionGeneratorAPI = "http://localhost:8002/option?Attribute=";
+const FindOthersResultAPI="http://localhost:8002/FindOtherResult";
 const FilterResultAPI = "http://localhost:8002/filter_result";
 const OptionSearchResultAPI = "http://localhost:8002/option_search_result";
 //-----------------------------------
@@ -189,8 +190,6 @@ function DownExpand(expandId) {
 }
 ////////三個條件的按鈕事件處理///////
 
-
-
 ////////數值獨立處理 按鈕部分///////
 function input_toggle(comfirm_btn,num_input_array){
     if(state.comfirm_btn_bool==0){
@@ -349,11 +348,15 @@ function optionGenerator(subCardName, max){
                     }
                 });
             });
+            //----------------------
         });
         setTimeout(() => {
-          console.log("Option generator function completed.");
-          const result = subCardName; // 假設 A 函式的結果是 42
-          resolve(result); // 將結果傳遞給 Promise
+            console.log("Option generator function completed.");
+            for(let i=0;i<subCardName.length;i++){
+                subCardName[i][1].push("others");
+            }
+            const result = subCardName; // 假設 A 函式的結果是 42
+            resolve(result); // 將結果傳遞給 Promise
         }, 1000); // 假設 A 函式需要 1 秒完成
     });
 }
@@ -403,9 +406,9 @@ function createSubCard(containerID, Names){
             const Item = document.createElement('div');
             Item.classList.add('ChoiceItem');
             Item.textContent = ele;
-            Item.id = "option_"+ele;
-            findFilterResult(Item.id,element[0], true);
-            findFilterResult(Item.id,element[0], false);//生成standar result
+            Item.id = "option_"+element[0]+"_"+ele;//for diff element[0] same ele
+            findFilterResult(ele, Item.id,element[0], true);
+            findFilterResult(ele, Item.id,element[0], false);//生成standar result
             optionState[Item.id] = false;
             Item.clicked = false;
             Item.onclick = function(){toggleOption(Item.id);};
@@ -419,18 +422,33 @@ function createSubCard(containerID, Names){
     filterObj.show();
 }
 
-  // 添加選項tag與結果
-function findFilterResult(tag,parent, IsSample){
-    Attribute = tag.replace("option_", "")
-    if(IsSample){
+// 添加選項tag與結果
+function findFilterResult(tag, id,parent, IsSample){
+    Attribute = tag;
+    if(Attribute=="others"&&IsSample){
+        url=FindOthersResultAPI+"?tbName=SampleData"+"&parent="+parent;
+        axios(url).then((res)=>{
+            console.log(parent,": ",res.data);
+            filterObj.addOption(id,res.data,IsSample);
+        });
+    }
+    else if(Attribute=="others"&&IsSample==false){
+        url=FindOthersResultAPI+"?tbName=StandardData"+"&parent="+parent;
+        axios(url).then((res)=>{
+            console.log(parent,": ",typeof res.data);
+            filterObj.addOption(id,res.data,IsSample);
+        });
+    }
+    //-------------------
+    else if(IsSample){
         url = FilterResultAPI+"?tbName=SampleData"+"&parent="+parent+"&attr="+Attribute;
         axios(url).then((res)=>{
-            filterObj.addOption(tag,res.data,IsSample);
+            filterObj.addOption(id,res.data,IsSample);
         });
     }else{
         url = FilterResultAPI+"?tbName=StandardData"+"&parent="+parent+"&attr="+Attribute;
         axios(url).then((res)=>{
-            filterObj.addOption(tag,res.data,IsSample);
+            filterObj.addOption(id,res.data,IsSample);
         });
     }
 }
