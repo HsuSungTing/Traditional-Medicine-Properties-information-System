@@ -7,6 +7,9 @@ SelectDoubleAPI = 'http://localhost:8002/select_double' ;
 SelectMedAPI = 'http://localhost:8002/select_med' ;
 SearchKeywordAPI = 'http://localhost:8002/search_result' ;
 
+/**
+ * 給定URL依照搜索結果在首頁上加上藥材卡片
+ */
 select(SelectAllAPI);
 function select(url){ axios(url).then((res)=>{//依照filter吐出藥材card
 
@@ -17,7 +20,7 @@ function select(url){ axios(url).then((res)=>{//依照filter吐出藥材card
     div_cardBox.setAttribute('id' , "result");
 
     res.data.forEach(element => {
-
+        //如果該藥材已存在在首頁中 則跳過 避免重複
         const exit = document.getElementById(`Card_${element.Med_name}`)
         if(exit) return;
 
@@ -42,29 +45,22 @@ function select(url){ axios(url).then((res)=>{//依照filter吐出藥材card
         div_card.appendChild(link);
         div_card.appendChild(title);
         div_cardBox.appendChild(div_card);
-//-------------------------------------------------------
-        // 為每個子元素（child）添加點選事件處理器
-        div_card.addEventListener('click', function() {
-          handleMedicineName(element.Med_id);
-      });        
-
     });
     main.appendChild(div_cardBox);
 });
 }
 
-///////////////單選表單處理
+//--------------單選表單處理--------------
 const form = document.getElementById('search-filter');
 var radioButtons = form.querySelectorAll('#search-filter input[type="radio"]');
   
   radioButtons.forEach(function(radioButton) {
     radioButton.addEventListener('change', function() {
       var value = this.value;
-      
       if (value === '1') {
         const A = document.getElementById('result');
-        if(A!=null) main.removeChild(A);
-        select(SelectMonoAPI);
+        if(A!=null) main.removeChild(A);//都要先移除後
+        select(SelectMonoAPI);//再加上內容
       } else if (value === '2') {
         const A = document.getElementById('result');
         if(A!=null) main.removeChild(A);
@@ -80,10 +76,11 @@ var radioButtons = form.querySelectorAll('#search-filter input[type="radio"]');
       }
     });
   });
-//////////////////////////////////////////////////////搜尋框處理
+//---------------------------搜尋框處理-------------------------
 var search = document.getElementById("searchInput");//搜尋框
 var selectedId = document.getElementById("selectedId");//推薦列表
 var arr=[] = getAllHerbName();//放所有的藥草名稱
+
 function getAllHerbName(){
   var herb_list=[];
   axios(SelectAllAPI).then((res)=>{
@@ -93,7 +90,6 @@ function getAllHerbName(){
   });
   return herb_list;
 }
-
 
 function showList(){//創造出推薦列表
 	var res = searchByIndexOf(search.value,arr);
@@ -108,8 +104,6 @@ function showList(){//創造出推薦列表
     
 	}
 }
-
-
 
 //模糊查询:利用字符串的indexOf方法(另也可用正則表達查詢)
 function searchByIndexOf(keyWord, list){
@@ -153,18 +147,17 @@ search.onfocus = function(){//焦點在搜索框上時 列表必須存在
 }
 
 //添加失去焦点事件
-search.onblur = function(){//焦點離開搜索框實 列表必須消失
+search.onblur = function(){//焦點離開搜索框時 列表必須消失
 //	console.log("soutsout")
   var drop = document.getElementById("drop");
   document.addEventListener("click", function(event) {
-    // 获取点击的目标元素
+    // 獲取點擊時的目標元素，如果點擊推薦列表，則不移除推薦列表
     var clickedElement = event.target;
     if(clickedElement.tagName!=='LI')selectedId.removeChild(drop);
-    
   });
-	
 }
 
+//點擊搜尋按鈕後的行為
 const search_btn = document.getElementById("search-btn-img");
 search_btn.onclick = function(event){
   event.preventDefault();
@@ -172,10 +165,9 @@ search_btn.onclick = function(event){
   // 获取搜索框中的关键字
   const keyword = document.getElementById('searchInput').value;
   var Link = SearchKeywordAPI + "?keyword=" + encodeURIComponent(keyword);
-  //這裡可以加 按下搜尋按鈕後 filter們的狀態都切回uncheck !!
-  const A = document.getElementById('result');
-  if (A != null) main.removeChild(A);
-  select(Link);
-  console.log(keyword);
   
+  const A = document.getElementById('result');
+  if (A != null) main.removeChild(A);//先刪掉當前的推薦列
+  select(Link);//再做一個新的推薦列
+  console.log(keyword);  
 }

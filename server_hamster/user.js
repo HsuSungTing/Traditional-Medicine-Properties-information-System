@@ -4,37 +4,38 @@ const db = require('./mssql.js');
 const moment = require('moment');
 const router = express.Router();
 
-//let selectAll = async function (tableName, callBack) {
+//取出AllMed中所有資料
 router.get('/select_all', function (req, res, next) {
     db.selectAll('AllMed', function (err, result) {//查询所有
         res.send(result.recordset)
     });
 });
-//select = async function (tableName, topNumber, whereSql, params, orderSql, callBack) {
+//取出AllMed中 是否單方=1 的資料
 router.get('/select_mono', function(req, res, next){
     db.select('AllMed', "", " where Med_mono = @param",  { param: 1 }, '', function (err, result) {
         res.send(result.recordset)
         
     });
 });
-
+//取出AllMed中 是否複方=1 的資料
 router.get('/select_double', function(req, res, next){
     db.select('AllMed', "", " where Med_double = @param",  { param: 1 }, '', function (err, result) {
         res.send(result.recordset)
     });
 });
+//取出AllMed中 是否飲片=1 的資料
 router.get('/select_med', function(req, res, next){
     db.select('AllMed', "", " where Med_herb = @param",  { param: 1 }, '', function (err, result) {
         res.send(result.recordset)
     });
 });
-
+//取出MedSource中 的所有資料來源連結
 router.get('/ref_link',function(req, res, next){
     db.selectAll('MedSource', function (err, result) {//查询所有
         res.send(result.recordset)
     });
 });
-
+//依照首頁搜尋框輸入的keyword查詢匹配的藥材名稱
 router.get('/search_result',function(req, res, next){
     const keyword = req.query.keyword; // 获取前端传递的关键字参数
     db.selectAll('AllMed', function (err, result) {//查询所有
@@ -58,11 +59,11 @@ router.get('/search_result',function(req, res, next){
             console.log(arr);
             res.send(arr);//包含target的words的list
         }
-        
     });
 });
 
-//let select2Table = async function (table1, commonID, table2, whereSql, params, callBack) {
+//依照標準品編號ID取得資料表tbName中的資料
+//用於在標準品頁面中找到 樣品資料表的藥材名等資訊 標準品資料表的標準品名稱等資料
 router.get("/standar",function(req, res, next){
     const stanId = req.query.stanId; // 获取前端传递的关键字参数
     const tbName = req.query.tbName;
@@ -75,7 +76,8 @@ router.get("/standar",function(req, res, next){
     });
     
 }); 
-
+//生成進階搜尋選項
+//可透過max控制每一attribute生成之選項數量
 router.get("/option",function(req, res, next){
     const Attribute = req.query.Attribute;
     try {
@@ -92,7 +94,7 @@ router.get("/option",function(req, res, next){
     });
 });
 
-//----------------------------------
+//找出該attribute除了現有選項以外的其他結果[other]
 router.get("/FindOtherResult",function(req, res, next){
     const parent = req.query.parent;
     const tbName=req.query.tbName;
@@ -115,7 +117,7 @@ router.get("/FindOtherResult",function(req, res, next){
 //----------------------------------
 
 //encode
-
+//找出parent 萃取溶劑 = attr 甲醇的結果，並進行編碼
 router.get("/filter_result",function(req, res, next){
     const tableName = req.query.tbName;
     const parent = req.query.parent;
@@ -139,6 +141,7 @@ router.get("/filter_result",function(req, res, next){
 });
 
 //decode
+//進行解碼找到該筆樣品 或 標準品的資料
 router.get("/option_search_result",function(req, res, next){
     const num = req.query.num;
     if(num.length===8){
