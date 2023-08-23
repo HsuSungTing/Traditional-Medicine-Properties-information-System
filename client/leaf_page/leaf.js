@@ -5,16 +5,16 @@ const {herb_name, nameid, x, y ,stanId,img_id} = Object.fromEntries(urlParams.en
 console.log([herb_name, nameid, x, y,img_id]);
 
 ref_link_block_maker(LinkAPI);
+//處理標準品連結與參考資料連結
 function ref_link_block_maker(url){
     axios(url).then((res)=>{
-
         console.log(res.data);
         const div_linkBox = document.getElementById("link-part");
         const standar_link = document.createElement('a');
         standar_link.setAttribute('id','standar_link');
         standar_link.setAttribute('class', 'link-text-color');
         standar_link.innerHTML = `<font>藥材適用標準品</font>`;
-        if(isNaN(stanId)) {// 如果 stanId 不是一個數字 用===null沒用QQ
+        if(isNaN(stanId)) {// 如果 stanId 不是一個數字 用===null沒辦法QQ
             standar_link.addEventListener('click', function(event) {
             // 阻止默認的鏈接行為，以便我們可以自行控制
                 event.preventDefault();

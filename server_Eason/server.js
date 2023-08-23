@@ -1,8 +1,9 @@
 //引入express
 const express = require('express')
-
+const bodyParser = require('body-parser'); // Add this line
 let server = express() //server是物件
 server.use(express.urlencoded()) //中间件要写在启动文件里面
+server.use(bodyParser.json());
 
 const cors = require('cors')
 server.use(cors())//CORS (Cross-Origin Resource Sharing) 是一种安全机制，用于控制跨域资源共享
