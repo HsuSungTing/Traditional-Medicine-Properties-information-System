@@ -2,28 +2,26 @@ html {
   height: 100%;
   width: 100%;
   background-color: white;
-  
 }
 #logo-img{
   width:auto;
   height:70px;
 }
-.search{/*最上1/3部分布局用*/
+/*搜索框整塊與logo區外部布局用*/
+.search{
   padding: 20px;
   background-color: #ffffff;
   text-align: left;
   display:flex;
-  /*margin:10px;*/
   justify-content: center;
   align-items: center;
   height: 30px;
-  
   position: sticky;/*最上方固定不動*/
   top:0;
 }
+/*搜索框、按鈕、推薦條目 內部布局用*/
 .sea-container {
   height: 30px;
-  /*margin: 100px auto;*/
   border: 1px solid #c9ced6;
 }
 
@@ -39,12 +37,10 @@ ul#drop li {
   background-color: white;
   font-family: DFKai-sb;
 }
-
 ul#drop li:hover {
   background-color: darkgrey;
 }
-
-
+/*計畫名稱*/
 #title{
   background-color: #44546a;
   width: 100%;
@@ -55,6 +51,7 @@ ul#drop li:hover {
   text-align: center;
   /*margin:10px;*/
 }
+/*搜尋輸入框*/
 #searchInput{
   padding:5px;
   float: left;
@@ -62,41 +59,39 @@ ul#drop li:hover {
   padding: 0 10px;
   box-sizing: border-box;
 }
+/*搜尋按鈕圖樣*/
 #search-btn-img{
   width: 30px; /* 调整图像的宽度 */
   height: 24px; /* 调整图像的高度 */
   vertical-align: middle; /* 可选：将图像垂直居中 */
 }
-
+/*下拉式推薦列表*/
 .result{
   background-color: #f2ece4;
-  /*margin:10px;*/
-  /* border:#fb0404;border-style:solid;border-width:12px;padding:5px; */
   display: flex;
   flex-flow: row wrap;
   align-content:space-around;
   padding:20px;
-  
 }
+/*藥材卡片*/
 .herb{
   display:flex;
   flex-direction: column;
   flex-basis:1;
   height:300px;
-  /*border:#fb0404;border-style:solid;border-width:12px;padding:5px;*/
   font-size: 20px;
   font-family: DFKai-sb;
   color: black;
   text-align: center;
   margin:30px;
 }
+/*藥材圖片*/
 .herb-img{
   width:300px;
   height:300px;
   border-radius: 10px;
 }
-
-
+/*進階搜尋按鈕*/
 .rounded-button {
   display: flex;
   justify-content: center; /* 將內容水平置中 */
@@ -113,14 +108,12 @@ ul#drop li:hover {
   font-size: 16px;
   cursor: pointer;
 }
-
 /* 滑鼠懸停時變換按鈕顏色 */
 .rounded-button:hover {
   background-color: #9b9ea3;
   color: white; /* 文字顏色變換為白色 */
   border: 3px solid #44546a; 
 }
-
 /* 按鈕被點擊時變換按鈕顏色 */
 .rounded-button:active {
   background-color: #23334A;

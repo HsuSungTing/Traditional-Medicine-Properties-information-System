@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>資料輸入頁</title>
+  <link href="get_input.css" rel="stylesheet" type="text/css" />
+  <link href="style.css"  rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <!-- 最上方標題 -->
+    <div class="position-fix-wrapper">
+        <div class="title_class">
+            <a id="med_name" href="../home_page/index.html">首頁</a>
+            <a href="https://www.mohw.gov.tw/mp-1.html"><img src="logo.png" id='logo'alt="衛生福利部" title="衛生福利部"></a>
+            <div id="sub_title">
+                <!-- <p>衛生福利部</p>
+                <p>|<p>
+                <p>聯絡我們</p>
+                <p>|<p>
+                <p>English</p> -->
+            </div>
+            
+        </div>
+        <hr class="line">
+        
+    </div>
+    <!-- 最上方標題 -->
+    <!--下方大區域-->
+   <div class="content-wrapper">
+    <!-- 左側資料表名稱區塊 -->
+    <div id="mySidebar" class="sidebar">
+      <div id ="AllMed_id" class="dataTableName">
+        AllMed
+      </div>
+      <div id ="MedSource_id" class="dataTableName">
+        MedSource
+      </div>
+      <div id ="SampleData_id" class="dataTableName">
+        SampleData
+      </div>
+      <div id ="StandardData_id" class="dataTableName">
+        StandardData
+      </div>
+      <button id="Add_Data_btn" class="add_newdata" onclick="add_new_row_control()">+</button>
+    </div>
+    <!-- 左側資料表名稱區塊 -->
+    
+    <!-- 右側表格區塊 -->
+    <div id="page-content" class="page-content" >
+      <!-- 開啟側邊欄的按鈕 -->
+      <button class="openbtn" onclick="opneORclose()">☰</button>
+      <!-- <button id="AllMed_id">AllMed</button>
+      <button id="MedSource_id">MedSource</button>
+      <button id="SampleData_id">SampleData</button>
+      <button id="StandardData_id">StandardData</button> -->
+    <br>
+    <br>
+    <main id="main"></main>
+    
+    </div>
+    <!-- 右側表格區塊 --> 
+   </div>
+    <!--下方大區域-->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script><!--for AXIOS-->
+  <script src="script.js" ></script>
+  <script src="get_input.js"></script>
+</body>
+
+</html>

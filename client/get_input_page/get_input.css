@@ -1,0 +1,157 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+
+/*上方橫條的樣式們*/
+.position-fix-wrapper {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 80;
+  /*圖層處理*/
+}
+
+.title_class {
+  padding: 0px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: 50px;
+  margin: 5px;
+  position: sticky;
+  /*頂部固定*/
+  top: 0;
+}
+
+#logo {
+  width: 330px;
+  height: auto;
+}
+
+#sub_title {
+  font-weight: bold;
+  font-size: 17px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 40px;
+  width: 320px;
+  position: relative;
+  left: 80px;
+  color: rgb(0, 0, 0);
+  margin-left: 150px;
+}
+
+.line {
+  position: relative;
+  top: 10px;
+
+}
+
+#med_name {
+  width: 60px;
+  height: auto;
+  margin: 5px;
+  padding: 5px;
+  color: black;
+  font-size: large;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 10px;
+
+  /* 使用 Flexbox 將文字置中 */
+  display: flex;
+  justify-content: center;
+  /* 水平置中 */
+  align-items: center;
+  /* 垂直置中 */
+}
+
+#med_name:hover {
+  background-color: rgb(144, 144, 147);
+  color: aliceblue;
+}
+.content-wrapper{
+  margin-top:30px;
+}
+.sidebar {
+  /*level 1*/
+  /*margin-left: 30px;*/
+  height: 85%;
+  width: 300px;
+  position: fixed;
+  top: 75px;
+  left: 0px;
+  /* 初始位置開啟(距右邊0) */
+  background-color: #333;
+  /* padding-top: 60px; */
+  transition: right 0.3s;
+  /* 使用 right 屬性的過渡效果 */
+  overflow-y: auto;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  
+}
+/* 開啟側邊欄的按鈕樣式 */
+.openbtn {
+  font-size: 30px;
+  cursor: pointer;
+  background-color: gray;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  width:60px;
+  height:60px;
+  /* position: absolute; */
+  /* align-self: flex-end; */
+  right: 0;
+  border-radius: 5px; /* 圓弧形的四個角 */
+}
+.dataTableName{
+  background-color:white;
+  margin:15px;
+  padding:10px;
+  color:black;
+  font-style:bold;
+  border-radius: 5px;
+}
+
+/* 頁面內容的樣式 */
+.page-content {
+  /* 留出側邊欄的寬度 */
+  overflow-x: auto;
+  width:75%;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+
+  background-color: #f2ece4;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: space-around;
+
+  /* height:1000px; */
+  /* border:#fb0404;border-style:solid;border-width:12px;padding:5px; */
+
+}
+
+.add_newdata{
+  border-radius: 70px;
+  height:70px;
+  width:70px;
+  font-size: 5ch;
+  background-color:  #97dbcb;;
+  color:white;
+  align-self: flex-end;
+}
+.cancel_newdata{
+  border-radius: 70px;
+  height:70px;
+  width:70px;
+  font-size: 2ch;
+  background-color:  #97dbcb;;
+  color:white;
+  align-self: flex-end;
+}

@@ -53,17 +53,17 @@ function select(url){ axios(url).then((res)=>{
         var herb_storage = data.map(item => item['Med_storage']);
 
         herb_name_Container.innerHTML = '中文名：' + herb_name.join(', ');
-        herb_latin_Container.innerHTML='拉丁生藥名稱: '+herb_latin.join(', ');
-        herb_Eng_Container.innerHTML= "英文名稱: "+herb_Eng.join(', ');
+        herb_latin_Container.innerHTML='拉丁生藥名稱：'+herb_latin.join(', ');
+        herb_Eng_Container.innerHTML= "英文名稱："+herb_Eng.join(', ');
 
-        herb_base_Container.innerHTML= "基原: "+herb_base.join(', ');
-        herb_amount_Container.innerHTML= "含量: "+herb_amount.join(', ');
-        herb_use_Container.innerHTML= "用途分類: "+herb_use.join(', ');
+        herb_base_Container.innerHTML= "基原："+herb_base.join(', ');
+        herb_amount_Container.innerHTML= "含量："+herb_amount.join(', ');
+        herb_use_Container.innerHTML= "用途分類："+herb_use.join(', ');
 
-        herb_attribute_Container.innerHTML= "性味與歸經: "+herb_attribute.join(', ');
-        herb_effect_Container.innerHTML= "效能: "+herb_effect.join(', ');
-        herb_use_amount_Container.innerHTML= "用法與用量: "+herb_use_amount.join(', ');
-        herb_storage_Container.innerHTML="貯藏法: "+herb_storage.join(', ');
+        herb_attribute_Container.innerHTML= "性味與歸經："+herb_attribute.join(', ');
+        herb_effect_Container.innerHTML= "效能："+herb_effect.join(', ');
+        herb_use_amount_Container.innerHTML= "用法與用量： "+herb_use_amount.join(', ');
+        herb_storage_Container.innerHTML="貯藏法："+herb_storage.join(', ');
         });
 }
 
