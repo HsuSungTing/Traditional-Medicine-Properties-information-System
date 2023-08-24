@@ -57,6 +57,12 @@ router.post('/updateData', function (req, res) {
             "Standard_id": targetId
         };
     }
+    else if(selected_table=="MedAssociate"){
+        delete keep_input_obj["Asso_id"];
+        whereObj = {
+            "Asso_id": targetId
+        };
+    }
     else{
         delete keep_input_obj["Med_name"];
         delete keep_input_obj["Med_id"];
@@ -93,6 +99,9 @@ router.post('/add_new_row', function (req, res) {
     else if(selected_table=="StandardData"){
         addobj["Standard_id"]=row_id;
     }
+    else if(selected_table=="MedAssociate"){
+        addobj["Asso_id"]=row_id;
+    }
     else{
         addobj["Sample_id"]=row_id;
     }
@@ -128,6 +137,12 @@ router.post('/delete_row', function (req, res) {
     }
     else if(selected_table=="StandardData"){
         whereSql="WHERE Standard_id= @id";
+        params={
+            id:row_id
+        }
+    }
+    else if(selected_table=="MedAssociate"){
+        whereSql="WHERE Asso_id= @id";
         params={
             id:row_id
         }

@@ -340,7 +340,7 @@ function optionGenerator(subCardName, max){
             axios(url).then((res)=>{
                 res.data.forEach(element => {
                     //options.push(element[condition[0]])
-                    if(element[condition[0]]===null){//之後再改= =
+                    if(element[condition[0]]===null || element[condition[0]]===""){//之後再改= =
                         // if(condition[1].length>=1) condition[1][0]=1;
                         // else condition[1].push(1);
                     }else{
