@@ -12,6 +12,7 @@ const AllMed_btn=document.getElementById("AllMed_id");
 const MedSource_btn=document.getElementById("MedSource_id");
 const SampleData_btn=document.getElementById("SampleData_id");
 const StandardData_btn=document.getElementById("StandardData_id");
+const MedAssociate_btn=document.getElementById("MedAssociate_id")
 AllMed_btn.addEventListener("click", () => {
     selected_table="AllMed";
     updateClickedState(selected_table);
@@ -32,11 +33,17 @@ StandardData_btn.addEventListener("click", () => {
     updateClickedState(selected_table);
     update_table()
 });
+MedAssociate_btn.addEventListener("click", () => {
+    selected_table="MedAssociate";
+    updateClickedState(selected_table);
+    update_table()
+});
 //-----------------sidebar btns hover----------------------
 setHoverStyle(document.getElementById("AllMed_id"));
 setHoverStyle(document.getElementById("MedSource_id"));
 setHoverStyle(document.getElementById("SampleData_id"));
 setHoverStyle(document.getElementById("StandardData_id"));
+setHoverStyle(document.getElementById("MedAssociate_id"));
 
 function setHoverStyle(obj){
 
@@ -56,7 +63,7 @@ function setHoverStyle(obj){
     });  
 }
 function updateClickedState(selected){
-    sidebarBtn = ["AllMed_id", "MedSource_id", "SampleData_id", "StandardData_id"];
+    sidebarBtn = ["AllMed_id", "MedSource_id", "SampleData_id", "StandardData_id","MedAssociate_id"];
     objId = selected + "_id";
     for(const id of sidebarBtn){
         if(id==objId) document.getElementById(id).clicked = true;
@@ -217,6 +224,9 @@ function maketable(){
         }
         else if(selected_table=="SampleData"){
             ID_array.push(item["Sample_id"]);
+        }
+        else if(selected_table=="MedAssociate"){
+            ID_array.push(item["Asso_id"]);
         }
         else {
             ID_array.push(item["Standard_id"]);
