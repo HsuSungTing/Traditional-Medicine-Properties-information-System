@@ -125,7 +125,7 @@ function remove_empty_row() {
     
     if (lastRow) {
         tbody.removeChild(lastRow);
-        current_table_lenth=current_table_lenth-1;
+        current_table_lenth=current_table_lenth-1;//是把最後一個元素拿掉
         ID_array.pop();
     }
     console.log("ID_array",ID_array);
@@ -394,8 +394,14 @@ function delete_row(row_id){
         axios.post(delete_row_API, data).then((res) => {
         console.log(res.data);
     });
+    for(var i=0;i<current_table_lenth;i++){
+        if(ID_array[i]==row_id){
+            ID_array.splice(i, 1);
+            break
+        }
+    }
     current_table_lenth=current_table_lenth-1;//長度要扣1
-    ID_array.pop();//從記錄的array中清除
+    //ID_array.pop();//從記錄的array中清除該row_id
     removeRowById("row_id_"+row_id);
 }
 function removeTable() {

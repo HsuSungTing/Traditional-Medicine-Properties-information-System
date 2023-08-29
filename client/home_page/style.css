@@ -17,7 +17,10 @@ html {
   align-items: center;
   height: 30px;
   position: sticky;/*最上方固定不動*/
+  font-family: DFKai-sb;
+  font-size: 20px;
   top:0;
+
 }
 /*搜索框、按鈕、推薦條目 內部布局用*/
 .sea-container {
@@ -35,7 +38,7 @@ ul#drop li {
   margin: 0;
   padding: 10px;
   background-color: white;
-  font-family: DFKai-sb;
+  /* font-family: DFKai-sb; */
 }
 ul#drop li:hover {
   background-color: darkgrey;
@@ -107,6 +110,7 @@ ul#drop li:hover {
   text-decoration: none;
   font-size: 16px;
   cursor: pointer;
+  font-family: DFKai-sb;
 }
 /* 滑鼠懸停時變換按鈕顏色 */
 .rounded-button:hover {

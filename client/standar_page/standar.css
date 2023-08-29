@@ -19,7 +19,7 @@
 }
 #sub_title{
     font-weight: bold;
-    font-size: 17px;
+    font-size: 23px;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -45,7 +45,7 @@
     width: 270px;
     font-weight: bold;
     color: rgb(1, 1, 1);
-    
+    font-size: 22px;
 }
 #med_name{ color:black;}
 #med_info{ color:black;}
@@ -112,18 +112,23 @@
 
 .chart-part{
   display:flex;
-  flex-direction: column;
-  justify-content: center; /*置中用*/
+  flex-wrap: wrap;
+  justify-content: center; 
+  align-items: center; 
+  justify-content: center; /*置中用
   align-items: center; /*置中用*/
-
+  left: -300px;
 }
+
+/* 圖表格式 */
 .datachart-img{
   flex-basis: 1;
-  width: 450px;
-  margin-left:20px;
+  width: 500px;
+  left: -100px;
   max-width:100%; /*置中用*/
   max-height:100%; /*置中用*/
-  
+  /* margin-left:0px; */
+  margin:10px;
 }
 .link-part{
   display:flex;
