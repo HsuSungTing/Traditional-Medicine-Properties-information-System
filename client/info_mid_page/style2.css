@@ -85,9 +85,11 @@
     width: 270px;
     font-weight: bold;
     color: rgb(1, 1, 1);
+    font-size: 22px;
 }
 .text{
     margin: 10px;
+    font-size: 22px;
 }
 .square_img{
     width: 230px;
@@ -105,7 +107,8 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 80px;
+    padding: 0px 80px 80px;
+    
 }
 .med_info{
     display: flex;
@@ -114,8 +117,18 @@
     padding:20px;
 }
 .med_info_img{
-    width: 230px; /* 调整图像的宽度 */
-    height: 150px; /* 调整图像的高度 */
+    width: 280px; /* 调整图像的宽度 */
+    /* height: 180px;  */
     vertical-align: middle; /* 可选：将图像垂直居中 */
     margin: 20px;
+}
+.med_info{
+    font-size: 22px;
+}
+#ref_title{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 23px;
+    font-weight: bold;
 }

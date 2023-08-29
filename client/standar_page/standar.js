@@ -79,6 +79,8 @@ function check_img(imagePath) {
 }
 
 async function loadImages() {
+    const img_left = document.getElementById("img_left");
+    const img_right = document.getElementById("img_right");
     let ref_img=document.createElement("img");//參考條件截圖
     ref_img.setAttribute('class', "datachart-img");
     const imagePath1 = "../../img_path/參考條件截圖/"+`${stanId}`+".png";
@@ -99,10 +101,10 @@ async function loadImages() {
     const imagePath4 = "../../img_path/標準品與萃取溶劑的比例截圖/"+`${stanId}`+".png";
     ratio_img.src=await check_img(imagePath4);
     //--------------------------------------------------
-    main.appendChild(ref_img);
-    main.appendChild(finger_print_img);
-    main.appendChild(finger_print_data_img);
-    main.appendChild(ratio_img);
+    img_left.appendChild(ref_img);
+    img_left.appendChild(ratio_img);
+    img_right.appendChild(finger_print_img);
+    img_right.appendChild(finger_print_data_img);
 }
 
 loadImages(); // 呼叫函數來加載圖片
