@@ -198,6 +198,7 @@ let select = async function (tableName, topNumber, whereSql, params, orderSql, c
              }
          }
          sql = sql.substring(0, sql.length - 5);
+         console.log("sql",sql)
          ps.prepare(sql, function (err) {
              if (err)
                  console.log(err);

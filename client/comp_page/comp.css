@@ -1,0 +1,128 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+/*固定上方標題用*/
+.position-fix-wrapper{
+  position: sticky;
+  top:0;
+  background-color: white;
+}
+/*最上方標題區*/
+.title_class{
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 50px;
+    margin: 5px;
+    position: sticky;/*頂部固定*/
+    top:0;
+}
+#logo{
+    width: 330px;
+    height: auto;
+}
+/*English 聯絡我們*/
+#sub_title{
+    font-weight: bold;
+    font-size: 22px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 40px;
+    width: 320px;
+    position: relative;
+    left: 80px;
+    color: rgb(0, 0, 0);
+}
+.line{
+    position: relative;
+    top: 10px;
+}
+/*副標題頁面跳轉按鈕區*/
+.choice_class{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 2px;
+    margin: 5px 0px 0px 0px;
+    height: 40px;
+    width: 380px;
+    font-weight: bold;
+    color: rgb(1, 1, 1);
+    font-size: 22px;
+    
+}
+/*三個頁面跳轉按鈕*/
+.choice{ color:black; }
+.choice:hover{
+  width: fit-content;
+  height: 25px;
+  background-color: rgb(11, 11, 90);
+  padding: 2px;
+  border-radius: 2px;
+  color: aliceblue;
+}
+/* #med_name{ color:black;}
+#med_info{ color:black;}
+#med_ref{ color:black;}
+#med_info:hover{
+  
+}
+#med_ref:hover{
+  width: fit-content;
+  height: 25px;
+  padding: 2px;
+  background-color: rgb(11, 11, 90);
+  border-radius: 2px;
+  color: aliceblue;
+}
+#med_name:hover{
+  width: fit-content;
+  height: 25px;
+  padding: 2px;
+  background-color: rgb(11, 11, 90);
+  border-radius: 2px;
+  color: aliceblue;
+} */
+.text{
+  margin: 10px;
+  font-size: 22px;
+}
+/* .content{
+  font-family:DFKai-sb; 
+  font-weight: bold; 
+} */
+
+/*單方藥材組成 單方卡*/
+.med_info_box{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0px 80px 80px;
+
+}
+.med_info{
+  display: flex;
+  flex-direction: column;
+  align-content:space-around;
+  padding:20px;
+  font-size: 22px;
+}
+.med_info_img{
+  width: 230px; /* 调整图像的宽度 */
+  height: 150px; /* 调整图像的高度 */
+  vertical-align: middle; /* 可选：将图像垂直居中 */
+  margin: 20px;
+}
+#ref_title{
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+}

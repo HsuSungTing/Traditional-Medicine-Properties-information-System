@@ -1,5 +1,6 @@
 LinkAPI = 'http://localhost:8002/ref_link';
 StandarDataAPI = 'http://localhost:8002/standar';
+const main = document.getElementById("main");
 const urlParams = new URLSearchParams(window.location.search);
 const {stanId } = Object.fromEntries(urlParams.entries());
 
@@ -29,7 +30,7 @@ function ref_link_block_maker(url, sourceId){
     });
     
 }
-  
+
 function getSampleData(url){
     axios(url).then((res)=>{
         res.data.forEach(element => {
@@ -43,6 +44,67 @@ function getSampleData(url){
         });
     });
 }
+
 getSampleData(StandarDataAPI + `?stanId=${stanId}&tbName=SampleData&max=${1}`);
 document.getElementById("med_name").setAttribute("href","../home_page/index.html");
-document.getElementById("sample").innerHTML=`藥材適用標準品`;
+//document.getElementById("sample").innerHTML=getStandarData(StandarDataAPI + `?stanId=${stanId}&tbName=StandardData&max=${1}`);
+getStandarData(StandarDataAPI + `?stanId=${stanId}&tbName=StandardData&max=${1}`);
+
+function getStandarData(url){
+    console.log(url);
+    axios(url).then((res)=>{
+        res.data.forEach(element => {
+            Standard_name = document.getElementById("sample");
+            Standard_name.innerHTML = element.Standard_name;
+            Standard_name.style.textAlign = 'left';
+        });
+    });
+    
+}
+
+//----------檢查圖片是否正確生成-----------
+function check_img(imagePath) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = function () {
+            console.log('圖片存在且可以打開。');
+            resolve(imagePath);
+        };
+        img.onerror = function () {
+            console.error('圖片不存在或無法打開');
+            resolve("./甘草1_1_1.png"); // 返回預設圖片路徑
+        };
+        img.src = imagePath; // 判定該路徑的圖片是否存在
+    });
+}
+
+async function loadImages() {
+    const img_left = document.getElementById("img_left");
+    const img_right = document.getElementById("img_right");
+    let ref_img=document.createElement("img");//參考條件截圖
+    ref_img.setAttribute('class', "datachart-img");
+    const imagePath1 = "../../img_path/參考條件截圖/"+`${stanId}`+".png";
+    ref_img.src=await check_img(imagePath1);
+    //--------------------------------
+    let finger_print_img=document.createElement("img");//指紋圖譜
+    finger_print_img.setAttribute('class', "datachart-img");
+    const imagePath2 = "../../img_path/指紋圖譜截圖/"+`${stanId}`+".png";
+    finger_print_img.src=await check_img(imagePath2);
+    //--------------------------------
+    const finger_print_data_img=document.createElement("img");//指紋圖譜數據
+    finger_print_data_img.setAttribute('class', "datachart-img");
+    const imagePath3 = "../../img_path/指紋圖譜數據截圖/"+`${stanId}`+".png";
+    finger_print_data_img.src=await check_img(imagePath3);
+    //-------------------------------------
+    const ratio_img=document.createElement("img");//萃取溶劑比例
+    ratio_img.setAttribute('class', "datachart-img");
+    const imagePath4 = "../../img_path/標準品與萃取溶劑的比例截圖/"+`${stanId}`+".png";
+    ratio_img.src=await check_img(imagePath4);
+    //--------------------------------------------------
+    img_left.appendChild(ref_img);
+    img_left.appendChild(ratio_img);
+    img_right.appendChild(finger_print_img);
+    img_right.appendChild(finger_print_data_img);
+}
+
+loadImages(); // 呼叫函數來加載圖片

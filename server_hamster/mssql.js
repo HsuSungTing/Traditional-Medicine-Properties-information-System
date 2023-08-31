@@ -14,11 +14,11 @@ pool.on('error', err=>{
 })
 /**
  * 自由查詢
+ * 提供使用者直接使用sql語句來與資料庫戶動owo，目前沒被使用到
  * @param sqL sqL語句, 例如: 'seLect * from news where id=@id'
  * @param params 參數, 用來解釋sqL中的@*, 例如 {id: id}
  * @param callBack 回調函數
  */
-
 let querySql = async function(sql, params, callBack){
     try{
         let ps = new mssql.PreparedStatement(await poolConnect);
@@ -46,10 +46,7 @@ let querySql = async function(sql, params, callBack){
         console.log(e)
     }
 };
-//後面還有add selectAll update select del 要處理
 
-
-  
  /**
   * 按条件和需求查询指定表
   * @param tableName 数据库表名，例：'news'
@@ -119,49 +116,6 @@ let select = async function (tableName, topNumber, whereSql, params, orderSql, c
      }
  };
 
-   
- /**
-  * 按条件和需求查询指定表
-  * @param table1 数据库表名1 取出資料的表，例：'news1'
-  * @param commonID 兩個數據表參照之同名ID(若不同名需修改此function)
-  * @param table2 数据库表名2 參照用的表，例：'news2'
-  * @param whereSql 条件语句，例：'where Pid = @id'
-  * @param params 参数，用来解释sql中的@*，例如： { id: someid }
-  * @param callBack 回调函数
-  */
-//  let select2Table = async function (table1, commonID, table2, whereSql, params, callBack) {
-//     try {
-//         let ps = new mssql.PreparedStatement(await poolConnect);
-//         let sql = "select * from " + table1 + " ";
-//         sql +="where " +table1+'.'+ commonID + " in ";
-//         sql +="( select " + commonID +" from "+ table2 +" ";
-//         sql += whereSql + " );";
-//          if (params != "") {
-//              for (let index in params) {
-//                  if (typeof params[index] == "number") {
-//                      ps.input(index, mssql.Int);
-//                  } else if (typeof params[index] == "string") {
-//                      ps.input(index, mssql.NVarChar);
-//                  }
-//              }
-//          }
-
-//         console.log(sql);
-//         ps.prepare(sql, function (err) {
-//             if (err) console.log(err);
-
-//             ps.execute(params, function (err, recordset) {
-//                 callBack(err, recordset);
-//                 ps.unprepare(function (err) {
-//                     if (err)
-//                         console.log(err);
-//                 });
-//             });
-//         });
-//     } catch (e) {
-//         console.log(e)
-//     }
-// };
   
  /**
   * 添加字段到指定表
@@ -295,7 +249,15 @@ let select = async function (tableName, topNumber, whereSql, params, orderSql, c
      }
  };
 
- let optionGenerator = async function (tableName, Attribute, topNumber, callBack) {
+/**參數取得欲查詢的資料表名稱 以及 欲查詢的屬性ex萃取溶劑
+ * 回傳一個2column結果like：
+ * 萃取溶劑 count
+ * 乙醇     10
+ * 甲醇     8
+ * 甲酸     1
+ * 用以在進階搜時產生選項如甲醇、乙醇
+*/
+let optionGenerator = async function (tableName, Attribute, topNumber, callBack) {
     try {
         let ps = new mssql.PreparedStatement(await poolConnect);
         let sql = "select " + Attribute + " , COUNT(*) as count";
@@ -303,13 +265,13 @@ let select = async function (tableName, topNumber, whereSql, params, orderSql, c
             sql = "select top(" + topNumber + ") " + Attribute + " , COUNT(*) as count";
         }
         sql += " from " + tableName + " group by " + Attribute;
-        sql += " HAVING COUNT(*) > 1 ORDER BY COUNT(*) DESC"
-        
+        sql += " HAVING COUNT(*) > 1 ORDER BY COUNT(*) DESC";
+
         console.log(sql);
         ps.prepare(sql, function (err) {
-           if (err) console.log(err);
+            if (err) console.log(err);
 
-           ps.execute("", function (err, recordset) {
+            ps.execute("", function (err, recordset) {
                 callBack(err, recordset);
                 ps.unprepare(function (err) {
                     if (err)
@@ -321,13 +283,36 @@ let select = async function (tableName, topNumber, whereSql, params, orderSql, c
         console.log(e)
     }
 };
-  
- exports.config = conf;
- exports.del = del;
- exports.select = select;
- exports.update = update;
- exports.querySql = querySql;
- exports.selectAll = selectAll;
- //exports.select2Table = select2Table;
- exports.add = add;
- exports.optionGenerator = optionGenerator;
+//找出該attribute除了現有選項以外的其他結果[other]
+let FindOtherResult_func = async function (tableName, Attribute, callBack) {
+    try {
+        let ps = new mssql.PreparedStatement(await poolConnect);
+        let sql = "SELECT * FROM " + tableName + " WHERE " + Attribute + " IN (";
+        sql += "SELECT " + Attribute + " FROM " + tableName + " GROUP BY " + Attribute + " HAVING COUNT(*) = 1";
+        sql += ")";
+        console.log(sql);
+        ps.prepare(sql, function (err) {
+            if (err) console.log(err);
+            ps.execute("", function (err, recordset) {
+                callBack(err, recordset);
+                ps.unprepare(function (err) {
+                    if (err)
+                        console.log(err);
+                });
+            });
+        });
+    } catch (e) {
+        console.log(e)
+    }
+};
+
+
+exports.config = conf;
+exports.del = del;
+exports.select = select;
+exports.update = update;
+exports.querySql = querySql;
+exports.selectAll = selectAll;
+exports.add = add;
+exports.optionGenerator = optionGenerator;
+exports.FindOtherResult_func=FindOtherResult_func;

@@ -12,19 +12,18 @@
 </head>
 
 <body>
+  <!-- 標題圖片+單選選項+搜尋框 -->
   <div class="search">
-    <!-- 標題圖片+篩選勾勾+搜尋框 -->
-    <img src="logo.png" id='logo-img'alt="國立陽明交通大學" title="國立陽明交通大學">
+    <a href="https://www.mohw.gov.tw/mp-1.html"><img src="logo.png" id='logo-img'alt="衛生福利部" title="衛生福利部"></a>
 
     <form class="search" id=search-filter>
-      <label><input type="radio" value="1" name="filter"> 單方</label><br>
-      <label><input type="radio" value="2" name="filter"> 複方</label><br>
-      <label><input type="radio" value="3" name="filter"> 藥材</label><br>
-      <label><input type="radio" value="4" name="filter"> 全部</label><br>
+      <label><input type="radio" value="1" name="filter" >單方  </label><br>
+      <label><input type="radio" value="2" name="filter">複方  </label><br>
+      <label><input type="radio" value="3" name="filter">藥材  </label><br>
+      <label><input type="radio" value="4" name="filter">全部  </label><br>
     </form>
-    <div class="search" id="search-box"><!--最上1/3部分布局用-->
-      
-      <div class="sea-container"><!--搜索框、按鈕、推薦條目布局用-->
+    <div class="search" id="search-box"><!--搜索框整塊與logo區外部布局用-->
+      <div class="sea-container"><!--搜索框、按鈕、推薦條目 內部布局用-->
 				<form action="">
 					<input type="text" id="searchInput" placeholder="輸入藥材名稱">
           <button><img src="https://img.onl/IPKcuK" alt="搜索" id=search-btn-img></button>
@@ -33,28 +32,19 @@
                 
 			</div>
     </div>
-    <div class="search"><!--進階搜尋按鈕-->
+    <!--進階搜尋按鈕-->
+    <div class="search">
       <a href="../search_page/search.html" class="rounded-button">進階搜尋</a>
     </div>
   </div>
+  <!-- 計畫名稱 -->
   <div id="title">
-    <!-- 計畫名稱 -->
     中藥材或中藥製劑指紋圖譜資料探勘計畫
   </div>
   
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script><!--for AXIOS-->
 
   <script src="script.js" ></script>
-
-  
-  
-
-  <!--
-  This script places a badge on your repl's full-browser view back to your repl's cover
-  page. Try various colors for the theme: dark, light, red, orange, yellow, lime, green,
-  teal, blue, blurple, magenta, pink!
-  -->
-  <!-- <script src="https://replit.com/public/js/replit-badge-v2.js" theme="green" position="bottom-right"></script> -->
 </body>
 
 </html>

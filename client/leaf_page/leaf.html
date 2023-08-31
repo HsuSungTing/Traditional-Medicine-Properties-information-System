@@ -15,13 +15,13 @@
   <div class="position-fix-wrapper">
     <div class="title_class">
       <!-- 最上方標題 -->
-      <img src="logo.png" id="logo">
+      <a href="https://www.mohw.gov.tw/mp-1.html"><img src="logo.png" id='logo'alt="衛生福利部" title="衛生福利部"></a>
       <div id="sub_title">
-        <p>衛生福利部</p>
+        <!-- <p>衛生福利部</p>
         <p>|<p>
         <p>聯絡我們</p>
         <p>|<p>
-        <p>English</p>
+        <p>English</p> -->
       </div>
     </div>
     <hr class="line">
@@ -32,23 +32,20 @@
       <a id="med_ref" #med_ref>參考條件</a>
     </div>
   </div>
+  <!--藥草資料區 下分左右區塊-->
   <div class="data-content-wrapper">
-    <!--藥草參考條件資料區 下分左右區塊-->
+    <!--藥草名 資料分類層級 子標題 左區塊-->
     <div class="data-subtitle-leftpart">
-      <!--藥草名 資料分類層級 子標題 左區塊-->
       <p id="herb-name"></p>
       <p class="link-text-color" id="sample"></p>
     </div>
+    <!--資料圖表與連結 右區塊 下分上下區塊-->
     <div class="chart-link-rightpart">
-      <!--資料圖表與連結 右區塊 下又分上下區塊-->
+      <!--資料圖表區塊 上區塊-->
       <div class="chart-part">
-        <!--資料圖表區塊 上區塊-->
-        <img src="1.png" alt="甘草分析方法1-1" class="datachart-img">
-        <img src="2.png" alt="甘草標準品與萃取溶劑比例" class="datachart-img">
-        <img src="3.png" alt="甘草分析方法1-1" class="datachart-img">
-        <img src="4.png" alt="甘草標準品與萃取溶劑比例" class="datachart-img">
-        
-        
+        <div id="img_left"></div>
+        <div id="img_right"></div>
+   
       </div>
       <div class="link-part" id="link-part">
         
@@ -59,12 +56,6 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script><!--for AXIOS-->
   <script src="leaf.js"></script>
 
-  <!--
-  This script places a badge on your repl's full-browser view back to your repl's cover
-  page. Try various colors for the theme: dark, light, red, orange, yellow, lime, green,
-  teal, blue, blurple, magenta, pink!
-  -->
-  <!-- <script src="https://replit.com/public/js/replit-badge-v2.js" theme="dark" position="bottom-right"></script> -->
 </body>
 
 </html>

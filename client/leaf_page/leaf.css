@@ -1,8 +1,10 @@
+/*固定上方標題用*/
 .position-fix-wrapper{
   position: sticky;
   top:0;
   background-color: white;
 }
+/*最上方標題區*/
 .title_class{
     padding: 0px;
     display: flex;
@@ -17,6 +19,7 @@
     width: 330px;
     height: auto;
 }
+/*English 聯絡我們*/
 #sub_title{
     font-weight: bold;
     font-size: 17px;
@@ -32,9 +35,8 @@
 .line{
     position: relative;
     top: 10px;
-  
-  
 }
+/*副標題頁面跳轉按鈕區*/
 .choice_class{
     display: flex;
     flex-direction: column;
@@ -45,8 +47,9 @@
     width: 270px;
     font-weight: bold;
     color: rgb(1, 1, 1);
-    
+    font-size: 22px;
 }
+/*三個頁面跳轉按鈕*/
 #med_name{ color:black;}
 #med_info{ color:black;}
 #med_ref{ color:black;}
@@ -74,17 +77,19 @@
   border-radius: 2px;
   color: aliceblue;
 }
+/*下方內容區 分左右區塊*/
 .data-content-wrapper{
   display:flex;
   flex-direction: row;
-  /* border:#fb0404;border-style:solid;border-width:12px;padding:5px; */
 }
+/*左區塊 藥材名稱與層級*/
 .data-subtitle-leftpart{
   display:flex;
   flex-direction: column;
-  /* border:#040cfb;border-style:solid;border-width:12px;padding:5px; */
 }
+/* 藥材名稱 */
 #herb-name{
+  width : 100px;
   background-color: #44546a;
   margin:20px;
   padding:10px;
@@ -94,43 +99,50 @@
   font-size: 30px;
   text-align: center;
 }
+/* 連結字體與顏色 */
 .link-text-color{
   color: #0070c0;
   font-family: DFKai-sb;
   text-align: center;
   margin:10px;
 }
+/* 右區塊 圖表資料與連結 分上下區塊 */
 .chart-link-rightpart{
   flex-grow: 1;
   display:flex;
   flex-direction: column;
-  /* border:#04fb4e;border-style:solid;border-width:12px;padding:5px; */
-  
-
 }
-
+/* 右區之上 圖表區 */
 .chart-part{
   display:flex;
-  flex-direction: column;
-  justify-content: center; /*置中用*/
+  flex-wrap: wrap;
+  justify-content: center; 
+  align-items: center; 
+  justify-content: center; /*置中用
   align-items: center; /*置中用*/
-
+  left: -300px;
 }
+
+/* 圖表格式 */
 .datachart-img{
   flex-basis: 1;
-  width: 450px;
-  margin-left:20px;
+  width: 500px;
+  left: -100px;
   max-width:100%; /*置中用*/
   max-height:100%; /*置中用*/
-  
+  /* margin-left:0px; */
+  margin:10px;
 }
+/* #main{/*圖表區的第二層
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center; 
+  align-items: center; 
+}  */
+/* 右區之下 連結區 */
 .link-part{
   display:flex;
   justify-content: center; /*置中用*/
   align-items: center; /*置中用*/
 }
-/* #dummy{
-  border:#fb9404;border-style:solid;border-width:12px;padding:5px;
-  height:100000px;
-  
-} */

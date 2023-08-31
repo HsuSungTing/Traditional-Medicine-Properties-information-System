@@ -1,5 +1,6 @@
 
 const OptionGeneratorAPI = "http://localhost:8002/option?Attribute=";
+const FindOthersResultAPI="http://localhost:8002/FindOtherResult";
 const FilterResultAPI = "http://localhost:8002/filter_result";
 const OptionSearchResultAPI = "http://localhost:8002/option_search_result";
 //-----------------------------------
@@ -8,7 +9,7 @@ const SelectAllStandardAPI="http://localhost:5000/getStandardSource";//選取表
 
 //點選的篩選
 class Filter {
-    constructor() {
+    constructor() {//local端的資料表，就是他
         this.sampleOptions = {};
         this.standarOptions = {};
     }
@@ -82,9 +83,8 @@ class Filter {
     }
 }
 
-  
 //處理查找
-const optionState = {};
+const optionState = {};//紀錄目前有誰被選起來
 function toggleOption(optionId) {
     document.getElementById(optionId).clicked = !document.getElementById(optionId).clicked;
     optionState[optionId] = !optionState[optionId];
@@ -92,6 +92,7 @@ function toggleOption(optionId) {
     // 進行篩選
     makeSearchContent();
 }
+
 function makeSearchContent(){//在這裡會分辨現在被選到的tag需要輸出標準品或樣品
     const selectedTags = [];
     for (const optionId in optionState) {
@@ -188,8 +189,6 @@ function DownExpand(expandId) {
     }    
 }
 ////////三個條件的按鈕事件處理///////
-
-
 
 ////////數值獨立處理 按鈕部分///////
 function input_toggle(comfirm_btn,num_input_array){
@@ -308,7 +307,7 @@ function createValueItem(containerID) {
                 // 在這裡確保所有 get_Num_Data 完成後，再執行 checkAndExecute();
                 // 可以在這裡加上需要的延遲時間，以確保所有非同步操作完成
                 setTimeout(() => {
-                    checkAndExecute();
+                    checkAndExecute();//不只要promise，還不要太快執行，等0.5秒
                 }, 500); // 假設這裡等待1秒後再執行 makeSearchContent
             })
             .catch(error => {
@@ -319,7 +318,7 @@ function createValueItem(containerID) {
 }
 
 createValueItem("Math_subCardWrapper");
-Ex_subCardName = [['SS_extract',[]]];
+Ex_subCardName = [['SS_extract',[]], ['SS_base',[]]];
 Cl_subCardName = [['SS_col_brand',[]], ['SS_col_type',[]]];
 Ch_subCardName = [['SS_ch_mobileA',[]], ['SS_ch_mobileB',[]]];
 
@@ -341,7 +340,7 @@ function optionGenerator(subCardName, max){
             axios(url).then((res)=>{
                 res.data.forEach(element => {
                     //options.push(element[condition[0]])
-                    if(element[condition[0]]===null){//之後再改= =
+                    if(element[condition[0]]===null || element[condition[0]]===""){//之後再改= =
                         // if(condition[1].length>=1) condition[1][0]=1;
                         // else condition[1].push(1);
                     }else{
@@ -349,11 +348,15 @@ function optionGenerator(subCardName, max){
                     }
                 });
             });
+            //----------------------
         });
         setTimeout(() => {
-          console.log("Option generator function completed.");
-          const result = subCardName; // 假設 A 函式的結果是 42
-          resolve(result); // 將結果傳遞給 Promise
+            console.log("Option generator function completed.");
+            for(let i=0;i<subCardName.length;i++){
+                subCardName[i][1].push("others");
+            }
+            const result = subCardName; // 假設 A 函式的結果是 42
+            resolve(result); // 將結果傳遞給 Promise
         }, 1000); // 假設 A 函式需要 1 秒完成
     });
 }
@@ -378,6 +381,15 @@ Promise.resolve(filterObj)//filter object要先生成，才能進行後續的篩
     console.log(err);
 });
 
+//--------中文對應-----
+let attr_to_chinese={}
+attr_to_chinese["SS_extract"]="萃取溶劑";
+attr_to_chinese["SS_base"]="基原";
+attr_to_chinese["SS_col_brand"]="管柱廠牌";
+attr_to_chinese["SS_col_type"]="管柱型號";
+attr_to_chinese["SS_ch_mobileA"]="Mobile Phase A";
+attr_to_chinese["SS_ch_mobileB"]="Mobile Phase B";
+
 function createSubCard(containerID, Names){
     const container = document.getElementById(containerID);
     Names.forEach(function(element){
@@ -385,7 +397,7 @@ function createSubCard(containerID, Names){
         
         const cardName = document.createElement('div');
         cardName.classList.add('cardName');
-        cardName.textContent = element[0];
+        cardName.textContent=attr_to_chinese[element[0]];
 
         const ItemsWrapper = document.createElement('div');
         ItemsWrapper.classList.add('ChoiceItemsWrapper');
@@ -395,9 +407,9 @@ function createSubCard(containerID, Names){
             const Item = document.createElement('div');
             Item.classList.add('ChoiceItem');
             Item.textContent = ele;
-            Item.id = "option_"+ele;
-            findFilterResult(Item.id,element[0], true);
-            findFilterResult(Item.id,element[0], false);//生成standar result
+            Item.id = "option_"+element[0]+"_"+ele;//for diff element[0] same ele
+            findFilterResult(ele, Item.id,element[0], true);
+            findFilterResult(ele, Item.id,element[0], false);//生成standar result
             optionState[Item.id] = false;
             Item.clicked = false;
             Item.onclick = function(){toggleOption(Item.id);};
@@ -411,18 +423,33 @@ function createSubCard(containerID, Names){
     filterObj.show();
 }
 
-  // 添加選項tag與結果
-function findFilterResult(tag,parent, IsSample){
-    Attribute = tag.replace("option_", "")
-    if(IsSample){
+// 添加選項tag與結果
+function findFilterResult(tag, id,parent, IsSample){
+    Attribute = tag;
+    if(Attribute=="others"&&IsSample){
+        url=FindOthersResultAPI+"?tbName=SampleData"+"&parent="+parent;
+        axios(url).then((res)=>{
+            console.log(parent,": ",res.data);
+            filterObj.addOption(id,res.data,IsSample);
+        });
+    }
+    else if(Attribute=="others"&&IsSample==false){
+        url=FindOthersResultAPI+"?tbName=StandardData"+"&parent="+parent;
+        axios(url).then((res)=>{
+            console.log(parent,": ",typeof res.data);
+            filterObj.addOption(id,res.data,IsSample);
+        });
+    }
+    //-------------------
+    else if(IsSample){
         url = FilterResultAPI+"?tbName=SampleData"+"&parent="+parent+"&attr="+Attribute;
         axios(url).then((res)=>{
-            filterObj.addOption(tag,res.data,IsSample);
+            filterObj.addOption(id,res.data,IsSample);
         });
     }else{
         url = FilterResultAPI+"?tbName=StandardData"+"&parent="+parent+"&attr="+Attribute;
         axios(url).then((res)=>{
-            filterObj.addOption(tag,res.data,IsSample);
+            filterObj.addOption(id,res.data,IsSample);
         });
     }
 }
@@ -445,16 +472,42 @@ function makeContent(result){//此result已經是選定出來的資料了
                 if(element.source==="sample"){
                     image.setAttribute('alt',`${element.Med_name}_${element.Source_id}_${element.Sample_id}`);
                     image.setAttribute('title',`${element.Med_name}_${element.Source_id}_${element.Sample_id}`);
-                    image.src = `甘草1_1_1.png`;
+                    //-----------------------------
+                    const imagePath = "../../img_path/參考條件截圖/"+`${element.Sample_img_id}`+".png";
+                    const img = new Image();
+                    img.onload = function() {
+                            console.log('图片存在且可打开。');
+                            image.src=imagePath;
+                    };
+                    img.onerror = function() {
+                            console.error('图片不存在或无法打开。');
+                            image.src="./甘草1_1_1.png";
+                    };
+                    img.src = imagePath;//判定圖片是否存在
+                    //-----------------------------
                     title.innerHTML = `<font>${element.Med_name}-${element.Source_id}-${element.Sample_id}</font>`;
-                    link.href = `../leaf_page/leaf.html?herb_name=${element.Med_name}&nameid=${element.Med_id}&x=${element.Source_id}&y=${element.Sample_id}`
-                }else if(element.source==="standar"){
+                    link.href = `../leaf_page/leaf.html?herb_name=${element.Med_name}&nameid=${element.Med_id}&x=${element.Source_id}&y=${element.Sample_id}&img_id=${element.Sample_img_id}`
+                }
+                else if(element.source==="standar"){
                     image.setAttribute('alt',`${element.Standard_name}_${element.Standard_id}`);
                     image.setAttribute('title',`${element.Standard_name}_${element.Standard_id}`);
-                    image.src = `甘草1_1_1.png`;
+                    //-----------------------------
+                    const imagePath = "../../img_path/參考條件截圖/"+`${element.Standard_id}`+".png";
+                    const img = new Image();
+                    img.onload = function() {
+                            console.log('图片存在且可打开。');
+                            image.src=imagePath;
+                    };
+                    img.onerror = function() {
+                            console.error('图片不存在或无法打开。');
+                            image.src="./甘草1_1_1.png";
+                    };
+                    img.src = imagePath;//判定圖片是否存在
+                    //-----------------------------
                     title.innerHTML = `<font>${element.Standard_name}_${element.Standard_id}</font>`;
                     link.href = `../standar_page/standar.html?stanId=${element.Standard_id}`//尚須更改standar page才能修改這裡
-                }else console.log("source error the source is "+element);
+                }
+                else console.log("source error the source is "+element);
                 
                 link.appendChild(image);
                 div_card.appendChild(link);
@@ -536,9 +589,9 @@ resetBtn.onclick = function(){ resetOptionState(optionState);}
 
 function resetOptionState(optionState) {
     for (const key in optionState) {
-      if (optionState.hasOwnProperty(key)) {
-        optionState[key] = false;
-      }
+        if (optionState.hasOwnProperty(key)) {
+            optionState[key] = false;
+        }
     }
     const elements = document.getElementsByClassName("ChoiceItem");
     for (let i = 0; i < elements.length; i++) {
